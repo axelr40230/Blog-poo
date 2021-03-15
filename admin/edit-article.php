@@ -86,6 +86,43 @@ if($action == 'add') :
 
 endif;
 
+// gestion d'un article existant
+if($action == 'edit') :
+    $message = 'yeah';
+
+    // mise à jour statut >> publié
+    if(isset($_POST['publier'])) :
+        $status = 'publish';
+        $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
+        $publish->execute(array(
+                'status'=> $status,
+                'id'=> $postId
+        ));
+    endif;
+
+    // mise à jour statut >> brouillon
+    if(isset($_POST['brouillon'])) :
+        $status = 'draft';
+        $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
+        $publish->execute(array(
+            'status'=> $status,
+            'id'=> $postId
+        ));
+    endif;
+
+    // mise à jour statut >> corbeille
+    if(isset($_POST['delete'])) :
+        $status = 'intrash';
+        $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
+        $publish->execute(array(
+            'status'=> $status,
+            'id'=> $postId
+        ));
+    endif;
+
+
+endif;
+
 // mise à jour d'un article
 //$update = $db->prepare('UPDATE articles SET articles = ?, modify_at = NOW() WHERE id = ?');
 //$newPost = $update->execute(array($comment, $id));
@@ -127,17 +164,16 @@ endif;
 
     <form action="" method="post">
         <p>editeur wysiwig</p>
-
-        </script>
+        <p><?= $message ?></p>
         <label for="title-article">Ancien titre de l'article</label>
         <input type="text" name="title-article" id="title-article">
         <label for="chapo-article">Chapô de l'article</label>
         <input type="text" name="chapo-article" id="chapo-article">
         <label for="contenu-article">Contenu de l'article</label>
         <textarea id="contenu-article"></textarea>
-        <input type="submit" name="publier" value="Publier">
-        <input type="submit" name="mettre à jour" value="Mettre à jour">
-        <input type="submit" name="brouillon" value="Enregistrer en tant que brouillon">
+        <input type="submit" name="publier" value="publier">
+        <input type="submit" name="brouillon" value="brouillon">
+        <input type="submit" name="delete" value="Supprimer">
     </form>
 
     <?php //cas 2 : ajout d'un article ?>
