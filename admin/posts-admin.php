@@ -47,8 +47,9 @@ $trad = array(
 
 <p><a href="edit-article.php?id=null&action=add">Ajouter un nouvel article</a></p>
 
-<p>Trier les articles</p>
-<p>Rechercher dans les articles</p>
+<p style="color:red;">Trier les articles</p>
+<p style="color:red;">Rechercher dans les articles</p>
+<p style="color:red;">Voir la corbeille</p>
 
 <?php //boucle pour récupérer les posts ?>
 <?php while($post = $posts->fetch()): ?>

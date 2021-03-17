@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Interface d'administration - Ajouter un article</title>
+    <title>Interface d'administration - Ajouter un média</title>
 </head>
 <body>
 
@@ -13,25 +13,20 @@
 <p><a href="users-admin.php">Gérer les utilisateurs</a></p>
 <p><a href="disconnect.php">Se déconnecter</a></p>
 
-<H1>Interface d'administration - Ajouter un article</H1>
+<H1>Interface d'administration - Ajouter un média</H1>
 
-<form action="" method="post">
+<h2>Envoyer une image depuis votre ordinateur</h2>
 
-    <label for="title-media">Nom du média</label>
-    <input type="text" name="title-media" id="title-media" value="Saisissez un titre">
-    <label for="type-media">Type de média</label>
-    <input type="text" name="type-media" id="type-media" value="PDF/Image ?">
-    <label for="link-video">Lien vidéo</label>
-    <p><input type="text" name="link-video" id="link-video" value="lien youtube"></p>
-    <p>ou</p>
-    <input type="submit" name="publier" value="Télécharger un média">
-    <p>
-        <input type="submit" name="publier" value="Publier">
-        <input type="submit" name="mettre à jour" value="Mettre à jour">
-        <input type="submit" name="brouillon" value="Enregistrer en tant que brouillon">
-    </p>
-
+<form method="POST" action="upload.php" enctype="multipart/form-data">
+    <!-- On limite le fichier à 100Ko -->
+    <input type="hidden" name="MAX_FILE_SIZE" value="100000">
+    Fichier : <input type="file" name="media">
+    <input type="submit" name="envoyer" value="Envoyer le fichier">
 </form>
+
+
+
+
 
 </body>
 </html>
