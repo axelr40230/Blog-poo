@@ -6,21 +6,36 @@ $author = $_SESSION['id'];
 // connexion à la bdd
 $db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
 
+// Gestion des traductions
+$trad = array(
+    'fr' => array(
+        'draft' => 'Brouillon',
+        'publish' => 'Publié',
+        'intrash' => 'A la corbeille'),
+
+    'en' => array(
+        'draft' => 'draft',
+        'publish' => 'publish',
+        'intrash' => 'in trash'));
+
 $postId = $_GET['id'];
 $action = $_GET['action'];
 
-// récupération des infos
-$post = $db->prepare('SELECT title, introduction, chapo, content, created_at, modify_at  FROM articles WHERE id = ?');
+$post = $db->prepare('SELECT title, introduction, content, status, created_at, modify_at FROM articles WHERE id = ?');
 $post->execute(array($postId));
 $post = $post->fetch();
-
-// gestion du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
-
-// gestion affichage date en français
 $date = $post['created_at'];
 $date = strtotime("$date");
 $date = strftime('%A %d %B %Y',$date);
+$oldTitle = $post['title'];
+$oldIntroduction = $post['introduction'];
+$oldContent = $post['content'];
+$status = $post['status'];
+$modifyDate = $post['modify_at'];
+$modifyDate = strtotime("$modifyDate");
+$modifyDate = strftime('%A %d %B %Y',$modifyDate);
+
 
 // ajout d'un nouvel article
 if($action == 'add') :
@@ -88,6 +103,7 @@ endif;
 
 // gestion d'un article existant
 if($action == 'edit') :
+
     $message = 'yeah';
 
     // mise à jour statut >> publié
@@ -98,6 +114,7 @@ if($action == 'edit') :
                 'status'=> $status,
                 'id'=> $postId
         ));
+        $message = 'L\'article a bien été publié';
     endif;
 
     // mise à jour statut >> brouillon
@@ -108,6 +125,7 @@ if($action == 'edit') :
             'status'=> $status,
             'id'=> $postId
         ));
+        $message = 'L\'article a bien été enregistré en tant que brouillon';
     endif;
 
     // mise à jour statut >> corbeille
@@ -118,16 +136,62 @@ if($action == 'edit') :
             'status'=> $status,
             'id'=> $postId
         ));
+        $message = 'L\'article a bien été placé dans la corbeille';
     endif;
 
+    // mise à jour >> titre
+    if(isset($_POST['update'])) :
+        //var_dump($_POST['new-title-article']);
+        if(!empty($_POST['new-title-article'])) :
+        $newTitle = htmlspecialchars($_POST['new-title-article']);
+        $updateTitle = $db->prepare('UPDATE articles SET title = :title, modify_at = NOW() WHERE id = :id');
+            $updateTitle->execute(array(
+            'title'=> $newTitle,
+            'id'=> $postId
+        ));
+        $message = 'Le titre de l\'article a bien été modifié';
+            header('location:edit-article.php?id='.$postId .'&action=edit');
+        else :
+            $message = 'Petit souci';
+        endif;
+    endif;
 
+    // mise à jour >> chapo
+    if(isset($_POST['update'])) :
+        //var_dump($_POST['new-chapo-article']);
+        if(!empty($_POST['new-chapo-article'])) :
+            $newIntroduction = htmlspecialchars($_POST['new-chapo-article']);
+        //var_dump($newIntroduction);
+        //var_dump($postId);
+            $updateChapo = $db->prepare('UPDATE articles SET introduction = :introduction, modify_at = NOW() WHERE id = :id');
+            $updateChapo->execute(array(
+                'introduction'=> $newIntroduction,
+                'id'=> $postId
+            ));
+            $message = 'Le chapo de l\'article a bien été modifié';
+            header('location:edit-article.php?id='.$postId .'&action=edit');
+        else :
+            $message = 'Petit souci';
+        endif;
+    endif;
+
+    // mise à jour >> contenu
+    if(isset($_POST['update'])) :
+            //var_dump($_POST['new-contenu-article']);
+        if(!empty($_POST['new-contenu-article'])) :
+            $newContent = htmlspecialchars($_POST['new-contenu-article']);
+            $updateContent = $db->prepare('UPDATE articles SET content = :content, modify_at = NOW() WHERE id = :id');
+            $updateContent->execute(array(
+                'content'=> $newContent,
+                'id'=> $postId
+            ));
+            $message = 'Le contenu de l\'article a bien été modifié';
+            header('location:edit-article.php?id='.$postId .'&action=edit');
+        else :
+            $message = 'Petit souci';
+        endif;
+    endif;
 endif;
-
-// mise à jour d'un article
-//$update = $db->prepare('UPDATE articles SET articles = ?, modify_at = NOW() WHERE id = ?');
-//$newPost = $update->execute(array($comment, $id));
-//$newPost = $update->fetch();
-
 ?>
 
 <!DOCTYPE html>
@@ -160,20 +224,33 @@ endif;
 <?php // cas 1 : mise à jour d'un article ?>
 
 <?php if($action == 'edit' AND isset($_GET['id'])) : ?>
+    <?php
+
+    // récupération des infos
+    $oldTitle = $post['title'];
+    ?>
+
     <h1>Interface d'administration - Gestion d'un article</h1>
 
     <form action="" method="post">
-        <p>editeur wysiwig</p>
+
+        <h2>Infos sur l'article</h2>
+        <p>Statut : <?= $trad['fr'][$status]; ?></p>
+        <p>Date de création : <?= $date ?></p>
+        <p>Date de dernière mise à jour : <?= $modifyDate ?></p>
+        <p>Gérer la visibilité de l'article</p>
+        <input type="submit" name="publier" value="publier"><br><br>
+        <input type="submit" name="brouillon" value="brouillon"><br><br>
+        <input type="submit" name="delete" value="Supprimer"><br>
         <p><?= $message ?></p>
-        <label for="title-article">Ancien titre de l'article</label>
-        <input type="text" name="title-article" id="title-article">
-        <label for="chapo-article">Chapô de l'article</label>
-        <input type="text" name="chapo-article" id="chapo-article">
-        <label for="contenu-article">Contenu de l'article</label>
-        <textarea id="contenu-article"></textarea>
-        <input type="submit" name="publier" value="publier">
-        <input type="submit" name="brouillon" value="brouillon">
-        <input type="submit" name="delete" value="Supprimer">
+        <label for="new-title-article">Titre actuel de l'article : <?= $oldTitle ?></label><br><br>
+        <input type="text" name="new-title-article" id="title-article"><br><br>
+        <label for="chapo-article">Chapô actuel de l'article : <?= $oldIntroduction ?></label><br><br>
+        <input type="text" name="new-chapo-article" id="chapo-article"><br><br>
+        <label for="contenu-article">Contenu actuel de l'article : <?= $oldContent ?></label><br><br>
+        <textarea id="contenu-article" name="new-contenu-article"></textarea><br><br>
+
+        <input type="submit" name="update" value="Mettre à jour">
     </form>
 
     <?php //cas 2 : ajout d'un article ?>

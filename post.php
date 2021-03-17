@@ -75,8 +75,11 @@ endif;
     <?php //Affichage de des commentaires ?>
 
     <?php
-    $comments = $db->prepare('SELECT * FROM comments WHERE article_id = ?');
-    $comments->execute(array($postId));
+    $comments = $db->prepare('SELECT * FROM comments WHERE article_id = :id AND status = :status');
+    $comments->execute(array(
+            'id' =>$postId,
+        'status' => 'approuved'
+        ));
     $count     = $comments->rowCount();
 
     if($count == 0) : ?>
@@ -90,6 +93,7 @@ endif;
 
     <?php
     while($comment = $comments->fetch()):
+        if($comment['status'] == 'approuved') :
         $date = $comment['created_at'];
         $date = strtotime("$date");
         $date = strftime('%A %d %B %Y',$date);
@@ -111,7 +115,7 @@ endif;
 
 
     <?php
-
+        endif;
     endwhile;
     ?>
 
