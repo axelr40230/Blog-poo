@@ -1,3 +1,33 @@
+<?php
+// lancement de la session
+session_start();
+if (!isset($_SESSION['id'])) :
+    header('Location: login.php');
+else :
+
+// déclaration du fuseau
+setlocale(LC_TIME, "fr_FR", "French");
+
+// connexion à la bdd
+$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+
+//récupération de tous les utilisateurs
+$users = $db->query('SELECT * FROM users ORDER BY created_at DESC');
+
+// Gestion des traductions
+$trad = array(
+    'fr' => array(
+        'admin' => 'Administrateur du site',
+        'author' => 'Auteur',
+        'user' => 'Utilisateur'),
+
+    'en' => array(
+        'admin' => 'Administrator',
+        'author' => 'Author',
+        'user' => 'User'));
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,22 +37,49 @@
 <body>
 
 <p><a href="../index.php">Visiter le site</a></p>
+<p><a href="dashboard.php">Mon profil</a></p>
 <p><a href="posts-admin.php">Gérer les posts</a></p>
 <p><a href="medias-admin.php">Gérer les médias</a></p>
 <p><a href="comments-admin.php">Gérer commentaires</a></p>
 <p><a href="users-admin.php">Gérer les utilisateurs</a></p>
-<p><a href="disconnect.php">Se déconnecter</a></p>
+<p><a href="logout.php">Se déconnecter</a></p>
 
 <H1>Interface d'administration - tous les utilisateurs</H1>
 
-<h2>Nom</h2>
-<p>Prénom</p>
-<p>Rôle : administrateur - auteur - utilisateur</p>
-<p>Articles publiés</p>
-<p>Commentaires publiés</p>
+<?php //boucle pour récupérer les posts ?>
+<?php while($user = $users->fetch()): ?>
+    <?php
 
-<p><a href="edit-user.php">Modifier l'utilisateur</a></p>
-<p><a href="delete-user.php">Supprimer l'utilisateur</a></p>
+// récupération de l'identifiant de l'utilisateur
+    $userId = $user['id'];
+
+    ?>
+
+
+    <?php // gestion de l'affichage de la date en français
+    $date = $user['created_at'];
+    $date = strtotime("$date");
+    $date = strftime('%A %d %B %Y',$date); ?>
+
+
+    <h2><?= $user['first_name'] ?> <?= $user['last_name'] ?></h2>
+    <p>Enregistré le : <?= $date ?></p>
+
+    <?php //gestion de l'affichage du statut en français ?>
+    <p>Rôle : <?php
+        $status = $user['status'];
+        echo $trad['fr'][$status];
+        ?></p>
+
+    <?php //liens ?>
+    <p><a href="edit-user.php?userId=<?= $userId ?>">Modifier l'utilisateur</a></p>
+    <p><a href="delete-user.php?userId=<?= $userId ?>">Supprimer l'utilisateur</a></p>
+
+<?php
+endwhile;
+?>
 
 </body>
 </html>
+
+<?php endif;

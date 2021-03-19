@@ -24,12 +24,28 @@ if(isset($_POST['commenter'])):
     if(!empty($_POST['comment'])) :
         $author = $idconnect;
         $comment = htmlspecialchars($_POST['comment']);
-        $newComment = $db->prepare('INSERT INTO comments (author, content, article_id, created_at) VALUES(:author, :content, :article_id, NOW())');
+        $newComment = $db->prepare('INSERT INTO comments (author, content, article_id, status, created_at) VALUES(:author, :content, :article_id, :status, NOW())');
         $newComment->execute(array(
             'author' => $author,
             'content'=> $comment,
-            'article_id' => $postId
+            'article_id' => $postId,
+            'status' => 'waiting'
         ));
+        $to      = 'axelr.apl@gmail.com';
+        $subject = 'Un nouveau commentaire attend une validaiton'; ?>
+        <?php ob_start(); ?>
+
+   Bonjour Alexandra
+    Tu as un com à valider
+    www.test.fr
+
+<?php $message = ob_get_clean(); ?>
+<?php
+        $headers = 'From: webmaster@blog.com' . "\r\n" .
+            'Reply-To: axelr.apl@gmail.com' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        mail($to, $subject, $message, $headers);
 
         elseif (isset($_POST['repondre'])):
             if(!empty($_POST['comment-reply'])) :
@@ -98,9 +114,11 @@ endif;
         $date = strtotime("$date");
         $date = strftime('%A %d %B %Y',$date);
         $id_author = $comment['author'];
-        $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN comments ON users.id = comments.author WHERE comments.article_id = ?');
-        $author->execute(array($postId));
-        $result = $author->fetch(PDO::FETCH_ASSOC);
+        //var_dump($id_author);
+        $author = $db->prepare('SELECT * FROM users  WHERE id = ?');
+        $author->execute(array($id_author));
+        $result = $author->fetch();
+        //var_dump($result);
         ?>
         <p>Le <?= $date ?>, <?= $result['first_name'] ?> <?= $result['last_name'] ?> a écrit :</p>
         <p><?= $comment['content'] ?></p>
@@ -171,7 +189,7 @@ endif;
 <?php else : ?>
 
     <h2>Vous devez être connecté pour commenter</h2>
-    <p><a href="admin/connexion.php">Se connecter</a></p>
+    <p><a href="admin/login.php">Se connecter</a></p>
 
 <?php endif; ?>
 

@@ -8,13 +8,13 @@ else :
 // connexion à la bdd
 $db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
 
-$mediaId = $_GET['mediaId'];
+$userId = $_GET['userId'];
 
 // suppression d'un article
-$delete = $db->prepare('DELETE FROM medias WHERE id = ?');
-$delete->execute(array($mediaId));
-$post = $delete->fetch();
-header('location:medias-admin.php');
+$delete = $db->prepare('DELETE FROM users WHERE id = ?');
+$delete->execute(array($userId));
+$delete = $delete->fetch();
+header('location:users-admin.php');
 endif;
 
 

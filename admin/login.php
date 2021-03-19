@@ -1,6 +1,9 @@
 <?php
 // lancement de la session
 session_start();
+if (isset($_SESSION['id'])) :
+header('Location: admin.php');
+endif;
 
 // connexion à la bdd
 $db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');

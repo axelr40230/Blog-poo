@@ -1,5 +1,10 @@
 <?php
+// lancement de la session
 session_start();
+if (!isset($_SESSION['id'])) :
+    header('Location: login.php');
+else :
+
 $author = $_SESSION['id'];
 
 $dossier = '../uploads/';
@@ -52,3 +57,4 @@ else
 {
     echo $erreur;
 }
+ endif;
