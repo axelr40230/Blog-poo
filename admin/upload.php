@@ -9,7 +9,10 @@ $author = $_SESSION['id'];
 
 $dossier = '../uploads/';
 $fichier = basename($_FILES['media']['name']);
-$taille_maxi = 100000;
+$type = $_FILES['media']['type'];
+    var_dump($type);
+    exit();
+$taille_maxi = 1024*10*10*10;
 $taille = filesize($_FILES['media']['tmp_name']);
 $extensions = array('.png', '.gif', '.jpg', '.jpeg', '.pdf');
 $extension = strrchr($_FILES['media']['name'], '.');
@@ -29,10 +32,11 @@ if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
         'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ',
         'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
     $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+
     if(move_uploaded_file($_FILES['media']['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
     {
 
-        if ($extension == 'pdf') {
+        if ($type == 'pdf') {
             $type = 'pdf';
         }
         else {
@@ -44,7 +48,7 @@ if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
             'name_media' => $fichier,
             'user_id' => $author,
             'type_media' => $type,
-            'link' => 'http://localhost/BLOG-POO-AR/projet%20blog%20alexandra%20OC/uploads/'.$fichier
+            'link' => $fichier
         ));
         echo 'Upload effectué avec succès !';
     }

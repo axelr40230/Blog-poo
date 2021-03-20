@@ -57,7 +57,7 @@ $medias = $db->query('SELECT * FROM medias ORDER BY created_at DESC');
 
 
     <h2><?= $media['name_media'] ?></h2>
-    <img src="<?= $media['link'] ?>">
+    <img src="../uploads/<?= $media['link'] ?>">
     <p>Ajouté le <?= $date ?></p>
 
         <?php //gestion de l'affichage des nom et prénom de l'auteur de l'article ?>

@@ -17,7 +17,7 @@ $date = strftime('%A %d %B %Y',$date);
 
 // traitement des formulaires
 
-$message='';
+$information='';
 
 if(isset($_POST['commenter'])):
 
@@ -25,27 +25,56 @@ if(isset($_POST['commenter'])):
         $author = $idconnect;
         $comment = htmlspecialchars($_POST['comment']);
         $newComment = $db->prepare('INSERT INTO comments (author, content, article_id, status, created_at) VALUES(:author, :content, :article_id, :status, NOW())');
-        $newComment->execute(array(
+
+        $success = $newComment->execute(array(
             'author' => $author,
             'content'=> $comment,
             'article_id' => $postId,
             'status' => 'waiting'
         ));
-        $to      = 'axelr.apl@gmail.com';
-        $subject = 'Un nouveau commentaire attend une validaiton'; ?>
-        <?php ob_start(); ?>
+        // debug
+        if($success == false):
+            var_dump($newComment->errorInfo());
+        exit();
+        endif;
+        // Plusieurs destinataires
+        $to  = 'johny@example.com, sally@example.com'; // notez la virgule
 
-   Bonjour Alexandra
-    Tu as un com à valider
-    www.test.fr
+        // Sujet
+        $subject = 'Commentaire en attente de validation';
 
-<?php $message = ob_get_clean(); ?>
-<?php
-        $headers = 'From: webmaster@blog.com' . "\r\n" .
-            'Reply-To: axelr.apl@gmail.com' . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
+        // message
+        $message = '
+     <html>
+      <head>
+       <title>Un nouveau commentaire est arrivé sur le site</title>
+      </head>
+      <body>
+       <p>Voici un nouveau commentaire sur le site</p>
+       <table>
+        <tr>
+            <th>
+                <a href="http://localhost/BLOG-POO-AR/projet%20blog%20alexandra%20OC/admin/comments-admin.php">Lien</a>
+            </th>
+        </tr>
+       </table>
+      </body>
+     </html>
+     ';
 
-        mail($to, $subject, $message, $headers);
+        // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+
+        // En-têtes additionnels
+        $headers[] = 'To: Mary <mary@example.com>, Kelly <kelly@example.com>';
+        $headers[] = 'From: Anniversaire <anniversaire@example.com>';
+        $headers[] = 'Cc: anniversaire_archive@example.com';
+        $headers[] = 'Bcc: anniversaire_verif@example.com';
+
+        // Envoi
+        mail($to, $subject, $message, implode("\r\n", $headers));
+        $information = 'Merci pour votre commentaire. Nous allons l\'examiner et le publier';
 
         elseif (isset($_POST['repondre'])):
             if(!empty($_POST['comment-reply'])) :
@@ -58,7 +87,7 @@ if(isset($_POST['commenter'])):
                     'article_id' => $postId));
             endif;
         else :
-        $message = 'Merci de remplir tous les champs';
+            $information = 'Merci de remplir tous les champs';
     endif;
 endif;
 
@@ -158,8 +187,8 @@ endif;
 
 
         <form action="" method="post">
-            <?php if(!$message) : ?>
-                <p><?= $message ?></p>
+            <?php if(!$information) : ?>
+                <p><?= $information ?></p>
             <?php endif; ?>
             <label for="comment-reply">Votre commentaire</label><br>
             <textarea name="comment-reply" id="comment-reply" cols="30" rows="10"></textarea><br>
@@ -175,8 +204,8 @@ endif;
 
 
         <form action="" method="post">
-            <?php if(!$message) : ?>
-                <p><?= $message ?></p>
+            <?php if(!$information) : ?>
+                <p><?= $information ?></p>
             <?php endif; ?>
             <label for="comment">Votre commentaire</label><br>
             <textarea name="comment" id="comment" cols="30" rows="10"></textarea><br>

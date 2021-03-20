@@ -2,7 +2,7 @@
 // lancement de la session
 session_start();
 if (isset($_SESSION['id'])) :
-header('Location: admin.php');
+    header('Location: admin.php');
 endif;
 
 // connexion à la bdd
