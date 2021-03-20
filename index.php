@@ -7,7 +7,7 @@
 <body>
 
 <h1>Accueil</h1>
-<p>test</p>
+<p>Test nouvelle branche</p>
 <p><a href="posts.php">Page des posts</a></p>
 <p><a href="admin/login.php">Se connecter</a></p>
 
