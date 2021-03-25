@@ -1,6 +1,11 @@
 <?php
 // lancement de la session
 session_start();
+
+// connexion à la base de données
+require_once('../models/database.php');
+$db = getPdo();
+
 if (!isset($_SESSION['id'])) :
     header('Location: login.php');
 else :
@@ -8,25 +13,13 @@ else :
 // déclaration du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
 
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
-
 $message = '';
 
 //récupération de tous les commentaires
-$comments = $db->query('SELECT * FROM comments ORDER BY created_at DESC');
+$comments = find('comments');
 
 // Gestion des traductions
-$trad = array(
-    'fr' => array(
-        'approuved' => 'Approuvé',
-        'intrash' => 'A la corbeille',
-        'waiting' => 'En attente de validation'),
-
-    'en' => array(
-        'approuved' => 'Approuved',
-        'intrash' => 'In trash',
-        'waiting' => 'Waiting for validation'));
+require_once ('../models/functions.php')
 
 
 
@@ -84,6 +77,7 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
     <?php //gestion de l'affichage du statut en français ?>
     <p><?php
         $status = $comment['status'];
+        $trad = translate($status);
         echo $trad['fr'][$status];
         ?></p>
 

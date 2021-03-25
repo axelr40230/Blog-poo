@@ -7,21 +7,12 @@ else :
 
 $author = $_SESSION['id'];
 
-
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+// connexion à la base de données
+    require_once('../models/database.php');
+    $db = getPdo();
 
 // Gestion des traductions
-$trad = array(
-    'fr' => array(
-        'draft' => 'Brouillon',
-        'publish' => 'Publié',
-        'intrash' => 'A la corbeille'),
-
-    'en' => array(
-        'draft' => 'draft',
-        'publish' => 'publish',
-        'intrash' => 'in trash'));
+require_once ('../models/functions.php');
 
 $postId = $_GET['id'];
 $action = $_GET['action'];
@@ -241,6 +232,7 @@ endif;
     <form action="" method="post">
 
         <h2>Infos sur l'article</h2>
+        <?php $trad = translate($status) ?>
         <p>Statut : <?= $trad['fr'][$status]; ?></p>
         <p>Date de création : <?= $date ?></p>
         <p>Date de dernière mise à jour : <?= $modifyDate ?></p>

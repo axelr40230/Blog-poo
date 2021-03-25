@@ -5,8 +5,9 @@ if (isset($_SESSION['id'])) :
     header('Location: admin.php');
 endif;
 
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+// connexion à la base de données
+require_once('../models/database.php');
+$db = getPdo();
 
 // initialisation messages alerte formulaires
 $message='';

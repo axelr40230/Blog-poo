@@ -10,8 +10,8 @@ $author = $_SESSION['id'];
 $dossier = '../uploads/';
 $fichier = basename($_FILES['media']['name']);
 $type = $_FILES['media']['type'];
-    var_dump($type);
-    exit();
+//    var_dump($type);
+//    exit();
 $taille_maxi = 1024*10*10*10;
 $taille = filesize($_FILES['media']['tmp_name']);
 $extensions = array('.png', '.gif', '.jpg', '.jpeg', '.pdf');
@@ -42,7 +42,9 @@ if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
         else {
             $type = 'image';
         }
-        $db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+        // connexion à la base de données
+        require_once('../models/database.php');
+        $db = getPdo();
         $add = $db->prepare('INSERT INTO medias(name_media, user_id, type_media, link, created_at) VALUES (:name_media, :user_id, :type_media, :link, NOW())');
         $add->execute(array(
             'name_media' => $fichier,

@@ -10,11 +10,12 @@ $author = $_SESSION['id'];
 // déclaration du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
 
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+// connexion à la base de données
+    require_once('../models/database.php');
+    $db = getPdo();
 
 //récupération de tous les médias
-$medias = $db->query('SELECT * FROM medias ORDER BY created_at DESC');
+$medias = find('medias');
 
 ?>
 <!DOCTYPE html>
@@ -37,7 +38,7 @@ $medias = $db->query('SELECT * FROM medias ORDER BY created_at DESC');
 
 <p><a href="edit-media.php?authorId=<?= $author ?>&action=add">Ajouter un nouveau média</a></p>
 
-<?php //boucle pour récupérer les medias ?>
+<?php //boucle pour afficher les medias ?>
 <?php while($media = $medias->fetch()): ?>
     <?php
 

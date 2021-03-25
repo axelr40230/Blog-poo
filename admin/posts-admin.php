@@ -8,23 +8,15 @@ else :
 // déclaration du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
 
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+// connexion à la base de données
+require_once('../models/database.php');
+$db = getPdo();
 
 //récupération de tous les articles
-$posts = $db->query('SELECT * FROM articles ORDER BY created_at DESC');
+$posts = find('articles');
 
 // Gestion des traductions
-$trad = array(
-    'fr' => array(
-        'draft' => 'Brouillon',
-        'publish' => 'Publié',
-        'intrash' => 'A la corbeille'),
-
-    'en' => array(
-        'draft' => 'draft',
-        'publish' => 'publish',
-        'intrash' => 'in trash'));
+require_once ('../models/functions.php');
 
 
 ?>
@@ -55,7 +47,7 @@ $trad = array(
 <p style="color:red;">Rechercher dans les articles</p>
 <p style="color:red;">Voir la corbeille</p>
 
-<?php //boucle pour récupérer les posts ?>
+<?php //boucle d'affichage des posts ?>
 <?php while($post = $posts->fetch()): ?>
 <?php
 
@@ -80,6 +72,7 @@ $result = $author->fetch(PDO::FETCH_ASSOC); ?>
     <?php //gestion de l'affichage du statut en français ?>
     <p><?php
         $status = $post['status'];
+        $trad = translate($status);
         echo $trad['fr'][$status];
         ?></p>
 

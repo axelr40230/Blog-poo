@@ -8,23 +8,15 @@ else :
 // déclaration du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
 
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+// connexion à la base de données
+    require_once('../models/database.php');
+    $db = getPdo();
 
 //récupération de tous les utilisateurs
-$users = $db->query('SELECT * FROM users ORDER BY created_at DESC');
+$users = find('users');
 
 // Gestion des traductions
-$trad = array(
-    'fr' => array(
-        'admin' => 'Administrateur du site',
-        'author' => 'Auteur',
-        'user' => 'Utilisateur'),
-
-    'en' => array(
-        'admin' => 'Administrator',
-        'author' => 'Author',
-        'user' => 'User'));
+require_once ('../models/functions.php');
 
 
 ?>
@@ -68,6 +60,7 @@ $trad = array(
     <?php //gestion de l'affichage du statut en français ?>
     <p>Rôle : <?php
         $status = $user['status'];
+        $trad = translate($status);
         echo $trad['fr'][$status];
         ?></p>
 

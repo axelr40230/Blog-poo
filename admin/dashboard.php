@@ -9,8 +9,9 @@ $userId = $_SESSION['id'];
 // déclaration du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
 
-// connexion à la bdd
-$db = new \PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '');
+// connexion à la base de données
+    require_once('../models/database.php');
+    $db = getPdo();
 
 //récupération de tous les utilisateurs
 $user = $db->prepare('SELECT * FROM users WHERE id = ?');
@@ -18,24 +19,7 @@ $user->execute(array($userId));
 $user = $user->fetch();
 
 // Gestion des traductions
-$trad = array(
-    'fr' => array(
-        'admin' => 'Administrateur du site',
-        'author' => 'Auteur',
-        'user' => 'Utilisateur',
-        'draft' => 'Brouillon',
-        'publish' => 'Publié',
-        'intrash' => 'A la corbeille'),
-
-    'en' => array(
-        'admin' => 'Administrator',
-        'author' => 'Author',
-        'user' => 'User',
-        'draft' => 'draft',
-        'publish' => 'publish',
-        'intrash' => 'in trash'));
-
-
+require_once ('../models/functions.php')
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -72,6 +56,7 @@ $trad = array(
     <?php //gestion de l'affichage du statut en français ?>
     <p>Rôle : <?php
         $status = $user['status'];
+        $trad = translate($status);
         echo $trad['fr'][$status];
         ?></p>
 
@@ -92,6 +77,7 @@ $trad = array(
             <p><a href="../post.php?id=<?= $post['id'] ?>"><?= $post['title'] ?></a> -
                 <?php
                 $status = $post['status'];
+                $trad = translate($status);
                 echo $trad['fr'][$status];
                 ?>
             </p>
