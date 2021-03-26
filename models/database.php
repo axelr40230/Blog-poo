@@ -51,9 +51,9 @@ function insertComment(string $author, string $comment, int $article_id, string 
 
 /**
  * @param string $article_id
- * @return false|PDOStatement
+ * @return mixed
  */
-function authorArticle(string $article_id) : PDOStatement
+function authorArticle(string $article_id) : array
 {
     $db = getPdo();
     $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN articles ON users.id = articles.author WHERE articles.id = ?');
@@ -147,7 +147,7 @@ function insertUser(string $first_name, string $last_name, string $email, string
     return $register;
 }
 
-/** requete pour sélectionner un utilisateur précis
+/** requête pour sélectionner un utilisateur précis
  * @param string $userId
  * @return mixed
  */
@@ -161,7 +161,7 @@ function selectUser(string $userId)
     return $user;
 }
 
-/**
+/** requete pour récupérer les articles d'un utilisateur
  * @param string $userId
  * @return false|PDOStatement
  */
@@ -174,7 +174,7 @@ function articlesByUser(string $userId) : PDOStatement
     return $listingPosts;
 }
 
-/**
+/** requête pour récupérer les commentaires d'un utilisateur
  * @param string $userId
  * @return false|PDOStatement
  */
@@ -187,7 +187,7 @@ function commentsByUser(string $userId) : PDOStatement
     return $listingComments;
 }
 
-/**
+/** requête pour supprimer un article
  * @param string $article_id
  */
 function deletePost(string $article_id) : void
@@ -199,3 +199,154 @@ function deletePost(string $article_id) : void
     header('location:?action=postsAdmin');
 }
 
+/** requête pour supprimer un utilisateur
+ * @param string $userId
+ */
+function deleteUsers(string $userId) : void
+{
+    $db = getPdo();
+    $delete = $db->prepare('DELETE FROM users WHERE id = ?');
+    $delete->execute(array($userId));
+    $delete = $delete->fetch();
+    header('location:?action=usersAdmin');
+}
+
+/** requête pour approuver un commentaire
+ * @param string $status
+ * @param string $commentId
+ */
+function updateComment(string $status, string $commentId) : void
+{
+    $db = getPdo();
+    $publish = $db->prepare('UPDATE comments SET status = :status WHERE id = :id');
+    $publish->execute(array(
+        'status'=> $status,
+        'id'=> $commentId
+    ));
+
+    header('location:?action=commentsAdmin');
+}
+
+/** requête de suppression d'un commentaire
+ * @param string $status
+ * @param string $commentId
+ */
+function deleteComment(string $status, string $commentId) : void
+{
+    $db = getPdo();
+    $publish = $db->prepare('UPDATE comments SET status = :status WHERE id = :id');
+    $publish->execute(array(
+        'status'=> $status,
+        'id'=> $commentId
+    ));
+
+    header('location:?action=commentsAdmin');
+}
+
+/** requête de sélection du média à supprimer
+ * @param string $mediaId
+ * @return false|PDOStatement
+ */
+function selectMedia(string $mediaId) : PDOStatement
+{
+    $db = getPdo();
+    $media = $db->prepare('SELECT * FROM medias WHERE id = :media_id');
+    $media->execute(array(
+        'media_id' => $mediaId
+    ));
+
+    return $media;
+}
+
+/** requête de suppression d'un media
+ * @param string $mediaId
+ */
+function mediaDelete (string $mediaId) : void
+{
+    $db = getPdo();
+    $delete = $db->prepare('DELETE FROM medias WHERE id = ?');
+    $delete->execute(array($mediaId));
+    $post = $delete->fetch();
+    header('location:?action=mediasAdmin');
+}
+
+/** requête d'ajout d'un nouveau média
+ * @param string $fichier
+ * @param string $author
+ * @param string $type
+ */
+function addMedia(string $fichier, string $author, string $type) : void
+{
+    $db = getPdo();
+    $add = $db->prepare('INSERT INTO medias(name_media, user_id, type_media, link, created_at) VALUES (:name_media, :user_id, :type_media, :link, NOW())');
+    $add->execute(array(
+        'name_media' => $fichier,
+        'user_id' => $author,
+        'type_media' => $type,
+        'link' => $fichier
+    ));
+    header('Location: index.php?action=mediasAdmin');
+}
+
+/**
+ * @param string $article_id
+ * @return mixed
+ */
+function findArticle(string $article_id)
+{
+    $db = getPdo();
+    $post = $db->prepare('SELECT title, introduction, content, status, created_at, modify_at FROM articles WHERE id = ?');
+    $post->execute(array($article_id));
+    $post = $post->fetch();
+
+    return $post;
+}
+
+/** requête d'insertion d'un article
+ * @param string $title
+ * @param string $slug
+ * @param string $introduction
+ * @param string $content
+ * @param int $author
+ * @param string $status
+ */
+function insertArticle(string $title, string $slug, string $introduction, string $content, int $author, string $status) : void
+{
+    $db = getPdo();
+    $add = $db->prepare('INSERT INTO articles(title, slug, introduction, content, author, status, created_at, modify_at) VALUES (:title, :slug, :introduction, :content, :author, :status,NOW(),NOW())');
+    $add->execute(array(
+        'title' => $title,
+        'slug' => $slug,
+        'introduction' => $introduction,
+        'content' => $content,
+        'author' => $author,
+        'status' => $status
+    ));
+    header('Location: index.php?action=postsAdmin');
+}
+
+/** requête de mise à jour d'un article
+ * @param string $attribut
+ * @param string $state
+ * @param string $id
+ */
+function updateArticle(string $attribut, string $state, string $id) : void
+{
+    $db = getPdo();
+    $db->query('UPDATE articles SET '.$attribut.' = "'.$state.'", modify_at = NOW() WHERE id = '.$id);
+    header("Refresh:0");
+}
+
+/** requête pour récupérer l'auteur d'un média
+ * @param string $mediaId
+ * @return mixed
+ */
+function authorMedia(string $mediaId)
+{
+    $db = getPdo();
+    $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN medias ON users.id = medias.user_id WHERE medias.id = ?');
+    $author->execute(array($mediaId));
+    $result = $author->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}

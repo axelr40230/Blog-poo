@@ -7,7 +7,7 @@ else :
 
 $author = $_SESSION['id'];
 
-$dossier = '../uploads/';
+$dossier = 'public/uploads/';
 $fichier = basename($_FILES['media']['name']);
 $type = $_FILES['media']['type'];
 //    var_dump($type);
@@ -38,21 +38,14 @@ if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
 
         if ($type == 'pdf') {
             $type = 'pdf';
-        }
-        else {
+        } else {
             $type = 'image';
         }
         // connexion à la base de données
-        require_once('../../models/database.php');
-        $db = getPdo();
-        $add = $db->prepare('INSERT INTO medias(name_media, user_id, type_media, link, created_at) VALUES (:name_media, :user_id, :type_media, :link, NOW())');
-        $add->execute(array(
-            'name_media' => $fichier,
-            'user_id' => $author,
-            'type_media' => $type,
-            'link' => $fichier
-        ));
-        echo 'Upload effectué avec succès !';
+        require_once('models/database.php');
+
+        addMedia($fichier, $author, $type);
+
     }
     else //Sinon (la fonction renvoie FALSE).
     {

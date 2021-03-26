@@ -9,15 +9,15 @@ $author = $_SESSION['id'];
 
 // connexion à la base de données
     require_once('models/database.php');
-    $db = getPdo();
 
 
-$article_id = $_GET['id'];
-$action = $_GET['action'];
 
-$post = $db->prepare('SELECT title, introduction, content, status, created_at, modify_at FROM articles WHERE id = ?');
-$post->execute(array($article_id));
-$post = $post->fetch();
+$id = $_GET['id'];
+
+$action = $_GET['do'];
+
+
+$post = findArticle($id);
 setlocale(LC_TIME, "fr_FR", "French");
 $date = $post['created_at'];
 $date = strtotime("$date");
@@ -51,15 +51,7 @@ if($action == 'add') :
         $content = htmlspecialchars($_POST['contenu-article']);
         $status = 'publish';
 
-        $add = $db->prepare('INSERT INTO articles(title, slug, introduction, content, author, status, created_at, modify_at) VALUES (:title, :slug, :introduction, :content, :author, :status,NOW(),NOW())');
-            $add->execute(array(
-                'title' => $title,
-                'slug' => $slug,
-                'introduction' => $introduction,
-                'content' => $content,
-                'author' => $author,
-                'status' => $status
-            ));
+        $add = insertArticle($title, $slug, $introduction, $content, $author, $status);
         else :
         $message = 'Tous les champs ne sont pas remplis';
         endif;
@@ -78,15 +70,7 @@ if($action == 'add') :
             $content = htmlspecialchars($_POST['contenu-article']);
             $status = 'draft';
 
-            $add = $db->prepare('INSERT INTO articles(title, slug, introduction, content, author, status, created_at, modify_at) VALUES (:title, :slug, :introduction, :content, :author, :status,NOW(),NOW())');
-            $add->execute(array(
-                'title' => $title,
-                'slug' => $slug,
-                'introduction' => $introduction,
-                'content' => $content,
-                'author' => $author,
-                'status' => $status
-            ));
+            $add = insertArticle($title, $slug, $introduction, $content, $author, $status);
         else :
             $message = 'Tous les champs ne sont pas remplis';
         endif;
@@ -98,41 +82,38 @@ if($action == 'add') :
 endif;
 
 // gestion d'un article existant
-if($action == 'edit') :
+if($action == 'editArticle') :
 
     $message = 'yeah';
 
     // mise à jour statut >> publié
     if(isset($_POST['publier'])) :
-        $status = 'publish';
-        $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
-        $publish->execute(array(
-                'status'=> $status,
-                'id'=> $article_id
-        ));
+
+        $attribut = 'status';
+        $state = 'publish';
+        updateArticle($attribut, $state, $id);
+
         $message = 'L\'article a bien été publié';
+        //header('location:?action=editArticle&id='.$article_id.'&do=editArticle');
     endif;
 
     // mise à jour statut >> brouillon
     if(isset($_POST['brouillon'])) :
-        $status = 'draft';
-        $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
-        $publish->execute(array(
-            'status'=> $status,
-            'id'=> $article_id
-        ));
+
+        $attribut = 'status';
+        $state = 'draft';
+        updateArticle($attribut, $state, $id);
         $message = 'L\'article a bien été enregistré en tant que brouillon';
+        //header('location:?action=editArticle&id='.$article_id.'&do=editArticle');
     endif;
 
     // mise à jour statut >> corbeille
     if(isset($_POST['delete'])) :
-        $status = 'intrash';
-        $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
-        $publish->execute(array(
-            'status'=> $status,
-            'id'=> $article_id
-        ));
+        $attribut = 'status';
+        $state = 'intrash';
+        updateArticle($attribut, $state, $id);
         $message = 'L\'article a bien été placé dans la corbeille';
+        //header('location:?action=editArticle&id='.$article_id.'&do=editArticle');
     endif;
 
     // mise à jour >> titre
@@ -140,13 +121,11 @@ if($action == 'edit') :
         //var_dump($_POST['new-title-article']);
         if(!empty($_POST['new-title-article'])) :
         $newTitle = htmlspecialchars($_POST['new-title-article']);
-        $updateTitle = $db->prepare('UPDATE articles SET title = :title, modify_at = NOW() WHERE id = :id');
-            $updateTitle->execute(array(
-            'title'=> $newTitle,
-            'id'=> $article_id
-        ));
+            $attribut = 'title';
+            $state = $newTitle;
+            updateArticle($attribut, $state, $id);
         $message = 'Le titre de l\'article a bien été modifié';
-            header('location:editArticle.php?id='.$article_id .'&action=edit');
+
         else :
             $message = 'Petit souci';
         endif;
@@ -157,15 +136,11 @@ if($action == 'edit') :
         //var_dump($_POST['new-chapo-article']);
         if(!empty($_POST['new-chapo-article'])) :
             $newIntroduction = htmlspecialchars($_POST['new-chapo-article']);
-        //var_dump($newIntroduction);
-        //var_dump($article_id);
-            $updateChapo = $db->prepare('UPDATE articles SET introduction = :introduction, modify_at = NOW() WHERE id = :id');
-            $updateChapo->execute(array(
-                'introduction'=> $newIntroduction,
-                'id'=> $article_id
-            ));
+            $attribut = 'introduction';
+            $state = $newIntroduction;
+            updateArticle($attribut, $state, $id);
             $message = 'Le chapo de l\'article a bien été modifié';
-            header('location:editArticle.php?id='.$article_id .'&action=edit');
+
         else :
             $message = 'Petit souci';
         endif;
@@ -176,13 +151,11 @@ if($action == 'edit') :
             //var_dump($_POST['new-contenu-article']);
         if(!empty($_POST['new-contenu-article'])) :
             $newContent = htmlspecialchars($_POST['new-contenu-article']);
-            $updateContent = $db->prepare('UPDATE articles SET content = :content, modify_at = NOW() WHERE id = :id');
-            $updateContent->execute(array(
-                'content'=> $newContent,
-                'id'=> $article_id
-            ));
+            $attribut = 'content';
+            $state = $newContent;
+            updateArticle($attribut, $state, $id);
             $message = 'Le contenu de l\'article a bien été modifié';
-            header('location:editArticle.php?id='.$article_id .'&action=edit');
+
         else :
             $message = 'Petit souci';
         endif;
@@ -205,6 +178,7 @@ endif;
     <form action="" method="post">
 
         <h2>Infos sur l'article</h2>
+
         <?php $trad = translate($status) ?>
         <p>Statut : <?= $trad['fr'][$status]; ?></p>
         <p>Date de création : <?= $date ?></p>
@@ -212,8 +186,10 @@ endif;
         <p>Gérer la visibilité de l'article</p>
         <input type="submit" name="publier" value="publier"><br><br>
         <input type="submit" name="brouillon" value="brouillon"><br><br>
-        <input type="submit" name="delete" value="Supprimer"><br>
+        <input type="submit" name="delete" value="Mettre à la corbeille"><br>
         <p><?= $message ?></p>
+
+        <h2>Contenus de l'article</h2>
         <label for="new-title-article">Titre actuel de l'article : <?= $oldTitle ?></label><br><br>
         <input type="text" name="new-title-article" id="title-article"><br><br>
         <label for="chapo-article">Chapô actuel de l'article : <?= $oldIntroduction ?></label><br><br>
@@ -226,7 +202,7 @@ endif;
 
     <?php //cas 2 : ajout d'un article ?>
 
-<?php elseif($action == 'addArticle' AND $article_id == 'null') : ?>
+<?php elseif($action == 'add' AND $id == 'null') : ?>
     <h1>Interface d'administration - Création d'un article</h1>
 
     <form action="" method="post">

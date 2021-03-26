@@ -85,8 +85,8 @@ $user = selectUser($userId);
         ?>
 
     <?php //liens ?>
-    <p><a href="edit-user.php?userId=<?= $userId ?>">Modifier l'utilisateur</a></p>
-    <p><a href="delete-user.php?userId=<?= $userId ?>">Supprimer l'utilisateur</a></p>
+    <p><a href="editUser.php?userId=<?= $userId ?>">Modifier l'utilisateur</a></p>
+    <p><a href="deleteUser.php?userId=<?= $userId ?>">Supprimer l'utilisateur</a></p>
 
 
 

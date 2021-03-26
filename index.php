@@ -43,6 +43,27 @@ try {
         elseif ($_GET['action'] == 'deleteArticle'){
             deleteArticle();
         }
+        elseif ($_GET['action'] == 'deleteUser'){
+            deleteUser();
+        }
+        elseif ($_GET['action'] == 'editUser'){
+            editUser();
+        }
+        elseif ($_GET['action'] == 'editComment'){
+            editComment();
+        }
+        elseif ($_GET['action'] == 'deleteMedia'){
+            deleteMedia();
+        }
+        elseif ($_GET['action'] == 'editMedia'){
+            editMedia();
+        }
+        elseif ($_GET['action'] == 'upload'){
+            upload();
+        }
+        elseif ($_GET['action'] == 'commentByArticle'){
+            commentByArticle();
+        }
         elseif ($_GET['action'] == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 post();

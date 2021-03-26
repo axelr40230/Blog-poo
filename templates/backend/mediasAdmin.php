@@ -19,7 +19,7 @@ $medias = find('medias');
 
 ?>
 
-<p><a href="edit-media.php?authorId=<?= $author ?>&action=add">Ajouter un nouveau média</a></p>
+<p><a href="?action=editMedia&authorId=<?= $author ?>">Ajouter un nouveau média</a></p>
 
 <?php //boucle pour afficher les medias ?>
 <?php while($media = $medias->fetch()): ?>
@@ -29,9 +29,7 @@ $medias = find('medias');
     $mediaId = $media['id'];
 
 // récupération de l'auteur du media
-    $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN medias ON users.id = medias.user_id WHERE medias.id = ?');
-    $author->execute(array($mediaId));
-    $result = $author->fetch(PDO::FETCH_ASSOC); ?>
+    $author = authorMedia($mediaId) ?>
 
 
     <?php // gestion de l'affichage de la date en français
@@ -45,9 +43,9 @@ $medias = find('medias');
     <p>Ajouté le <?= $date ?></p>
 
         <?php //gestion de l'affichage des nom et prénom de l'auteur de l'article ?>
-    <p>Par <?= $result['first_name'] ?> <?= $result['last_name'] ?></p>
+    <p>Par <?= $author['first_name'] ?> <?= $author['last_name'] ?></p>
     <p>Type de média : <?= $media['type_media'] ?></p>
-    <p><a href="delete-media.php?mediaId=<?= $mediaId ?>">Supprimer le média</a></p>
+    <p><a href="?action=deleteMedia&mediaId=<?= $mediaId ?>">Supprimer le média</a></p>
 
 <?php
 endwhile;

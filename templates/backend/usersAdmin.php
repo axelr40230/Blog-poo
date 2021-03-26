@@ -10,7 +10,7 @@ setlocale(LC_TIME, "fr_FR", "French");
 
 // connexion à la base de données
     require_once('models/database.php');
-    $db = getPdo();
+
 
 //récupération de tous les utilisateurs
 $users = find('users');
@@ -46,8 +46,8 @@ $users = find('users');
         ?></p>
 
     <?php //liens ?>
-    <p><a href="edit-user.php?userId=<?= $userId ?>">Modifier l'utilisateur</a></p>
-    <p><a href="delete-user.php?userId=<?= $userId ?>">Supprimer l'utilisateur</a></p>
+    <p><a href="?action=editUser&userId=<?= $userId ?>">Modifier l'utilisateur</a></p>
+    <p><a href="?action=deleteUser&userId=<?= $userId ?>">Supprimer l'utilisateur</a></p>
 
 <?php
 endwhile;

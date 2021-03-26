@@ -31,7 +31,7 @@ function dashboard()
 function postsAdmin()
 {
     require('models/functions.php');
-    $pageTitle = 'Mon profil';
+    $pageTitle = 'Gérer les articles';
     render('backend/postsAdmin', ['pageTitle' => $pageTitle], 'backend');
 }
 
@@ -69,3 +69,53 @@ function deleteArticle()
     $pageTitle = 'Supprimer l\'article';
     render('backend/deleteArticle', ['pageTitle' => $pageTitle], 'backend');
 }
+
+function deleteUser()
+{
+    require('models/functions.php');
+    $pageTitle = 'Supprimer un utilisateur';
+    render('backend/deleteUSer', ['pageTitle' => $pageTitle], 'backend');
+}
+
+function editUser()
+{
+    require('models/functions.php');
+    $pageTitle = 'Modifier l\'utilisateur';
+    render('backend/editUser', ['pageTitle' => $pageTitle], 'backend');
+}
+
+function editComment()
+{
+    require('models/functions.php');
+    $pageTitle = 'Modifier le commentaire';
+    render('backend/editComment', ['pageTitle' => $pageTitle], 'backend');
+}
+
+function deleteMedia()
+{
+    require('models/functions.php');
+    $pageTitle = 'Supprimer un média';
+    render('backend/deleteMedia', ['pageTitle' => $pageTitle], 'backend');
+}
+
+function editMedia()
+{
+    require('models/functions.php');
+    $pageTitle = 'Ajouter un média';
+    render('backend/editMedia', ['pageTitle' => $pageTitle], 'backend');
+}
+
+function upload()
+{
+    require('models/functions.php');
+    $pageTitle = 'Upload un media';
+    render('backend/upload', ['pageTitle' => $pageTitle], 'backend');
+}
+
+function commentByArticle()
+{
+    require('models/functions.php');
+    $pageTitle = 'Commentaires de l\'article';
+    render('backend/commentByArticle', ['pageTitle' => $pageTitle], 'backend');
+}
+

@@ -85,7 +85,7 @@ if (isset($_POST['connexion'])) :
 //                        //exit();
 //                    endif;
                     $register->closeCursor();
-                    $messageNew = 'Votre inscription a bien été prise en compte, vous pouvez vous connecter à votre compte';
+                    $messageNew = '<h1>Votre inscription a bien été prise en compte, vous pouvez vous connecter à votre compte</h1>';
                 else :
                         $messageNew = 'Cet email est déjà utilisé';
                 endif;

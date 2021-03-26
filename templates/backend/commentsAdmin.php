@@ -48,7 +48,7 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
     <p>Posté le <?= $date ?></p>
     <?php //gestion de l'affichage des nom et prénom de l'auteur de l'article ?>
     <p>Par <?= $result['first_name'] ?> <?= $result['last_name'] ?></p>
-    <a href="../../index.php?action=post&id=<?= $comment['article_id']?>">Voir l'article lié</a>
+    <a href="index.php?action=post&id=<?= $comment['article_id']?>">Voir l'article lié</a>
     </div>
 
     <div style="font-weight: bold;"><?= $comment['comment'] ?></div>
@@ -65,9 +65,9 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
     <?php //liens ?>
 
         <?php if($comment['status']!='approuved') :?>
-    <p><a href="edit-comment.php?commentId=<?= $commentId ?>&action=approuved">Approuver le commentaire</a></p>
+    <p><a href="?action=editComment&commentId=<?= $commentId ?>&do=approuved">Approuver le commentaire</a></p>
     <?php endif; ?>
-    <p><a href="edit-comment.php?commentId=<?= $commentId ?>&action=delete">Supprimer le commentaire</a></p>
+    <p><a href="?action=editComment&commentId=<?= $commentId ?>&do=delete">Supprimer le commentaire</a></p>
 <hr>
 
 <?php

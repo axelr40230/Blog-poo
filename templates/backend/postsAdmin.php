@@ -16,7 +16,7 @@ $db = getPdo();
 $posts = find('articles');
 ?>
 
-<p><a href="editArticle.php?id=null&action=add">Ajouter un nouvel article</a></p>
+<p><a href="?action=editArticle&id=null&do=add">Ajouter un nouvel article</a></p>
 
 <p style="color:red;">Trier les articles</p>
 <p style="color:red;">Rechercher dans les articles</p>
@@ -30,12 +30,10 @@ $posts = find('articles');
 $article_id = $post['id'];
 
 // récupération de l'auteur de l'article
-$author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN articles ON users.id = articles.author WHERE articles.id = ?');
-$author->execute(array($article_id));
-$result = $author->fetch(PDO::FETCH_ASSOC); ?>
+$author = authorArticle($article_id);
 
 
-<?php // gestion de l'affichage de la date en français
+ // gestion de l'affichage de la date en français
     $date = $post['created_at'];
     $date = strtotime("$date");
     $date = strftime('%A %d %B %Y',$date); ?>
@@ -52,13 +50,17 @@ $result = $author->fetch(PDO::FETCH_ASSOC); ?>
         ?></p>
 
     <?php //gestion de l'affichage des nom et prénom de l'auteur de l'article ?>
-    <p><?= $result['first_name'] ?> <?= $result['last_name'] ?></p>
+    <p><?= $author['first_name'] ?> <?= $author['last_name'] ?></p>
 
     <?php //liens ?>
-    <p>Nombres de commentaires // <a href="comments-admin-by-post.php?id=<?= $article_id ?>">Consulter les commentaires</a></p>
+    <?php
+    $comments = listComment($article_id);
+    $count     = $comments->rowCount();
+    ?>
+    <p>Nombre de commentaires : <?= $count ?> // <a href="?action=commentByArticle&id=<?= $article_id ?>">Consulter les commentaires</a></p>
     <p><a href="?action=post&id=<?= $article_id ?>">Lire l'article</a></p>
-    <p><a href="?action=editArticle&id=<?= $article_id ?>">Gérer l'article</a></p>
-    <p><a href="?action=deleteArticle&id=<?= $article_id ?>">Supprimer l'article</a></p>
+    <p><a href="?action=editArticle&id=<?= $article_id ?>&do=editArticle">Gérer l'article</a></p>
+    <p><a href="?action=deleteArticle&id=<?= $article_id ?>">Supprimer définitivement l'article</a></p>
 <?php
 endwhile;
 ?>
