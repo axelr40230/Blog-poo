@@ -12,11 +12,11 @@ $author = $_SESSION['id'];
     $db = getPdo();
 
 
-$postId = $_GET['id'];
+$article_id = $_GET['id'];
 $action = $_GET['action'];
 
 $post = $db->prepare('SELECT title, introduction, content, status, created_at, modify_at FROM articles WHERE id = ?');
-$post->execute(array($postId));
+$post->execute(array($article_id));
 $post = $post->fetch();
 setlocale(LC_TIME, "fr_FR", "French");
 $date = $post['created_at'];
@@ -108,7 +108,7 @@ if($action == 'edit') :
         $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
         $publish->execute(array(
                 'status'=> $status,
-                'id'=> $postId
+                'id'=> $article_id
         ));
         $message = 'L\'article a bien été publié';
     endif;
@@ -119,7 +119,7 @@ if($action == 'edit') :
         $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
         $publish->execute(array(
             'status'=> $status,
-            'id'=> $postId
+            'id'=> $article_id
         ));
         $message = 'L\'article a bien été enregistré en tant que brouillon';
     endif;
@@ -130,7 +130,7 @@ if($action == 'edit') :
         $publish = $db->prepare('UPDATE articles SET status = :status, modify_at = NOW() WHERE id = :id');
         $publish->execute(array(
             'status'=> $status,
-            'id'=> $postId
+            'id'=> $article_id
         ));
         $message = 'L\'article a bien été placé dans la corbeille';
     endif;
@@ -143,10 +143,10 @@ if($action == 'edit') :
         $updateTitle = $db->prepare('UPDATE articles SET title = :title, modify_at = NOW() WHERE id = :id');
             $updateTitle->execute(array(
             'title'=> $newTitle,
-            'id'=> $postId
+            'id'=> $article_id
         ));
         $message = 'Le titre de l\'article a bien été modifié';
-            header('location:editArticle.php?id='.$postId .'&action=edit');
+            header('location:editArticle.php?id='.$article_id .'&action=edit');
         else :
             $message = 'Petit souci';
         endif;
@@ -158,14 +158,14 @@ if($action == 'edit') :
         if(!empty($_POST['new-chapo-article'])) :
             $newIntroduction = htmlspecialchars($_POST['new-chapo-article']);
         //var_dump($newIntroduction);
-        //var_dump($postId);
+        //var_dump($article_id);
             $updateChapo = $db->prepare('UPDATE articles SET introduction = :introduction, modify_at = NOW() WHERE id = :id');
             $updateChapo->execute(array(
                 'introduction'=> $newIntroduction,
-                'id'=> $postId
+                'id'=> $article_id
             ));
             $message = 'Le chapo de l\'article a bien été modifié';
-            header('location:editArticle.php?id='.$postId .'&action=edit');
+            header('location:editArticle.php?id='.$article_id .'&action=edit');
         else :
             $message = 'Petit souci';
         endif;
@@ -179,10 +179,10 @@ if($action == 'edit') :
             $updateContent = $db->prepare('UPDATE articles SET content = :content, modify_at = NOW() WHERE id = :id');
             $updateContent->execute(array(
                 'content'=> $newContent,
-                'id'=> $postId
+                'id'=> $article_id
             ));
             $message = 'Le contenu de l\'article a bien été modifié';
-            header('location:editArticle.php?id='.$postId .'&action=edit');
+            header('location:editArticle.php?id='.$article_id .'&action=edit');
         else :
             $message = 'Petit souci';
         endif;
@@ -226,7 +226,7 @@ endif;
 
     <?php //cas 2 : ajout d'un article ?>
 
-<?php elseif($action == 'addArticle' AND $postId == 'null') : ?>
+<?php elseif($action == 'addArticle' AND $article_id == 'null') : ?>
     <h1>Interface d'administration - Création d'un article</h1>
 
     <form action="" method="post">

@@ -40,6 +40,9 @@ try {
         elseif ($_GET['action'] == 'editArticle'){
             editArticle();
         }
+        elseif ($_GET['action'] == 'deleteArticle'){
+            deleteArticle();
+        }
         elseif ($_GET['action'] == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 post();

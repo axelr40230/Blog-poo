@@ -62,3 +62,10 @@ function editArticle()
     $pageTitle = 'Editer l\'article';
     render('backend/editArticle', ['pageTitle' => $pageTitle], 'backend');
 }
+
+function deleteArticle()
+{
+    require('models/functions.php');
+    $pageTitle = 'Supprimer l\'article';
+    render('backend/deleteArticle', ['pageTitle' => $pageTitle], 'backend');
+}

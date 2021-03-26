@@ -27,11 +27,11 @@ $posts = find('articles');
 <?php
 
 // récupération de l'identifiant de post
-$postId = $post['id'];
+$article_id = $post['id'];
 
 // récupération de l'auteur de l'article
 $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN articles ON users.id = articles.author WHERE articles.id = ?');
-$author->execute(array($postId));
+$author->execute(array($article_id));
 $result = $author->fetch(PDO::FETCH_ASSOC); ?>
 
 
@@ -55,10 +55,10 @@ $result = $author->fetch(PDO::FETCH_ASSOC); ?>
     <p><?= $result['first_name'] ?> <?= $result['last_name'] ?></p>
 
     <?php //liens ?>
-    <p>Nombres de commentaires // <a href="comments-admin-by-post.php?id=<?= $postId ?>">Consulter les commentaires</a></p>
-    <p><a href="?action=post&id=<?= $postId ?>">Lire l'article</a></p>
-    <p><a href="?action=editArticle&id=<?= $postId ?>">Gérer l'article</a></p>
-    <p><a href="delete-article.php?id=<?= $postId ?>">Supprimer l'article</a></p>
+    <p>Nombres de commentaires // <a href="comments-admin-by-post.php?id=<?= $article_id ?>">Consulter les commentaires</a></p>
+    <p><a href="?action=post&id=<?= $article_id ?>">Lire l'article</a></p>
+    <p><a href="?action=editArticle&id=<?= $article_id ?>">Gérer l'article</a></p>
+    <p><a href="?action=deleteArticle&id=<?= $article_id ?>">Supprimer l'article</a></p>
 <?php
 endwhile;
 ?>

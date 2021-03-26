@@ -9,9 +9,8 @@ if (isset($_SESSION['id'])) :
     $idconnect = $_SESSION['id'];
 endif;
 
-$postId = $_GET['id'];
-$post = $db->prepare('SELECT title, introduction, content, created_at  FROM articles WHERE id = ?');
-$post->execute(array($postId));
+$article_id = $_GET['id'];
+$post = find('articles');
 $post = $post->fetch();
 setlocale(LC_TIME, "fr_FR", "French");
 $date = $post['created_at'];
@@ -26,17 +25,11 @@ if(isset($_POST['commenter'])):
 
     if(!empty($_POST['comment'])) :
         $author = $idconnect;
+        $status = 'waiting';
         $comment = htmlspecialchars($_POST['comment']);
-        $newComment = $db->prepare('INSERT INTO comments (author, content, article_id, status, created_at) VALUES(:author, :content, :article_id, :status, NOW())');
-
-        $success = $newComment->execute(array(
-            'author' => $author,
-            'content'=> $comment,
-            'article_id' => $postId,
-            'status' => 'waiting'
-        ));
+        $newComment = insertComment($author, $comment, $article_id, $status);
         // debug
-        if($success == false):
+/*        if($success == false):
             var_dump($newComment->errorInfo());
             exit();
         endif;
@@ -77,17 +70,14 @@ if(isset($_POST['commenter'])):
 
         // Envoi
         mail($to, $subject, $message, implode("\r\n", $headers));
-        $information = 'Merci pour votre commentaire. Nous allons l\'examiner et le publier';
+        $information = 'Merci pour votre commentaire. Nous allons l\'examiner et le publier';*/
 
     elseif (isset($_POST['repondre'])):
         if(!empty($_POST['comment-reply'])) :
+            $status = 'waiting';
             $author = $idconnect;
             $comment = htmlspecialchars($_POST['comment']);
-            $newComment = $db->prepare('INSERT INTO comments (author, content, article_id, created_at) VALUES(:author, :content, :article_id, NOW())');
-            $newComment->execute(array(
-                'author' => $author,
-                'content'=> $comment,
-                'article_id' => $postId));
+            $newComment = insertComment($author, $comment, $article_id, $status);
         endif;
     else :
         $information = 'Merci de remplir tous les champs';
@@ -102,11 +92,9 @@ endif;
 
 <?php //Affichage de l'article ?>
 
-<?php if($postId) :
+<?php if($article_id) :
 
-    $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN articles ON users.id = articles.author WHERE articles.id = ?');
-    $author->execute(array($postId));
-    $result = $author->fetch(PDO::FETCH_ASSOC);
+    $result = authorArticle($article_id);
 
     ?>
     <h2><?= $post['title'] ?></h2>
@@ -117,11 +105,7 @@ endif;
     <?php //Affichage de des commentaires ?>
 
     <?php
-    $comments = $db->prepare('SELECT * FROM comments WHERE article_id = :id AND status = :status');
-    $comments->execute(array(
-        'id' =>$postId,
-        'status' => 'approuved'
-    ));
+    $comments = listComment($article_id);
     $count     = $comments->rowCount();
 
     if($count == 0) : ?>
@@ -141,19 +125,17 @@ endif;
             $date = strftime('%A %d %B %Y',$date);
             $id_author = $comment['author'];
             //var_dump($id_author);
-            $author = $db->prepare('SELECT * FROM users  WHERE id = ?');
-            $author->execute(array($id_author));
-            $result = $author->fetch();
+            $author = authorComment($id_author);
             //var_dump($result);
             ?>
             <p>Le <?= $date ?>, <?= $result['first_name'] ?> <?= $result['last_name'] ?> a écrit :</p>
-            <p><?= $comment['content'] ?></p>
+            <p><?= $comment['comment'] ?></p>
             <hr>
 
             <?php if(isset($_SESSION['id'])) : ?>
 
             <p><a href="report-comment.php?comment=<?= $comment['id'] ?>">Signaler le commentaire</a></p>
-            <p><a href="post.php?id=<?= $postId ?>&comment=<?= $comment['id'] ?>&replyto=<?= $id_author ?>">Répondre à ce commentaire</a></p>
+            <p><a href="post.php?id=<?= $article_id ?>&comment=<?= $comment['id'] ?>&replyto=<?= $id_author ?>">Répondre à ce commentaire</a></p>
             <hr>
         <?php endif; ?>
 

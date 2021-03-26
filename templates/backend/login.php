@@ -21,20 +21,14 @@ if (isset($_POST['connexion'])) :
         $email      = htmlspecialchars($_POST['email']);
         $password      = htmlspecialchars($_POST['password']);
         //vérification de la présence du nom utilisateur
-        $req_count       = $db->prepare('SELECT * FROM users WHERE email = :email');
-        $req_count->execute(array(
-            'email' => $email
-        ));
+        $req_count = emailControl($email);
         $count     = $req_count->rowCount();
         //dans le cas où aucun utilisateur est trouvé
         if ($count == 0) :
             $message = 'user non trouvé';
             $req_count->closeCursor();
         else :
-            $req = $db->prepare('SELECT id, password FROM users WHERE email = :email');
-            $req->execute(array(
-                'email' => $email
-            ));
+            $req = passwordControl($email);
             $result            = $req->fetch();
             $hash              = $result['password'];
             $isPasswordCorrect = password_verify($password, $hash);
@@ -63,8 +57,9 @@ if (isset($_POST['connexion'])) :
 
         if (!empty($_POST['new-name']) AND !empty($_POST['new-firstname']) AND !empty($_POST['new-email']) AND !empty($_POST['new-password']) AND !empty($_POST['password-repeat'])) :
             // validation des données envoyées par l'utilisateur
-            $nom          = htmlspecialchars($_POST['new-name']);
-            $prenom       = htmlspecialchars($_POST['new-firstname']);
+            $last_name          = htmlspecialchars($_POST['new-name']);
+            $first_name       = htmlspecialchars($_POST['new-firstname']);
+
             $email         = htmlspecialchars($_POST['new-email']);
             $pass         = htmlspecialchars($_POST['new-password']);
             $pass_confirm = htmlspecialchars($_POST['password-repeat']);
@@ -76,28 +71,21 @@ if (isset($_POST['connexion'])) :
                 $options = [
                     'cost' => 10,
                 ];
-                $pass_hash  = password_hash($pass, PASSWORD_DEFAULT, $options);
-                $req   = $db->prepare("SELECT * FROM user WHERE email = :email");
-                $req->execute(array(
-                    'email' => $email
-                ));
+                $password  = password_hash($pass, PASSWORD_DEFAULT, $options);
+                $req   = emailControl($email);
                 //vérification user libre
                 $count = $req->rowCount();
 
                 if ($count == 0) :
                     $req->closeCursor();
                     //preparation requete insertion dans la BDD
-                    $register = $db->prepare('INSERT INTO users(first_name, last_name, email, password, status, date_add) VALUES(:first_name, :last_name, :email, :password, :status, NOW())');
-                    $register->execute(array(
-                            'first_name' => $prenom,
-                            'last_name' => $nom,
-                            'email' => $email,
-                            'password' => $pass_hash,
-                            'status' => $status,
-                            )
-                    );
+                    $register = insertUser($first_name, $last_name, $email, $password, $status);
+//                    if($success == false):
+//                        var_dump($success->errorInfo());
+//                        //exit();
+//                    endif;
                     $register->closeCursor();
-                    header('location:admin.php');
+                    $messageNew = 'Votre inscription a bien été prise en compte, vous pouvez vous connecter à votre compte';
                 else :
                         $messageNew = 'Cet email est déjà utilisé';
                 endif;
@@ -114,16 +102,7 @@ if (isset($_POST['connexion'])) :
 endif;
 
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Page de connexion </title>
-</head>
-<body>
 
-<?php // formulaire de connexion ?>
-<h1>Connexion</h1>
 <form action="" method="post">
     <?= $message; ?>
     <label for="email">Email</label>

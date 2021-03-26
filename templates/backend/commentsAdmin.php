@@ -31,11 +31,12 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
 
 // récupération de l'identifiant de commentaire
     $commentId = $comment['id'];
+    $id_author = $comment['author'];
+    //var_dump($id_author);
 
-// récupération de l'auteur de l'article
-    $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN comments ON users.id = comments.author WHERE comments.id = ?');
-    $author->execute(array($commentId));
-    $result = $author->fetch(PDO::FETCH_ASSOC); ?>
+// récupération de l'auteur du commentaire
+    $result = authorComment($id_author);
+?>
 
 
     <?php // gestion de l'affichage de la date en français
@@ -50,7 +51,7 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
     <a href="../../index.php?action=post&id=<?= $comment['article_id']?>">Voir l'article lié</a>
     </div>
 
-    <div style="font-weight: bold;"><?= $comment['content'] ?></div>
+    <div style="font-weight: bold;"><?= $comment['comment'] ?></div>
 
 
     <?php //gestion de l'affichage du statut en français ?>
@@ -72,8 +73,4 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
 <?php
 endif;
 endwhile;
-?>
-
-</body>
-</html>
-<?php endif;
+endif;

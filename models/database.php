@@ -20,7 +20,7 @@ function getPdo() : PDO
 
 }
 
-/** requête pour récupérer un listing
+/** Requête pour récupérer un listing
  * @param string $table
  * @return false|PDOStatement
  */
@@ -33,5 +33,169 @@ function find(string $table) : PDOStatement
     return $results;
 }
 
+/** Requête d'insertion d'un commentaire
+ * @param string $author
+ * @param string $comment
+ * @param int $article_id
+ * @param string $status
+ * @return false|PDOStatement
+ */
+function insertComment(string $author, string $comment, int $article_id, string $status) : PDOStatement
+{
+    $db = getPdo();
+    $results = $db->prepare('INSERT INTO comments SET author = :author, comment = :comment, article_id = :article_id, status = :status, created_at = NOW()');
+    $results->execute(compact('author','comment','article_id','status'));
 
+    return $results;
+}
+
+/**
+ * @param string $article_id
+ * @return false|PDOStatement
+ */
+function authorArticle(string $article_id) : PDOStatement
+{
+    $db = getPdo();
+    $author = $db->prepare('SELECT users.first_name, users.last_name FROM users LEFT OUTER JOIN articles ON users.id = articles.author WHERE articles.id = ?');
+    $author->execute(array($article_id));
+    $result = $author->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+/** requête pour récupérer les articles approuvés
+ * @param string $article_id
+ * @return false|PDOStatement
+ */
+function listComment(string $article_id) : PDOStatement
+{
+    $db = getPdo();
+    $comments = $db->prepare('SELECT * FROM comments WHERE article_id = :id AND status = :status');
+    $comments->execute(array(
+        'id' =>$article_id,
+        'status' => 'approuved'
+    ));
+
+    return $comments;
+}
+
+/** requête pour retrouver l'auteur d'un commentaire
+ * @param string $id_author
+ * @return mixed
+ */
+function authorComment(string $id_author)
+{
+    $db = getPdo();
+    $author = $db->prepare('SELECT * FROM users  WHERE id = ?');
+    $author->execute(array($id_author));
+    $result = $author->fetch();
+
+    return $result;
+}
+
+/** requête de contrôle de l'email / compte existant
+ * @param string $email
+ * @return false|PDOStatement
+ */
+function emailControl(string $email) : PDOStatement
+{
+    $db = getPdo();
+    $req_count = $db->prepare('SELECT * FROM users WHERE email = :email');
+    $req_count->execute(array(
+        'email' => $email
+    ));
+
+    return $req_count;
+}
+
+/** requête de contrôle du mot de passe / compte existant
+ * @param string $email
+ * @return false|PDOStatement
+ */
+function passwordControl(string $email) : PDOStatement
+{
+    $db = getPdo();
+    $req = $db->prepare('SELECT id, password FROM users WHERE email = :email');
+    $req->execute(array(
+        'email' => $email
+    ));
+
+    return $req;
+}
+
+/** requete d'insertion d'un nouvel utilisateur
+ * @param string $first_name
+ * @param string $last_name
+ * @param string $email
+ * @param string $password
+ * @param string $status
+ * @return false|PDOStatement
+ */
+function insertUser(string $first_name, string $last_name, string $email, string $password, string $status) : PDOStatement
+{
+    $db = getPdo();
+    $register = $db->prepare('INSERT INTO users SET first_name = :first_name, last_name = :last_name, email =:email, password = :password, status = :status, created_at = NOW()');
+    $register->execute(compact(
+            'first_name',
+            'last_name',
+            'email',
+            'password',
+            'status',
+        )
+    );
+
+    return $register;
+}
+
+/** requete pour sélectionner un utilisateur précis
+ * @param string $userId
+ * @return mixed
+ */
+function selectUser(string $userId)
+{
+    $db = getPdo();
+    $user = $db->prepare('SELECT * FROM users WHERE id = ?');
+    $user->execute(array($userId));
+    $user = $user->fetch();
+
+    return $user;
+}
+
+/**
+ * @param string $userId
+ * @return false|PDOStatement
+ */
+function articlesByUser(string $userId) : PDOStatement
+{
+    $db = getPdo();
+    $listingPosts = $db->prepare('SELECT * FROM articles WHERE author = ?');
+    $listingPosts->execute(array($userId));
+
+    return $listingPosts;
+}
+
+/**
+ * @param string $userId
+ * @return false|PDOStatement
+ */
+function commentsByUser(string $userId) : PDOStatement
+{
+    $db = getPdo();
+    $listingComments = $db->prepare('SELECT * FROM comments WHERE author = ?');
+    $listingComments->execute(array($userId));
+
+    return $listingComments;
+}
+
+/**
+ * @param string $article_id
+ */
+function deletePost(string $article_id) : void
+{
+    $db = getPdo();
+    $delete = $db->prepare('DELETE FROM articles WHERE id = ?');
+    $delete->execute(array($article_id));
+    $post = $delete->fetch();
+    header('location:?action=postsAdmin');
+}
 

@@ -13,10 +13,8 @@ setlocale(LC_TIME, "fr_FR", "French");
     require_once('models/database.php');
     $db = getPdo();
 
-//récupération de tous les utilisateurs
-$user = $db->prepare('SELECT * FROM users WHERE id = ?');
-$user->execute(array($userId));
-$user = $user->fetch();
+//récupération de l'utilisateur
+$user = selectUser($userId);
 
 ?>
 
@@ -44,8 +42,7 @@ $user = $user->fetch();
 
     <h2>Articles publiés</h2>
         <?php // requete SQL pour récupérer la liste des articles publiés par l'utilisateur
-        $listingPosts = $db->prepare('SELECT * FROM articles WHERE author = ?');
-        $listingPosts->execute(array($userId));
+        $listingPosts = articlesByUser($userId);
         $count     = $listingPosts->rowCount();
 
         if($count == 0) : ?>
@@ -69,8 +66,7 @@ $user = $user->fetch();
 
     <h2>Commentaires publiés</h2>
     <?php // requete SQL pour récupérer la liste des commentaires publiés par l'utilisateur
-    $listingComments = $db->prepare('SELECT * FROM comments WHERE author = ?');
-    $listingComments->execute(array($userId));
+    $listingComments = commentsByUser($userId);
     $count     = $listingComments->rowCount();
 
         if($count == 0) : ?>
@@ -82,7 +78,7 @@ $user = $user->fetch();
     <?php endif;
 
     while($comment = $listingComments->fetch()): ?>
-        <p><?= $comment['content'] ?></a></p>
+        <p><?= $comment['comment'] ?></a></p>
     <hr>
     <?php
       endwhile;
