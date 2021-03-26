@@ -2,46 +2,21 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 // déclaration du fuseau
 setlocale(LC_TIME, "fr_FR", "French");
 
 // connexion à la base de données
-require_once('../models/database.php');
+require_once('models/database.php');
 $db = getPdo();
 
 //récupération de tous les articles
 $posts = find('articles');
-
-// Gestion des traductions
-require_once ('../models/functions.php');
-
-
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Interface d'administration - tous les articles</title>
-</head>
-<body>
 
-
-<?php //menu ?>
-<p><a href="../index.php">Visiter le site</a></p>
-<p><a href="dashboard.php">Mon profil</a></p>
-<p><a href="posts-admin.php">Gérer les posts</a></p>
-<p><a href="medias-admin.php">Gérer les médias</a></p>
-<p><a href="comments-admin.php">Gérer commentaires</a></p>
-<p><a href="users-admin.php">Gérer les utilisateurs</a></p>
-<p><a href="logout.php">Se déconnecter</a></p>
-
-<?php //contenu ?>
-<H1>Interface d'administration - tous les articles</H1>
-
-<p><a href="edit-article.php?id=null&action=add">Ajouter un nouvel article</a></p>
+<p><a href="editArticle.php?id=null&action=add">Ajouter un nouvel article</a></p>
 
 <p style="color:red;">Trier les articles</p>
 <p style="color:red;">Rechercher dans les articles</p>
@@ -81,8 +56,8 @@ $result = $author->fetch(PDO::FETCH_ASSOC); ?>
 
     <?php //liens ?>
     <p>Nombres de commentaires // <a href="comments-admin-by-post.php?id=<?= $postId ?>">Consulter les commentaires</a></p>
-    <p><a href="../post.php?id=<?= $postId ?>">Lire l'article</a></p>
-    <p><a href="edit-article.php?id=<?= $postId ?>&action=edit">Gérer l'article</a></p>
+    <p><a href="?action=post&id=<?= $postId ?>">Lire l'article</a></p>
+    <p><a href="?action=editArticle&id=<?= $postId ?>">Gérer l'article</a></p>
     <p><a href="delete-article.php?id=<?= $postId ?>">Supprimer l'article</a></p>
 <?php
 endwhile;

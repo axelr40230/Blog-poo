@@ -2,11 +2,11 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 // connexion à la base de données
-    require_once('../models/database.php');
+    require_once('../../models/database.php');
     $db = getPdo();
 
 $mediaId = $_GET['mediaId'];
@@ -33,7 +33,7 @@ $req_count = $db->prepare('SELECT * FROM medias WHERE id = :media_id');
     $delete = $db->prepare('DELETE FROM medias WHERE id = ?');
     $delete->execute(array($mediaId));
     $post = $delete->fetch();
-    header('location:medias-admin.php');
+    header('location:mediasAdmin.php');
     endif;
 endif;
 

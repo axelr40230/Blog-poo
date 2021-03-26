@@ -2,10 +2,10 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
     // connexion à la base de données
-    require_once('../models/database.php');
+    require_once('../../models/database.php');
     $db = getPdo();
 
     // mise à jour statut >> approuvé
@@ -19,7 +19,7 @@ else :
             'id'=> $commentId
         ));
 
-        header('location:comments-admin.php');
+        header('location:commentsAdmin.php');
 
         elseif ($_GET['action'] == 'delete') :
             $status = 'intrash';
@@ -30,7 +30,7 @@ else :
                 'id'=> $commentId
             ));
 
-            header('location:comments-admin.php');
+            header('location:commentsAdmin.php');
         endif;
     endif;
 endif;

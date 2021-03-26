@@ -2,7 +2,7 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 $author = $_SESSION['id'];
@@ -43,7 +43,7 @@ if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
             $type = 'image';
         }
         // connexion à la base de données
-        require_once('../models/database.php');
+        require_once('../../models/database.php');
         $db = getPdo();
         $add = $db->prepare('INSERT INTO medias(name_media, user_id, type_media, link, created_at) VALUES (:name_media, :user_id, :type_media, :link, NOW())');
         $add->execute(array(

@@ -2,7 +2,7 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 // Suppression des variables de session et de la session
@@ -13,6 +13,6 @@ session_destroy();
 setcookie('user', '');
 setcookie('pass', '');
 
-header('Location: login.php');
+header('Location: index.php?action=login');
 endif;
 

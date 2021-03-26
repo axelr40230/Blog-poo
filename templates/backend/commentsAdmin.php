@@ -3,11 +3,11 @@
 session_start();
 
 // connexion à la base de données
-require_once('../models/database.php');
+require_once('models/database.php');
 $db = getPdo();
 
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 // déclaration du fuseau
@@ -18,29 +18,8 @@ $message = '';
 //récupération de tous les commentaires
 $comments = find('comments');
 
-// Gestion des traductions
-require_once ('../models/functions.php')
-
-
-
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Interface d'administration - tous les commentaires</title>
-</head>
-<body>
 
-<p><a href="../index.php">Visiter le site</a></p>
-<p><a href="dashboard.php">Mon profil</a></p>
-<p><a href="posts-admin.php">Gérer les posts</a></p>
-<p><a href="medias-admin.php">Gérer les médias</a></p>
-<p><a href="comments-admin.php">Gérer commentaires</a></p>
-<p><a href="users-admin.php">Gérer les utilisateurs</a></p>
-<p><a href="logout.php">Se déconnecter</a></p>
-
-<H1>Interface d'administration - tous les commentaires</H1>
 <?= $message ?>
 
 <?php //boucle pour récupérer les commentaires ?>
@@ -68,7 +47,7 @@ if($comment['status'] == 'approuved' OR $comment['status'] == 'waiting') :
     <p>Posté le <?= $date ?></p>
     <?php //gestion de l'affichage des nom et prénom de l'auteur de l'article ?>
     <p>Par <?= $result['first_name'] ?> <?= $result['last_name'] ?></p>
-    <a href="../post.php?id=<?= $comment['article_id']?>">Voir l'article lié</a>
+    <a href="../../index.php?action=post&id=<?= $comment['article_id']?>">Voir l'article lié</a>
     </div>
 
     <div style="font-weight: bold;"><?= $comment['content'] ?></div>

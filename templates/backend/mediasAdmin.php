@@ -2,7 +2,7 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 $author = $_SESSION['id'];
@@ -11,30 +11,13 @@ $author = $_SESSION['id'];
 setlocale(LC_TIME, "fr_FR", "French");
 
 // connexion à la base de données
-    require_once('../models/database.php');
+    require_once('models/database.php');
     $db = getPdo();
 
 //récupération de tous les médias
 $medias = find('medias');
 
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Interface d'administration - tous les médias</title>
-</head>
-<body>
-
-<p><a href="../index.php">Visiter le site</a></p>
-<p><a href="dashboard.php">Mon profil</a></p>
-<p><a href="posts-admin.php">Gérer les posts</a></p>
-<p><a href="medias-admin.php">Gérer les médias</a></p>
-<p><a href="comments-admin.php">Gérer commentaires</a></p>
-<p><a href="users-admin.php">Gérer les utilisateurs</a></p>
-<p><a href="logout.php">Se déconnecter</a></p>
-
-<H1>Interface d'administration - tous les médias</H1>
 
 <p><a href="edit-media.php?authorId=<?= $author ?>&action=add">Ajouter un nouveau média</a></p>
 
@@ -58,7 +41,7 @@ $medias = find('medias');
 
 
     <h2><?= $media['name_media'] ?></h2>
-    <img src="../uploads/<?= $media['link'] ?>">
+    <img src="public/uploads/<?= $media['link'] ?>">
     <p>Ajouté le <?= $date ?></p>
 
         <?php //gestion de l'affichage des nom et prénom de l'auteur de l'article ?>

@@ -57,7 +57,7 @@ if(isset($_POST['commenter'])):
        <table>
         <tr>
             <th>
-                <a href="http://localhost/BLOG-POO-AR/projet%20blog%20alexandra%20OC/admin/comments-admin.php">Lien</a>
+                <a href="http://localhost/BLOG-POO-AR/projet%20blog%20alexandra%20OC/templates/backend/commentsAdmin.php">Lien</a>
             </th>
         </tr>
        </table>
@@ -97,8 +97,8 @@ endif;
 ?>
 
 
-<p><a href="index.php">Retour à l"accueil</a></p>
-<p><a href="posts.php">Page des posts</a></p>
+<p><a href="index.php?action=homePage">Retour à l'accueil</a></p>
+<p><a href="index.php?action=listPosts">Page des posts</a></p>
 
 <?php //Affichage de l'article ?>
 
@@ -215,6 +215,6 @@ endif;
 <?php else : ?>
 
     <h2>Vous devez être connecté pour commenter</h2>
-    <p><a href="admin/login.php">Se connecter</a></p>
+    <p><a href="templates/backend/login.php">Se connecter</a></p>
 
 <?php endif; ?>

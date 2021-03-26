@@ -2,17 +2,15 @@
 // lancement de la session
 session_start();
 if (!isset($_SESSION['id'])) :
-    header('Location: login.php');
+    header('Location: index.php?action=login');
 else :
 
 $author = $_SESSION['id'];
 
 // connexion à la base de données
-    require_once('../models/database.php');
+    require_once('models/database.php');
     $db = getPdo();
 
-// Gestion des traductions
-require_once ('../models/functions.php');
 
 $postId = $_GET['id'];
 $action = $_GET['action'];
@@ -31,6 +29,8 @@ $status = $post['status'];
 $modifyDate = $post['modify_at'];
 $modifyDate = strtotime("$modifyDate");
 $modifyDate = strftime('%A %d %B %Y',$modifyDate);
+
+$message = '';
 
 
 // ajout d'un nouvel article
@@ -146,7 +146,7 @@ if($action == 'edit') :
             'id'=> $postId
         ));
         $message = 'Le titre de l\'article a bien été modifié';
-            header('location:edit-article.php?id='.$postId .'&action=edit');
+            header('location:editArticle.php?id='.$postId .'&action=edit');
         else :
             $message = 'Petit souci';
         endif;
@@ -165,7 +165,7 @@ if($action == 'edit') :
                 'id'=> $postId
             ));
             $message = 'Le chapo de l\'article a bien été modifié';
-            header('location:edit-article.php?id='.$postId .'&action=edit');
+            header('location:editArticle.php?id='.$postId .'&action=edit');
         else :
             $message = 'Petit souci';
         endif;
@@ -182,7 +182,7 @@ if($action == 'edit') :
                 'id'=> $postId
             ));
             $message = 'Le contenu de l\'article a bien été modifié';
-            header('location:edit-article.php?id='.$postId .'&action=edit');
+            header('location:editArticle.php?id='.$postId .'&action=edit');
         else :
             $message = 'Petit souci';
         endif;
@@ -190,37 +190,10 @@ if($action == 'edit') :
 endif;
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-
-    <?php // cas 1 : mise à jour d'un article ?>
-
-    <?php if($action == 'add' AND $postId == 'null') : ?>
-    <title>Interface d'administration - Création d'un article</title>
-
-    <?php //cas 2 : ajout d'un article ?>
-    
-    <?php elseif($action == '') : ?>
-    <title>Interface d'administration - Gestion d'un article</title>
-
-    <?php endif; ?>
-
-</head>
-<body>
-
-<p><a href="../index.php">Visiter le site</a></p>
-<p><a href="dashboard.php">Mon profil</a></p>
-<p><a href="posts-admin.php">Gérer les posts</a></p>
-<p><a href="medias-admin.php">Gérer les médias</a></p>
-<p><a href="comments-admin.php">Gérer commentaires</a></p>
-<p><a href="users-admin.php">Gérer les utilisateurs</a></p>
-<p><a href="logout.php">Se déconnecter</a></p>
 
 <?php // cas 1 : mise à jour d'un article ?>
 
-<?php if($action == 'edit' AND isset($_GET['id'])) : ?>
+<?php if($action == 'editArticle' AND isset($_GET['id'])) : ?>
     <?php
 
     // récupération des infos
@@ -253,7 +226,7 @@ endif;
 
     <?php //cas 2 : ajout d'un article ?>
 
-<?php elseif($action == 'add' AND $postId == 'null') : ?>
+<?php elseif($action == 'addArticle' AND $postId == 'null') : ?>
     <h1>Interface d'administration - Création d'un article</h1>
 
     <form action="" method="post">

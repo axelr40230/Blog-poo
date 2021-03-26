@@ -2,11 +2,11 @@
 // lancement de la session
 session_start();
 if (isset($_SESSION['id'])) :
-    header('Location: admin.php');
+    header('Location: index.php?action=admin');
 endif;
 
 // connexion à la base de données
-require_once('../models/database.php');
+require('models/database.php');
 $db = getPdo();
 
 // initialisation messages alerte formulaires
@@ -44,12 +44,12 @@ if (isset($_POST['connexion'])) :
                 if (isset($_POST['souvenir'])) :
                     require '../cookies.php';
                     $req->closeCursor();
-                    header('location:admin.php');
+                    header('location:index.php?action=admin');
                     else :
                         $_SESSION['id']   = $result['id'];
                         $_SESSION['email'] = $email;
                         $req->closeCursor();
-                        header('location:admin.php');
+                        header('location:index.php?action=admin');
                 endif;
             endif;
         endif;

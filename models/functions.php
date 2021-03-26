@@ -1,13 +1,22 @@
 <?php
 
-function render(string $path)
+/** RENDER FUNCTION
+ * @param string $path
+ * @param array $variables
+ */
+function render(string $path, array $variables = [], string $folder) : void
 {
+    extract($variables);
     ob_start();
     require('templates/'.$path.'.php');
     $pageContent = ob_get_clean();
-    require('templates/layout.php');
+    require('templates/'.$folder.'/layout.php');
 }
 
+/** TRANSLATIONS
+ * @param $term
+ * @return string[][]
+ */
 function translate($term) : array
 {
     // Gestion des traductions
