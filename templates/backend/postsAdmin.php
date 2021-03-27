@@ -10,7 +10,12 @@ setlocale(LC_TIME, "fr_FR", "French");
 
 // connexion à la base de données
 require_once('models/database.php');
-$db = getPdo();
+require_once('models/Post.php');
+require_once('models/Comment.php');
+
+$postModel = new Post();
+$commentModel = new Comment();
+
 
 //récupération de tous les articles
 $posts = find('articles');
@@ -30,7 +35,7 @@ $posts = find('articles');
 $article_id = $post['id'];
 
 // récupération de l'auteur de l'article
-$author = authorArticle($article_id);
+$author = $postModel->author($article_id);
 
 
  // gestion de l'affichage de la date en français
@@ -54,7 +59,7 @@ $author = authorArticle($article_id);
 
     <?php //liens ?>
     <?php
-    $comments = listComment($article_id);
+    $comments = $commentModel->list($article_id);
     $count     = $comments->rowCount();
     ?>
     <p>Nombre de commentaires : <?= $count ?> // <a href="?action=commentByArticle&id=<?= $article_id ?>">Consulter les commentaires</a></p>

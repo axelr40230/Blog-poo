@@ -3,11 +3,19 @@ session_start();
 
 // connexion à la base de données
 require_once('models/database.php');
-$db = getPdo();
+require_once('models/Comment.php');
+require_once('models/Post.php');
+
+$postModel = new Post();
+$commentModel = new Comment();
+
 
 if (isset($_SESSION['id'])) :
     $idconnect = $_SESSION['id'];
 endif;
+
+$postModel = new Post();
+$commentModel = new Comment();
 
 $article_id = $_GET['id'];
 $post = find('articles');
@@ -94,7 +102,7 @@ endif;
 
 <?php if($article_id) :
 
-    $result = authorArticle($article_id);
+    $result = $postModel->author($article_id);
 
     ?>
     <h2><?= $post['title'] ?></h2>
@@ -105,7 +113,7 @@ endif;
     <?php //Affichage de des commentaires ?>
 
     <?php
-    $comments = listComment($article_id);
+    $comments = $commentModel->list($article_id);
     $count     = $comments->rowCount();
 
     if($count == 0) : ?>
@@ -125,7 +133,7 @@ endif;
             $date = strftime('%A %d %B %Y',$date);
             $id_author = $comment['author'];
             //var_dump($id_author);
-            $author = authorComment($id_author);
+            $author = $commentModel->author($id_author);
             //var_dump($result);
             ?>
             <p>Le <?= $date ?>, <?= $result['first_name'] ?> <?= $result['last_name'] ?> a écrit :</p>
