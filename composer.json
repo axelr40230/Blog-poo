@@ -1,0 +1,16 @@
+{
+    "name": "root/rooter",
+    "authors": [
+        {
+            "name": "arochette40230",
+            "email": "axelr.apl@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        },
+        "files": ["src/functions.php", "src/database.php"]
+    },
+    "require": {}
+}
