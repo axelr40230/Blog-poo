@@ -1,24 +1,29 @@
 <?php
 
-
 namespace App\Controller;
 
+use App\Table\PostTable;
 
-class PostsController
+class PostsController extends Controller
 {
+    /**
+     * @param $id
+     */
     public function show($id)
     {
-        echo "Je suis l'article $id";
+        $table = new PostTable();
+        $post = $table->one($id);
+        $pageTitle = $post->title;
+        $this->render('single', ['pageTitle' => $pageTitle, 'id'=>$id, 'post' => $post], 'frontend');
     }
 
-    public function all(){
-       $posts = \find('articles');
-       require 'templates/frontend/posts.php';
-    }
-
-    public function create()
+    /**
+     *
+     */
+    public function all()
     {
-        echo 'crée un article';
+        $table = new PostTable();
+        $pageTitle = 'Mes articles';
+        $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findAll()], 'frontend');
     }
-
 }

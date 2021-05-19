@@ -1,15 +1,13 @@
 <?php
 namespace App\Controller;
 
-class HomeController
+
+class HomeController extends Controller
 {
     public function home()
     {
-        echo 'Je suis la home';
+        $pageTitle = 'Accueil';
+        $this->render('index', ['pageTitle' => $pageTitle], 'frontend');
     }
 
-    public function hello($name)
-    {
-        echo $name;
-    }
 }
