@@ -11247,3 +11247,7 @@ body.sidebar-toggled footer.sticky-footer {
 #form-content {
   width: 100% !important;
 }
+
+.dog-write {
+  mix-blend-mode: multiply!important;
+}

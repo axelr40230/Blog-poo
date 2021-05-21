@@ -68,6 +68,7 @@ class Form
      * Création d'un champs de formulaire de type select -- A FINALISER // Creation of a form field of type select - TO FINALIZE
      * @param $for
      * @return string
+     * @todo Finaliser
      */
     public function select($for) : string
     {

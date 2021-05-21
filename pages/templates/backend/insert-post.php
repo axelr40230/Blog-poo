@@ -11,13 +11,13 @@ $trad = new App();
 
     <div class="row">
 
-        <section class="col-12">
+        <section class="col-12 col-md-6">
 
             <!-- Edit post -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h1 class="h3 mb-2 text-gray-800">
-                        <?php $trad->translate($pageTitle); ?>
+                        <?php echo $trad->translate($pageTitle); ?>
                     </h1>
                 </div>
                 <div class="card-body">
@@ -26,12 +26,12 @@ $trad = new App();
                             <form action="" method="post">
                                 <div class="p-2">
                                 <?php echo $form->label('title','Votre titre'); ?>
-                                <?php echo $form->input('title','w-100', 'text','title', 'email'); ?>
+                                <?php echo $form->input('title','form-control', 'text','title', 'Donnez un joli titre à votre article'); ?>
 
                                 </div>
                                 <div class="p-2">
                                 <?php echo $form->label('introduction','Ajouter une introduction'); ?>
-                                <?php echo $form->input('introduction','w-100','text', 'introduction'); ?>
+                                <?php echo $form->input('introduction','form-control','text', 'introduction', 'Une petite introduction pour donner envie de lire la suite'); ?>
                                 </div>
                                 <div class="p-2">
                                 <?php echo $form->label('content','Modifier le contenu'); ?>
@@ -46,6 +46,12 @@ $trad = new App();
                         </div>
                     </div>
                 </div>
+            </div>
+
+        </section>
+        <section class="col-12 col-md-6 d-none d-md-block">
+            <div class="dog-write">
+                <img src="<?= App::url('') ?>/public/images/admin/dog-write.jpg" alt="Rédiger un article" class="w-100">
             </div>
 
         </section>

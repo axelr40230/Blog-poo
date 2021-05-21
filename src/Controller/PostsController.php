@@ -24,6 +24,6 @@ class PostsController extends Controller
     {
         $table = new PostTable();
         $pageTitle = 'Mes articles';
-        $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findAll()], 'frontend');
+        $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findByStatus('publish')], 'frontend');
     }
 }

@@ -73,4 +73,13 @@ class PostTable extends Table
         echo 'all';
     }
 
+    public function howManyPosts()
+    {
+        $req = "SELECT * FROM {$this->getTable()}";
+        $query = App::db()->pdo()->query($req);
+
+
+        return $count = $query->rowCount();
+    }
+
 }

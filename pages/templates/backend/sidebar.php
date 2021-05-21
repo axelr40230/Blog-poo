@@ -47,13 +47,24 @@ use App\App;
 <!--                <a class="collapse-item" href="cards.html">Catégories</a>-->
             </div>
         </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+           aria-expanded="true" aria-controls="collapseThree">
+            <i class="fas fa-comment-dots"></i>
+            <span>Commentaires</span>
+        </a>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Gérer les commentaires</h6>
                 <a class="collapse-item" href="<?= App::url('admin/comments') ?>">Tous les commentaires</a>
             </div>
         </div>
     </li>
+
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">

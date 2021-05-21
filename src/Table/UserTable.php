@@ -85,4 +85,13 @@ class UserTable extends Table
         }
 
     }
+
+    public function howManyUsers()
+    {
+        $req = "SELECT * FROM {$this->getTable()}";
+        $query = App::db()->pdo()->query($req);
+
+
+        return $count = $query->rowCount();
+    }
 }

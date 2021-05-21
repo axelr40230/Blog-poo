@@ -1,7 +1,18 @@
 <?php
 
 use App\App;
-use App\Table\Table;
+use App\Table\CommentTable;
+use App\Table\UserTable;
+use App\Table\PostTable;
+
+$tableComments = new CommentTable();
+$numberComments = $tableComments->howManyWaiting('waiting');
+
+$tableUsers = new UserTable();
+$numberUsers = $tableUsers->howManyUsers();
+
+$tablePosts = new PostTable();
+$numberPosts = $tablePosts->howManyPosts();
 
 ?>
 <!-- Begin Page Content -->
@@ -45,10 +56,7 @@ use App\Table\Table;
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Nombre d'utilisateurs</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php
-
-                                //numberOf();
-                                ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $numberUsers; ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-skating fa-2x text-gray-300"></i>
@@ -71,7 +79,7 @@ use App\Table\Table;
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">10</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $numberPosts; ?></div>
                                 </div>
                             </div>
                         </div>
@@ -93,8 +101,8 @@ use App\Table\Table;
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Nombre de commentaires</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                Nombre de commentaires à approuver</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $numberComments; ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-comments fa-2x text-gray-300"></i>

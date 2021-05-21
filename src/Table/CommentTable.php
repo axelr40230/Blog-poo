@@ -59,4 +59,16 @@ class CommentTable extends Table
 
         return $count = $query->rowCount();
     }
+
+    public function howManyWaiting($status)
+    {
+        $req = "SELECT * FROM {$this->getTable()} WHERE status =:status";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute(array(
+                'status' => $status)
+        );
+
+        return $count = $query->rowCount();
+    }
 }
