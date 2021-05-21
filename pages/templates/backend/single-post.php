@@ -34,12 +34,12 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                             <form action="" method="post">
                                 <div class="p-2">
                                 <?php echo $form->label('title','Modifier le titre'); ?>
-                                <?php echo $form->input('title','form-control', 'text','title', $pageTitle); ?>
+                                <?php echo $form->input('title','form-control', 'text','title', $pageTitle, $pageTitle); ?>
 
                                 </div>
                                 <div class="p-2">
                                 <?php echo $form->label('introduction','Modifier l\'introduction'); ?>
-                                <?php echo $form->input('introduction','form-control','text', 'introduction', $post->introduction); ?>
+                                <?php echo $form->input('introduction','form-control','text', 'introduction', $post->introduction, $post->introduction); ?>
                                 </div>
                                 <div class="p-2">
                                 <?php echo $form->label('content','Modifier le contenu'); ?>
@@ -73,45 +73,43 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                             </p>
                                 <?php if($status_post == 'draft') : ?>
 
+                                    <?php echo $form->input('update','form-control','hidden', 'status', 'publish', $status_post); ?>
                                     <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100'); ?>
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">Split Button Success</span>
-                                    </a>
 
-                                    <?php echo $form->input('publish','form-control','hidden', 'status', 'publish'); ?>
+
+                                    <?php echo $form->input('publish','form-control','hidden', 'status', 'publish', 'publish'); ?>
                                     <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100'); ?>
 
 
-                                    <?php echo $form->input('intrash','w-100','hidden', 'status', 'intrash'); ?>
+                                    <?php echo $form->input('intrash','w-100','hidden', 'status', 'intrash', 'intrash'); ?>
                                     <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100'); ?>
 
 
                                 <?php elseif($status_post == 'publish') : ?>
 
+                                    <?php echo $form->input('update','form-control','hidden', 'status', 'publish', $status_post); ?>
                                     <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100'); ?>
 
-                                    <?php echo $form->input('draft','w-100','hidden', 'status', 'draft'); ?>
+                                    <?php echo $form->input('draft','w-100','hidden', 'status', 'draft', 'draft'); ?>
                                     <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100'); ?>
 
 
 
-                                    <?php echo $form->input('intrash','w-100','hidden', 'status', 'intrash'); ?>
+                                    <?php echo $form->input('intrash','w-100','hidden', 'status', 'intrash', 'intrash'); ?>
                                     <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100'); ?>
 
 
                                 <?php elseif($status_post == 'intrash') : ?>
 
+                                    <?php echo $form->input('update','form-control','hidden', 'status', 'publish', $status_post); ?>
                                     <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100'); ?>
 
-                                    <?php echo $form->input('draft','w-100','hidden', 'status', 'draft'); ?>
+                                    <?php echo $form->input('draft','w-100','hidden', 'status', 'draft','draft'); ?>
                                     <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100'); ?>
 
 
 
-                                    <?php echo $form->input('publish','w-100','hidden', 'status', 'publish'); ?>
+                                    <?php echo $form->input('publish','w-100','hidden', 'status', 'publish','publish'); ?>
                                     <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100'); ?>
                                 </form>
                             <?php endif; ?>

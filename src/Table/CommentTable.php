@@ -34,8 +34,29 @@ class CommentTable extends Table
         return $author->fetch();
     }
 
-    public function comments()
+    public function elements($id, $status)
     {
+        $req = "SELECT * FROM {$this->getTable()} WHERE article_id=:id AND status =:status";
+        $query = App::db()->pdo()->prepare($req);
 
+        $query->execute(array(
+            'id' => $id,
+                'status' => $status)
+        );
+        return $query->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
+
+    }
+
+    public function howManyComments($id, $status)
+    {
+        $req = "SELECT * FROM {$this->getTable()} WHERE article_id=:id AND status =:status";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute(array(
+                'id' => $id,
+                'status' => $status)
+        );
+
+        return $count = $query->rowCount();
     }
 }

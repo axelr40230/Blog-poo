@@ -88,7 +88,7 @@ use App\App;
 
     <!-- Sidebar Message -->
     <div class="sidebar-card">
-        <img class="sidebar-card-illustration mb-2" src="<?= App::url('/') ?>public/images/admin/undraw_rocket.svg" alt="">
+        <img class="sidebar-card-illustration mb-2" src="<?= App::url('') ?>public/images/admin/undraw_rocket.svg" alt="">
         <p class="text-center mb-2"><strong>Bienvenue</strong> dans votre administration !</p>
         <a class="btn btn-success btn-sm" href="<?= App::url('') ?>">Voir le site</a>
     </div>

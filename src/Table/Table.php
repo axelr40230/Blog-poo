@@ -40,11 +40,21 @@ abstract class Table
     {
         $result = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' WHERE id = ' . $id);
         $result->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
-        $post = $result->fetch();
-
-        return $post;
+        //var_dump($post = $result->fetch());
+        return $post = $result->fetch();
     }
 
+    public function findByStatus($status): array
+    {
+        $req = "SELECT * FROM {$this->getTable()} WHERE status =:status";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute(array(
+                'status' => $status)
+        );
+        return $query->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
+
+    }
 
 
 }

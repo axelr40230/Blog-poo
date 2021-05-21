@@ -79,10 +79,10 @@ class AdminController extends Controller
             $comment = $table->one($id);
             $pageTitle = 'Commentaire n°'.$comment->id;
             $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
-            elseif($type == 'user') :
-                $pageTitle = 'Editer l\'utilisateur';
-        $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
-            endif;
+        elseif($type == 'user') :
+            $pageTitle = 'Editer l\'utilisateur';
+    $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
+        endif;
     }
 
     public function new($type, $action)
@@ -119,12 +119,4 @@ class AdminController extends Controller
         $this->render('admin', ['pageTitle' => $pageTitle, 'user' => $user], 'backend');
     }
 
-    public function listPosts()
-    {
-        $table = $this->table('posts');
-        //var_dump($table);
-        $relation = $table->getRelation();
-
-
-    }
 }

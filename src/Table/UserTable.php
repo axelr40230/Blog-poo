@@ -34,6 +34,18 @@ class UserTable extends Table
         return $author->fetch();
     }
 
+    public function update($id, $data)
+    {
+        $req = "UPDATE {$this->getTable()} SET first_name=?, last_name=?, email=? WHERE id={$id}";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute([
+            $data['first_name'],
+            $data['last_name'],
+            $data['email']
+        ]);
+    }
+
     public function userAuth($data)
     {
         $email      = htmlspecialchars($data['email']);

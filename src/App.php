@@ -10,7 +10,7 @@ class App
     const DB_USER = 'root';
     const DB_PASS = '';
     const DB_HOST = 'localhost';
-    const URL_BLOG = 'http://localhost/BLOG-POO-AR/projet-blog-alexandra-OC/';
+    const URL_BLOG = 'http://localhost/BLOG-POO-AR/projet-blog-alexandra-OC';
 
     private static $database;
 

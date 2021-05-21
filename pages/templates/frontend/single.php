@@ -10,8 +10,17 @@
     $author = $infos->author($id_author);
 
     $date = $post->date_fr('long', 'created_at');
+    //var_dump($post->id);
+    $tableComments = new CommentTable();
+    $comments = $tableComments->elements($post->id, 'approuved');
+    $number = $tableComments->howManyComments($post->id, 'approuved');
 
-    $comments = new CommentTable();
+
+
+
+    //var_dump($comments);
+
+
 
     ?>
 
@@ -59,7 +68,25 @@
 
             <div class="comments-pan">
 
-                <h3>3 commentaires</h3>
+                <h3><?php
+
+                    if($number == 0) : ?>
+                        Aucun commentaire
+                    <?php
+
+                    elseif($number == 1) :
+                    echo $number; ?>
+                    commentaire
+
+                    <?php
+                    else :
+
+                    echo $number;
+
+                    ?> commentaires</h3>
+                    <?php endif; ?>
+
+
 
                 <ul class="comments-reply">
                     <?php
@@ -67,22 +94,26 @@
 
                     foreach ($comments as $comment)
                     {
-                        var_dump($comment);
+
+                        $table = new UserTable();
+                        $idAuthorComment = $comment->author;
+                        $authorComment = $table->author($idAuthorComment);
+                        //var_dump($comment);
                         ?>
 
                         <li>
 
                             <figure>
 
-                                <img src="../public/images/blog-images/image-1.jpg" alt="" class="img-responsive"/>
+                                <img src="../public/images/blog-images/image-1.png" alt="" class="img-responsive"/>
 
                             </figure>
 
                             <section>
 
-                                <h4><?= $comment->author; ?></h4>
+                                <h4><?php //echo $author ?></h4>
 
-                                <div class="date-pan"><?= $comment->created_at?></div>
+                                <div class="date-pan">Le <?= $dateComment = $comment->date_fr('long', 'created_at'); ?>, <?php echo $authorComment->first_name.' '.$authorComment->last_name; ?> à écrit</div>
                                 <?= $comment->comment ?>
 
                             </section>

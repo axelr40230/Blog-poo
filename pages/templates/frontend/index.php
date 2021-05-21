@@ -56,7 +56,7 @@ use App\App;
 
                     <figure>
 
-                        <img src="<?= App::url('/') ?>public/images/about-images/about-image-1.jpg" class="img-responsive"/>
+                        <img src="<?= App::url('') ?>public/images/about-images/about-image-1.jpg" class="img-responsive"/>
 
                         <figcaption>
 

@@ -9,7 +9,7 @@ use App\App;
 
     <h1>
 
-        <a href="<?= App::url('') ?>" title="avana LLC"><img src="<?= App::url('/') ?>public/images/logo.png" title="avana LLC" alt="avana LLC"/></a>
+        <a href="<?= App::url('') ?>" title="avana LLC"><img src="<?= App::url('') ?>public/images/logo.png" title="avana LLC" alt="avana LLC"/></a>
 
     </h1>
 
@@ -53,28 +53,28 @@ use App\App;
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
-<script src="<?= App::url('/') ?>public/js/jquery.min.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/jquery.min.js" type="text/javascript"></script>
 
 <!-- custom -->
 
-<script src="<?= App::url('/') ?>public/js/nav.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/nav.js" type="text/javascript"></script>
 
-<script src="<?= App::url('/') ?>public/js/custom.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/custom.js" type="text/javascript"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 
-<script src="<?= App::url('/') ?>public/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/bootstrap.min.js" type="text/javascript"></script>
 
-<script src="<?= App::url('/') ?>public/js/effects/masonry.pkgd.min.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/effects/masonry.pkgd.min.js" type="text/javascript"></script>
 
-<script src="<?= App::url('/') ?>public/js/effects/imagesloaded.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/effects/imagesloaded.js" type="text/javascript"></script>
 
-<script src="<?= App::url('/') ?>public/js/effects/classie.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/effects/classie.js" type="text/javascript"></script>
 
-<script src="<?= App::url('/') ?>public/js/effects/AnimOnScroll.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/effects/AnimOnScroll.js" type="text/javascript"></script>
 
-<script src="<?= App::url('/') ?>public/js/effects/modernizr.custom.js"></script>
+<script src="<?= App::url('') ?>public/js/effects/modernizr.custom.js"></script>
 
 <!-- jquery.countdown -->
 
-<script src="<?= App::url('/') ?>public/js/html5shiv.js" type="text/javascript"></script>
+<script src="<?= App::url('') ?>public/js/html5shiv.js" type="text/javascript"></script>

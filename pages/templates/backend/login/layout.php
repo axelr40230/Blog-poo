@@ -21,7 +21,7 @@ use App\App;
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="<?= App::url('/') ?>public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?= App::url('') ?>public/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
