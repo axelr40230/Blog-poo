@@ -4,6 +4,9 @@
     use App\App;
     use App\Table\UserTable;
     use App\Table\CommentTable;
+    use App\Form;
+
+    $form = new Form(array());
 
     $infos = new UserTable();
     $id_author = $post->author;
@@ -135,39 +138,23 @@
 
                     <div class="row">
 
-                        <form action="" method="get">
+                        <form action="" method="post">
 
-
-
-                            <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                <input name="" type="text" placeholder="Quel est votre nom ? *">
-
-                            </div>
-
-                            <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                <input name="" type="email" placeholder="Votre email ? *">
-
-                            </div>
-
-                            <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                <input name="" type="url" placeholder="Un site web peut-être ?">
-
-                            </div>
 
                             <div class="clearfix"></div>
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
 
-                                <textarea name="" cols="" rows="" placeholder="Votre com'"></textarea>
+<!--                                <textarea name="" cols="" rows="" placeholder="Votre com'"></textarea>-->
+                                <?php echo $form->textarea('', 'comment', 'Votre com\''); ?>
+
 
                             </div>
 
                             <div class="text-center">
 
-                                <input name="" type="button" value="Envoyer le com'">
+<!--                                <input name="" type="button" value="Envoyer le com'">-->
+                                <?php echo $form->submit('Envoyer le com\'', 'addComment', ''); ?>
 
                             </div>
 

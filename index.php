@@ -10,6 +10,7 @@ $router->get('/posts', 'PostsController@all');
 $router->get('/contact', 'GlobalController@contact');
 $router->get('/404', 'GlobalController@notFound');
 $router->get('/posts/:id', 'PostsController@show', 'posts.show')->with('id', '[0-9]+');
+$router->post('/posts/:id', 'PostsController@addComment', 'posts.addComment')->with('id', '[0-9]+');
 
 // ROUTER ADMIN - global
 $router->get('/404-admin', 'AdminController@notFound');

@@ -58,9 +58,9 @@ class Form
      * @param $name
      * @return string
      */
-    public function textarea($content, $name) : string
+    public function textarea($content, $name, $placeholder = null) : string
     {
-        return $this->surround('<textarea id="form-content" name="'. $name .'">'. $content .'</textarea>');
+        return $this->surround('<textarea id="form-content" name="'. $name .'" placeholder="'. $placeholder .'">'. $content .'</textarea>');
     }
 
 

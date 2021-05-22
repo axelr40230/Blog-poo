@@ -26,4 +26,15 @@ class PostsController extends Controller
         $pageTitle = 'Mes articles';
         $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findByStatus('publish')], 'frontend');
     }
+
+    /**
+     * @param $id
+     * @todo A finaliser
+     */
+    public function addComment($id)
+    {
+        $data = $_POST;
+        var_dump($data);
+        var_dump($id);
+    }
 }
