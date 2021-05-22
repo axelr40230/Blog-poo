@@ -57,7 +57,7 @@ $trad = new App();
                             Le <?= $date; ?>
                         </td>
                         <td>
-                            <a class="text-info" href="<?= $comment->url(); ?>">Modifier</a>
+                            <a class="text-info" href="<?= $comment->url(); ?>">Consulter</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

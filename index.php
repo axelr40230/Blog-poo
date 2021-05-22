@@ -14,11 +14,13 @@ $router->post('/posts/:id', 'PostsController@addComment', 'posts.addComment')->w
 
 // ROUTER ADMIN - global
 $router->get('/404-admin', 'AdminController@notFound');
-$router->get('/login', 'AdminController@login');
-$router->post('/login', 'AdminController@connect', 'admin.connect');
-$router->get('/register', 'AdminController@register');
-$router->get('/forgot-password', 'AdminController@forgotpassword');
 $router->get('/admin', 'AdminController@admin');
+
+// ROUTER LOGIN
+$router->get('/login', 'LoginController@login');
+$router->post('/login', 'LoginController@connect', 'login.connect');
+$router->get('/register', 'LoginController@register');
+$router->get('/forgot-password', 'LoginController@forgotpassword');
 
 // ROUTER POSTS - global
 $router->get('/admin/:posts', 'PostsController@list', 'posts.list')->with('posts', '([a-z\-0-9]+)');
