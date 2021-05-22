@@ -20,13 +20,27 @@ $router->get('/register', 'AdminController@register');
 $router->get('/forgot-password', 'AdminController@forgotpassword');
 $router->get('/admin', 'AdminController@admin');
 
-$router->get('/admin/:type', 'AdminController@list', 'admin.list')->with('type', '([a-z\-0-9]+)');
-$router->get('/admin/:type/:id', 'AdminController@edit', 'admin.edit')->with('type', '([a-z\-0-9]+)')->with('id', '[0-9]+');
-$router->post('/admin/:type/:id', 'AdminController@update', 'admin.update')->with('type', '([a-z\-0-9]+)')->with('id', '[0-9]+');
-$router->get('/admin/:type/:action', 'AdminController@new', 'admin.new')->with('type', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
-$router->post('/admin/:type/:action', 'AdminController@insert', 'admin.insert')->with('type', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
+// ROUTER POSTS - global
+$router->get('/admin/:posts', 'PostsController@list', 'posts.list')->with('posts', '([a-z\-0-9]+)');
+$router->get('/admin/:posts/:id', 'PostsController@edit', 'posts.edit')->with('posts', '([a-z\-0-9]+)')->with('id', '[0-9]+');
+$router->post('/admin/:posts/:id', 'PostsController@update', 'posts.update')->with('posts', '([a-z\-0-9]+)')->with('id', '[0-9]+');
+$router->get('/admin/:posts/:action', 'PostsController@new', 'posts.new')->with('posts', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
+$router->post('/admin/:posts/:action', 'PostsController@insert', 'posts.insert')->with('posts', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
 
-//$router->get('/admin/posts', 'AdminController@listPosts', 'admin.listPosts');
+// ROUTER USERS - global
+$router->get('/admin/:users', 'UsersController@list', 'users.list')->with('users', '([a-z\-0-9]+)');
+$router->get('/admin/:users/:id', 'UsersController@edit', 'users.edit')->with('users', '([a-z\-0-9]+)')->with('id', '[0-9]+');
+$router->post('/admin/:users/:id', 'UsersController@update', 'users.update')->with('users', '([a-z\-0-9]+)')->with('id', '[0-9]+');
+$router->get('/admin/:users/:action', 'UsersController@new', 'users.new')->with('users', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
+$router->post('/admin/:users/:action', 'UsersController@insert', 'users.insert')->with('users', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
+
+// ROUTER COMMENTS - global
+$router->get('/admin/:comments', 'CommentsController@list', 'comments.list')->with('comments', '([a-z\-0-9]+)');
+$router->get('/admin/:comments/:id', 'CommentsController@edit', 'comments.edit')->with('comments', '([a-z\-0-9]+)')->with('id', '[0-9]+');
+$router->post('/admin/:comments/:id', 'CommentsController@update', 'comments.update')->with('comments', '([a-z\-0-9]+)')->with('id', '[0-9]+');
+$router->get('/admin/:comments/:action', 'CommentsController@new', 'comments.new')->with('comments', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
+$router->post('/admin/:comments/:action', 'CommentsController@insert', 'comments.insert')->with('comments', '([a-z\-0-9]+)')->with('action', '([a-z\-0-9]+)');
+
 
 $router->run();
 exit;

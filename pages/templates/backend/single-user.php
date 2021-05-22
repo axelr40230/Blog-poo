@@ -47,6 +47,7 @@ $date = $user->date_fr('exact', 'created_at');
                                     <?php echo $form->input('password','form-control', 'password','password'); ?>
                                 </div>
                                 <div class="p-2">
+                                    <?php /* @todo  A finaliser pour la gestion du nouveau mot de passe */?>
                                     <?php echo $form->label('password','Confirmer le mot de passe'); ?>
                                     <?php echo $form->input('password','form-control', 'password','password'); ?>
                                 </div>

@@ -8,7 +8,7 @@ use App\App;
 class AdminController extends Controller
 {
 
-    private function table($type)
+    public function table($type)
     {
         $type = ucfirst($type);
         $type = rtrim($type,'s');
@@ -53,60 +53,6 @@ class AdminController extends Controller
     {
         $pageTitle = 'Page introuvable';
         $this->render('404', ['pageTitle' => $pageTitle], 'backend');
-    }
-
-    public function list($type)
-    {
-        $table = $this->table($type);
-        $trad = new App();
-        $pageTitle = $trad->translate($type);
-        $table = $table->findAll();
-        //var_dump($table);exit();
-        $this->render($type, ['pageTitle' => $pageTitle, $type => $table], 'backend');
-    }
-
-    public function edit($type, $id)
-    {
-        $type = rtrim($type,'s');
-        $name = $type;
-        $table = $this->table($type);
-        $post = $table->one($id);
-        if($type == 'post') :
-            $post = $table->one($id);
-            $pageTitle = $post->title;
-            $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
-        elseif($type == 'comment') :
-            $comment = $table->one($id);
-            $pageTitle = 'Commentaire n°'.$comment->id;
-            $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
-        elseif($type == 'user') :
-            $pageTitle = 'Editer l\'utilisateur';
-    $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
-        endif;
-    }
-
-    public function new($type, $action)
-    {
-        $type = rtrim($type,'s');
-        $name = $type;
-        $pageTitle = $action.' '.$type;
-        $this->render('insert-'.$name, ['pageTitle' => $pageTitle ], 'backend');
-    }
-
-    public function update($type, $id)
-    {
-        $data = $_POST;
-        $table = $this->table($type);
-        $table->update($id, $data);
-        header("Refresh:0");
-    }
-
-    public function insert($type, $action)
-    {
-        $data = $_POST;
-        $table = $this->table($type);
-        $table->insert($data);
-        header("Refresh:0");
     }
 
     public function connect()
