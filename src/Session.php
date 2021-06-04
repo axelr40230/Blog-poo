@@ -42,7 +42,8 @@ class Session
         $_SESSION[$key] = $value;
     }
 
-    static public function destroy(){
+    static public function destroy()
+    {
         self::setInstance('id');
         self::setInstance('first_name');
         self::setInstance('last_name');

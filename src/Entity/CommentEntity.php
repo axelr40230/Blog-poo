@@ -20,9 +20,8 @@ class CommentEntity extends Entity
      */
     public function url()
     {
-        return 'comments/'.$this->id;
+        return 'comments/' . $this->id;
     }
-
 
 
 }

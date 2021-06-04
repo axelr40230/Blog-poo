@@ -11,28 +11,23 @@ class PostsController extends Controller
     private function table($posts)
     {
         $posts = ucfirst($posts);
-        $posts = rtrim($posts,'s');
-        $table = "App\Table\\".$posts."Table";
+        $posts = rtrim($posts, 's');
+        $table = "App\Table\\" . $posts . "Table";
 
         return $table = new $table();
     }
-    
+
     /**
      * @param $id
      */
     public function show($id)
     {
-        $isConnect = Auth::isAuth();
-        if($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $table = new PostTable();
-            $post = $table->one($id);
-            $pageTitle = $post->title;
-            $this->render('single', ['pageTitle' => $pageTitle, 'id' => $id, 'post' => $post], 'frontend');
-        }
+
+        $table = new PostTable();
+        $post = $table->one($id);
+        $pageTitle = $post->title;
+        $this->render('single', ['pageTitle' => $pageTitle, 'id' => $id, 'post' => $post], 'frontend');
+
     }
 
     /**
@@ -77,7 +72,7 @@ class PostsController extends Controller
     public function list()
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();
@@ -94,7 +89,7 @@ class PostsController extends Controller
     public function edit($id)
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();
@@ -111,7 +106,7 @@ class PostsController extends Controller
     public function new($action)
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();

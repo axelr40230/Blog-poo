@@ -1,5 +1,7 @@
 <?php
+
 use App\App;
+
 ?>
 <!-- footer -->
 
@@ -9,7 +11,8 @@ use App\App;
 
     <h1>
 
-        <a href="<?= App::url('') ?>" title="avana LLC"><img src="<?= App::url('') ?>public/images/logo.png" title="avana LLC" alt="avana LLC"/></a>
+        <a href="<?= App::url('') ?>" title="avana LLC"><img src="<?= App::url('') ?>public/images/logo.png"
+                                                             title="avana LLC" alt="avana LLC"/></a>
 
     </h1>
 
@@ -43,12 +46,11 @@ use App\App;
 
     </ul>
 
-    <p class="copy-right">&copy; 2021  Alexandra Rochette.. Tous droits réservés</p>
+    <p class="copy-right">&copy; 2021 Alexandra Rochette.. Tous droits réservés</p>
 
 </footer>
 
 <!-- footer -->
-
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

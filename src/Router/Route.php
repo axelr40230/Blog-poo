@@ -2,7 +2,8 @@
 
 namespace App\Router;
 
-class Route {
+class Route
+{
 
     private $path;
     private $callable;
@@ -38,13 +39,13 @@ class Route {
      * @param $url
      * @return bool
      */
-    public function match($url) : bool
+    public function match($url): bool
     {
         $url = trim($url, '/');
         //var_dump($url);
         $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->path);
         $regex = "#^$path$#i";
-        if(!preg_match($regex, $url, $matches)){
+        if (!preg_match($regex, $url, $matches)) {
             return false;
         }
         array_shift($matches);
@@ -58,9 +59,9 @@ class Route {
      * @param $match
      * @return string
      */
-    private function paramMatch($match) : string
+    private function paramMatch($match): string
     {
-        if(isset($this->params[$match[1]])){
+        if (isset($this->params[$match[1]])) {
             return '(' . $this->params[$match[1]] . ')';
         }
         return '([^/]+)';
@@ -72,7 +73,7 @@ class Route {
      */
     public function call()
     {
-        if(is_string($this->callable)){
+        if (is_string($this->callable)) {
             $params = explode('@', $this->callable);
             $controller = "App\\Controller\\" . $params[0];
             $controller = new $controller();
@@ -90,7 +91,7 @@ class Route {
     public function getUrl($params)
     {
         $path = $this->path;
-        foreach($params as $k => $v){
+        foreach ($params as $k => $v) {
             $path = str_replace(":$k", $v, $path);
         }
         return $path;

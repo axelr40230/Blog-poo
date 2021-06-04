@@ -41,7 +41,7 @@ class PostTable extends Table
             session::getInstance('id')
         ]);
 
-        if($query == false) {
+        if ($query == false) {
             var_dump($query->errorInfo());
             exit();
         }

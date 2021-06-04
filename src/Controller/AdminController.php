@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\App;
@@ -9,7 +10,7 @@ class AdminController extends Controller
     public function admin()
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();

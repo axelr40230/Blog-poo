@@ -11,19 +11,19 @@ class UsersController extends Controller
     private function table($users)
     {
         $users = ucfirst($users);
-        $users = rtrim($users,'s');
-        $table = "App\Table\\".$users."Table";
+        $users = rtrim($users, 's');
+        $table = "App\Table\\" . $users . "Table";
 
         return $table = new $table();
     }
-    
+
     /**
      * @param $id
      */
     public function show($id)
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();
@@ -75,7 +75,7 @@ class UsersController extends Controller
     public function list()
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();
@@ -92,7 +92,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();

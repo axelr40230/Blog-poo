@@ -27,7 +27,7 @@ class CommentTable extends Table
      */
     public function author(int $id_author)
     {
-        $author = App::db()->pdo()->prepare('SELECT * FROM '.$this->getTable().' WHERE id = ?');
+        $author = App::db()->pdo()->prepare('SELECT * FROM ' . $this->getTable() . ' WHERE id = ?');
         $author->execute(array($id_author));
         $author->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
 
@@ -40,7 +40,7 @@ class CommentTable extends Table
         $query = App::db()->pdo()->prepare($req);
 
         $query->execute(array(
-            'id' => $id,
+                'id' => $id,
                 'status' => $status)
         );
         return $query->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());

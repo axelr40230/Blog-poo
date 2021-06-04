@@ -29,7 +29,7 @@ class UserTable extends Table
      */
     public function author(string $id_author)
     {
-        $author = App::db()->pdo()->prepare('SELECT * FROM '.$this->getTable().' WHERE id = ?');
+        $author = App::db()->pdo()->prepare('SELECT * FROM ' . $this->getTable() . ' WHERE id = ?');
         $author->execute(array($id_author));
         $author->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
 
@@ -51,9 +51,9 @@ class UserTable extends Table
     public function userAuth($data)
     {
         //var_dump($data);exit();
-        if(isset($data) AND !empty($data['email']) AND !empty($data['password'])) {
-            $email      = htmlspecialchars($data['email']);
-            $password      = htmlspecialchars($data['password']);
+        if (isset($data) and !empty($data['email']) and !empty($data['password'])) {
+            $email = htmlspecialchars($data['email']);
+            $password = htmlspecialchars($data['password']);
             $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
             $query = App::db()->pdo()->prepare($req);
 
@@ -61,23 +61,23 @@ class UserTable extends Table
                     'email' => $email)
             );
 
-            $count     = $query->rowCount();
+            $count = $query->rowCount();
             $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
             $user = $query->fetch();
 
             //var_dump($user);
 
-            if($count == 0){
+            if ($count == 0) {
                 return false;
             } else {
                 $pass = $password;
-                $hash              = $user->password;
+                $hash = $user->password;
                 //var_dump($hash);
                 $isPasswordCorrect = password_verify($pass, $hash);
 
-                if(!$isPasswordCorrect) {
+                if (!$isPasswordCorrect) {
                     return false;
-                }else{
+                } else {
                     //$session = session::instance();
 
                     session::setInstance('id', $user->id);
@@ -90,9 +90,9 @@ class UserTable extends Table
                     return session::getInstance('id');
                 }
             }
-            } else {
-                return false;
-            }
+        } else {
+            return false;
+        }
 
 
     }
@@ -101,9 +101,9 @@ class UserTable extends Table
     {
         $first_name = htmlspecialchars($data['first_name']);
         $last_name = htmlspecialchars($data['last_name']);
-        $email      = htmlspecialchars($data['email']);
-        $password      = htmlspecialchars($data['password']);
-        $password_confirmed      = htmlspecialchars($data['password_confirmed']);
+        $email = htmlspecialchars($data['email']);
+        $password = htmlspecialchars($data['password']);
+        $password_confirmed = htmlspecialchars($data['password_confirmed']);
         $status = 'user';
 
         $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
@@ -113,23 +113,23 @@ class UserTable extends Table
                 'email' => $email)
         );
 
-        $count     = $query->rowCount();
+        $count = $query->rowCount();
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
 
-        if($count != 0){
+        if ($count != 0) {
             return false;
-        }elseif($password != $password_confirmed){
+        } elseif ($password != $password_confirmed) {
             return false;
-        }else{
+        } else {
             $options = [
                 'cost' => 10,
             ];
-            $pass_hash  = password_hash($password, PASSWORD_DEFAULT, $options);
+            $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
             // Le message
 
             $token = uniqid();
-            $url = App::url('').'/admin/confirm?token='.$token;
+            $url = App::url('') . '/admin/confirm?token=' . $token;
             $message = "Bonjour $first_name \r\nMerci de confirmer votre inscription en suivant ce lien : $url\r\nA très bientôt";
 
             $message = wordwrap($message, 70, "\r\n");
@@ -160,11 +160,11 @@ class UserTable extends Table
                 'email' => $email)
         );
 
-        $count     = $query->rowCount();
-        if($count == 0) {
+        $count = $query->rowCount();
+        if ($count == 0) {
             return false;
         } else {
-            $url = App::url('').'/admin/confirm?email='.$email;
+            $url = App::url('') . '/admin/confirm?email=' . $email;
             $message = "Bonjour \r\nMerci d'utiliser ce lien pour réinitialiser votre mot de passe' : $url\r\nA très bientôt";
 
             $message = wordwrap($message, 70, "\r\n");

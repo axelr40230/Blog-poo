@@ -8,3 +8,5 @@
 /package.json
 /.htaccess
 /composer.json
+/.idea/webServers.xml
+/.idea/deployment.xml

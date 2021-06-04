@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\App;
@@ -10,8 +11,8 @@ class LoginController extends Controller
     private function table($posts)
     {
         $posts = ucfirst($posts);
-        $posts = rtrim($posts,'s');
-        $table = "App\Table\\".$posts."Table";
+        $posts = rtrim($posts, 's');
+        $table = "App\Table\\" . $posts . "Table";
 
         return $table = new $table();
     }
@@ -19,7 +20,7 @@ class LoginController extends Controller
     public function login()
     {
         $isConnect = Auth::isAuth();
-        if($isConnect == false) {
+        if ($isConnect == false) {
             $errors = [];
             $pageTitle = 'Connexion au back office';
             $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
@@ -40,12 +41,12 @@ class LoginController extends Controller
         $data = $_POST;
         $table = $this->table('users');
         $user = $table->userVerif($data);
-        if ($user == false){
+        if ($user == false) {
             $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance !';
             //echo $errors;exit();
             $pageTitle = 'Créer un compte';
             $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
-        }else{
+        } else {
             $errors = 'Votre compte a bien été créé, vous devez le valider grâce à l\'email que nous venons de vous envoyer';
             $pageTitle = 'Connexion au back office';
             $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
@@ -65,12 +66,12 @@ class LoginController extends Controller
         $data = $_POST;
         $table = $this->table('users');
         $user = $table->emailVerif($data);
-        if ($user == false){
+        if ($user == false) {
             $errors = 'Nous n\'avons pas trouvé cet email';
             //echo $errors;exit();
             $pageTitle = 'Créer un compte';
             $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
-        }else{
+        } else {
             $errors = 'Un email vous a été envoyé';
             $pageTitle = 'Demande envoyée';
             $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
@@ -83,12 +84,12 @@ class LoginController extends Controller
         $data = $_POST;
         $table = $this->table('users');
         $user = $table->userAuth($data);
-        if ($user == false){
+        if ($user == false) {
             $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance ou créez un compte !';
             //echo $errors;exit();
             $pageTitle = 'Connexion au back office';
             $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
-        }else{
+        } else {
             $this->goAdmin();
         }
     }
@@ -100,7 +101,8 @@ class LoginController extends Controller
         exit();
     }
 
-    public function logout(){
+    public function logout()
+    {
         session::destroy();
         //var_dump(session::getInstance('id'));
         $url = App::url('login');

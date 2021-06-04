@@ -20,9 +20,8 @@ class UserEntity extends Entity
      */
     public function url()
     {
-        return 'users/'.$this->id;
+        return 'users/' . $this->id;
     }
-
 
 
 }

@@ -17,9 +17,9 @@ class App
     /**
      * @return Database
      */
-    public static function db() : Database
+    public static function db(): Database
     {
-        if(self::$database === null) {
+        if (self::$database === null) {
             self::$database = new Database(self::DB_NAME, self::DB_USER, self::DB_PASS, self::DB_HOST);
         }
 
@@ -31,11 +31,11 @@ class App
      * @param string $path
      * @return string
      */
-    public static function url($path = '') : string
+    public static function url($path = ''): string
     {
         $origin = self::URL_BLOG;
 
-        return $origin.'/'.$path;
+        return $origin . '/' . $path;
     }
 
 
@@ -61,7 +61,7 @@ class App
             'comments' => 'Commentaires',
         );
 
-        if(array_key_exists($term,$trad)){
+        if (array_key_exists($term, $trad)) {
             return $trad[$term];
         }
 

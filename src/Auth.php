@@ -6,8 +6,9 @@ namespace App;
 
 class Auth
 {
-    public static function isAuth(){
-        if(is_null(session::getInstance('id'))){
+    public static function isAuth()
+    {
+        if (is_null(session::getInstance('id'))) {
 
             return false;
         } else {

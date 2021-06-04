@@ -23,7 +23,7 @@ class Form
      * @param $html
      * @return string
      */
-    private function surround($html) : string
+    private function surround($html): string
     {
         return "<{$this->surround}>$html</{$this->surround}>";
     }
@@ -34,9 +34,9 @@ class Form
      * @param $content
      * @return string
      */
-    public function label($for, $content, $class = null) : string
+    public function label($for, $content, $class = null): string
     {
-        return '<label for="'. $for .'" class="'. $class .'">'. $content .'</label>';
+        return '<label for="' . $for . '" class="' . $class . '">' . $content . '</label>';
     }
 
     /** Création de champs de formulaire de type input // Creating input type form fields
@@ -49,7 +49,7 @@ class Form
      */
     public function input($for, $class, $type, $name, $placeholder = null, $value = null)
     {
-        return '<input id="'. $for .'" class="'. $class .'" type="'. $type .'" value="'. $value .'" name="'. $name .'" placeholder="'. $placeholder .'">';
+        return '<input id="' . $for . '" class="' . $class . '" type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '">';
     }
 
     /**
@@ -58,9 +58,9 @@ class Form
      * @param $name
      * @return string
      */
-    public function textarea($content, $name, $placeholder = null) : string
+    public function textarea($content, $name, $placeholder = null): string
     {
-        return $this->surround('<textarea id="form-content" name="'. $name .'" placeholder="'. $placeholder .'">'. $content .'</textarea>');
+        return $this->surround('<textarea id="form-content" name="' . $name . '" placeholder="' . $placeholder . '">' . $content . '</textarea>');
     }
 
 
@@ -70,11 +70,11 @@ class Form
      * @return string
      * @todo Finaliser
      */
-    public function select($for) : string
+    public function select($for): string
     {
         return $this->surround('
         <div class="form-group">
-                        <select class="form-control form-control-solid" id="'. $for .'">
+                        <select class="form-control form-control-solid" id="' . $for . '">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -92,8 +92,8 @@ class Form
      * @param $class
      * @return string
      */
-    public function submit($content, $name, $class) : string
+    public function submit($content, $name, $class): string
     {
-        return $this->surround('<button class="'. $class .'" type="submit" name="'. $name .'">'. $content .'</button>');
+        return $this->surround('<button class="' . $class . '" type="submit" name="' . $name . '">' . $content . '</button>');
     }
 }
