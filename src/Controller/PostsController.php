@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\App;
+use App\Auth;
 use App\Table\PostTable;
 
 class PostsController extends Controller
@@ -21,10 +22,17 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $table = new PostTable();
-        $post = $table->one($id);
-        $pageTitle = $post->title;
-        $this->render('single', ['pageTitle' => $pageTitle, 'id'=>$id, 'post' => $post], 'frontend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $table = new PostTable();
+            $post = $table->one($id);
+            $pageTitle = $post->title;
+            $this->render('single', ['pageTitle' => $pageTitle, 'id' => $id, 'post' => $post], 'frontend');
+        }
     }
 
     /**
@@ -48,47 +56,70 @@ class PostsController extends Controller
         var_dump($id);
     }
 
-    public function update($posts, $id)
+    public function update($id)
     {
         $data = $_POST;
-        $table = $this->table($posts);
+        $table = $this->table('posts');
         $table->update($id, $data);
         header("Refresh:0");
     }
 
-    public function insert($posts, $action)
+    public function insert($action)
     {
         $data = $_POST;
-        $table = $this->table($posts);
-        $table->insert($data);
-        header("Refresh:0");
+        $table = $this->table('posts');
+        $postId = $table->insert($data);
+        $url = App::url("admin/posts/{$postId}");
+        header("Location: {$url}");
+        exit();
     }
 
-    public function list($posts)
+    public function list()
     {
-        $table = $this->table($posts);
-        $trad = new App();
-        $pageTitle = $trad->translate($posts);
-        $table = $table->findAll();
-        //var_dump($table);exit();
-        $this->render($posts, ['pageTitle' => $pageTitle, $posts => $table], 'backend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $table = $this->table('posts');
+            $trad = new App();
+            $pageTitle = $trad->translate('posts');
+            $table = $table->findAll();
+            //var_dump($table);exit();
+            $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+        }
     }
 
-    public function edit($posts, $id)
+    public function edit($id)
     {
-        $posts = rtrim($posts,'s');
-        $name = $posts;
-        $table = $this->table($posts);
-        $post = $table->one($id);
-        $pageTitle = $post->title;
-        $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $post ], 'backend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $posts = rtrim('posts', 's');
+            $name = $posts;
+            $table = $this->table($posts);
+            $post = $table->one($id);
+            $pageTitle = $post->title;
+            $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $post], 'backend');
+        }
     }
 
-    public function new($posts, $action)
+    public function new($action)
     {
-        $posts = rtrim($posts,'s');
-        $name = $posts;
-        $pageTitle = $action.' '.$posts;
-        $this->render('insert-'.$name, ['pageTitle' => $pageTitle ], 'backend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $posts = rtrim('posts', 's');
+            $name = $posts;
+            $pageTitle = $action . ' ' . $posts;
+            $this->render('insert-' . $name, ['pageTitle' => $pageTitle], 'backend');
+        }
     }
 }

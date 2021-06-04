@@ -4,6 +4,8 @@ namespace App\Table;
 
 use App\App;
 use App\Entity\UserEntity;
+use App\FormValidator;
+use App\Session;
 
 class UserTable extends Table
 {
@@ -48,42 +50,127 @@ class UserTable extends Table
 
     public function userAuth($data)
     {
+        //var_dump($data);exit();
+        if(isset($data) AND !empty($data['email']) AND !empty($data['password'])) {
+            $email      = htmlspecialchars($data['email']);
+            $password      = htmlspecialchars($data['password']);
+            $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
+            $query = App::db()->pdo()->prepare($req);
+
+            $query->execute(array(
+                    'email' => $email)
+            );
+
+            $count     = $query->rowCount();
+            $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+            $user = $query->fetch();
+
+            //var_dump($user);
+
+            if($count == 0){
+                return false;
+            } else {
+                $pass = $password;
+                $hash              = $user->password;
+                //var_dump($hash);
+                $isPasswordCorrect = password_verify($pass, $hash);
+
+                if(!$isPasswordCorrect) {
+                    return false;
+                }else{
+                    //$session = session::instance();
+
+                    session::setInstance('id', $user->id);
+                    session::setInstance('first_name', $user->first_name);
+                    session::setInstance('last_name', $user->last_name);
+                    session::setInstance('email', $user->email);
+
+                    //var_dump($user);
+
+                    return session::getInstance('id');
+                }
+            }
+            } else {
+                return false;
+            }
+
+
+    }
+
+    public function userVerif($data)
+    {
+        $first_name = htmlspecialchars($data['first_name']);
+        $last_name = htmlspecialchars($data['last_name']);
         $email      = htmlspecialchars($data['email']);
         $password      = htmlspecialchars($data['password']);
+        $password_confirmed      = htmlspecialchars($data['password_confirmed']);
+        $status = 'user';
+
         $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
         $query = App::db()->pdo()->prepare($req);
 
         $query->execute(array(
-            'email' => $email)
+                'email' => $email)
         );
 
         $count     = $query->rowCount();
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
 
-        //var_dump($user);
+        if($count != 0){
+            return false;
+        }elseif($password != $password_confirmed){
+            return false;
+        }else{
+            $options = [
+                'cost' => 10,
+            ];
+            $pass_hash  = password_hash($password, PASSWORD_DEFAULT, $options);
+            // Le message
 
-        if($count == 0){
-            header("Refresh:0");
-        } else {
-            $pass = $password;
-            $hash              = $user->password;
-            //var_dump($hash);
-            $isPasswordCorrect = password_verify($pass, $hash);
+            $token = uniqid();
+            $url = App::url('').'/admin/confirm?token='.$token;
+            $message = "Bonjour $first_name \r\nMerci de confirmer votre inscription en suivant ce lien : $url\r\nA très bientôt";
 
-            if($isPasswordCorrect)
-            {
-                //echo 'yo';exit();
-                session_start();
-                $_SESSION['id']   = $user->id;
-                $_SESSION['first_name']   = $user->first_name;
-                $_SESSION['last_name']   = $user->last_name;
-                $_SESSION['email'] = $user->email;
+            $message = wordwrap($message, 70, "\r\n");
 
-                header('Location: http://localhost/blog/admin');
-            }
+            mail($email, 'Merci de confirmer votre inscription', $message);
+
+            $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at) VALUES(:first_name, :last_name, :email, :password, :status, NOW())');
+            $register->execute(array(
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    'email' => $email,
+                    'password' => $pass_hash,
+                    'status' => $status,
+                )
+            );
+
+            return true;
         }
+    }
 
+    public function emailVerif($data)
+    {
+        $email = $data['email'];
+        $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute(array(
+                'email' => $email)
+        );
+
+        $count     = $query->rowCount();
+        if($count == 0) {
+            return false;
+        } else {
+            $url = App::url('').'/admin/confirm?email='.$email;
+            $message = "Bonjour \r\nMerci d'utiliser ce lien pour réinitialiser votre mot de passe' : $url\r\nA très bientôt";
+
+            $message = wordwrap($message, 70, "\r\n");
+
+            mail($email, 'Réinitialisation de mot de passe', $message);
+        }
     }
 
     public function howManyUsers()

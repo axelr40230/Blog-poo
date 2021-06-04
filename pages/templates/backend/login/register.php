@@ -1,3 +1,11 @@
+<?php
+
+use App\Form;
+
+$form = new Form(array());
+
+?>
+
 <div class="container">
 
     <div class="card o-hidden border-0 shadow-lg my-5 bg-white">
@@ -10,34 +18,34 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Créer un compte !</h1>
                         </div>
-                        <form class="user">
+                        <?php  if($errors) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                <?php echo $errors ?>
+                            </div>
+                        <?php endif; ?>
+                        <form class="user" action="" method="post">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                           placeholder="Prénom">
+                                    <?php echo $form->input('first_name','w-100 form-control form-control-user', 'text','first_name', 'Votre prénom'); ?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                           placeholder="Nom">
+                                    <?php echo $form->input('last_name','w-100 form-control form-control-user', 'text','last_name', 'Votre nom'); ?>
+
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                       placeholder="Email">
+                                <?php echo $form->input('email','w-100 form-control form-control-user', 'email','email', 'Votre email'); ?>
+
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user"
-                                           id="exampleInputPassword" placeholder="Mot de passe">
+                                    <?php echo $form->input('password','w-100 form-control form-control-user', 'password','password', 'Saisissez un mot de passe'); ?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user"
-                                           id="exampleRepeatPassword" placeholder="Confirmer le mot de passe">
+                                    <?php echo $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>
                                 </div>
                             </div>
-                            <a href="admin" class="btn btn-primary btn-user btn-block">
-                                S'enregistrer
-                            </a>
+                            <?php echo $form->submit('S\'enregistrer', 'register', 'btn btn-primary btn-user btn-block'); ?>
                         </form>
                         <hr>
                         <div class="text-center">

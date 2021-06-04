@@ -6,6 +6,7 @@ use App\Table\UserTable;
 
 $status = new App();
 $status_post = $post->status;
+
 $form = new Form(array());
 
 $infos = new UserTable();
@@ -35,7 +36,6 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                                 <div class="p-2">
                                 <?php echo $form->label('title','Modifier le titre'); ?>
                                 <?php echo $form->input('title','form-control', 'text','title', $pageTitle, $pageTitle); ?>
-
                                 </div>
                                 <div class="p-2">
                                 <?php echo $form->label('introduction','Modifier l\'introduction'); ?>
@@ -45,9 +45,6 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                                 <?php echo $form->label('content','Modifier le contenu'); ?>
                                 <?php echo $form->textarea($post->content, 'content'); ?>
                                 </div>
-
-
-
                         </div>
                     </div>
                 </div>

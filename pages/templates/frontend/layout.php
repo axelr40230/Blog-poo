@@ -1,5 +1,8 @@
 <?php
 use App\App;
+use App\Session;
+
+session::instance();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

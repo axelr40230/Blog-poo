@@ -1,9 +1,10 @@
 <?php
 
+use App\App;
 use App\Form;
 
 $form = new Form(array());
-$message = '';
+
 ?>
 
 <div class="container">
@@ -22,8 +23,12 @@ $message = '';
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Bon retour parmi nous !</h1>
-                                    <p><?php echo $message ?></p>
                                 </div>
+                                <?php if($errors) : ?>
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        <?= $errors ?>
+                                    </div>
+                                <?php endif; ?>
                                 <form class="user" action="" method="post">
                                     <div class="form-group">
                                         <?php echo $form->input('email','w-100 form-control form-control-user', 'text','email', 'Votre email'); ?>
@@ -38,7 +43,6 @@ $message = '';
                                         </div>
                                     </div>
                                     <?php echo $form->submit('Se connecter', 'connect', 'btn btn-primary btn-user btn-block'); ?>
-
                                 </form>
                                 <hr>
                                 <div class="text-center">
@@ -50,6 +54,12 @@ $message = '';
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-12">
+                    <a class="btn btn-dark btn-user" href="<?= App::url('') ?>">Retourner sur le site</a>
                 </div>
             </div>
 

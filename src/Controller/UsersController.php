@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\App;
+use App\Auth;
 use App\Table\UserTable;
 
 class UsersController extends Controller
@@ -21,10 +22,17 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $table = new UserTable();
-        $user = $table->one($id);
-        $pageTitle = $user->title;
-        $this->render('single', ['pageTitle' => $pageTitle, 'id'=>$id, 'post' => $user], 'frontend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $table = new UserTable();
+            $user = $table->one($id);
+            $pageTitle = $user->title;
+            $this->render('single', ['pageTitle' => $pageTitle, 'id' => $id, 'post' => $user], 'frontend');
+        }
     }
 
     /**
@@ -48,39 +56,53 @@ class UsersController extends Controller
         var_dump($id);
     }
 
-    public function update($users, $id)
+    public function update($id)
     {
         $data = $_POST;
-        $table = $this->table($users);
+        $table = $this->table('users');
         $table->update($id, $data);
         header("Refresh:0");
     }
 
-    public function insert($users, $action)
+    public function insert($action)
     {
         $data = $_POST;
-        $table = $this->table($users);
+        $table = $this->table('users');
         $table->insert($data);
         header("Refresh:0");
     }
 
-    public function list($users)
+    public function list()
     {
-        $table = $this->table($users);
-        $trad = new App();
-        $pageTitle = $trad->translate($users);
-        $table = $table->findAll();
-        //var_dump($table);exit();
-        $this->render($users, ['pageTitle' => $pageTitle, $users => $table], 'backend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $table = $this->table('users');
+            $trad = new App();
+            $pageTitle = $trad->translate('users');
+            $table = $table->findAll();
+            //var_dump($table);exit();
+            $this->render('users', ['pageTitle' => $pageTitle, 'users' => $table], 'backend');
+        }
     }
 
-    public function edit($users, $id)
+    public function edit($id)
     {
-        $users = rtrim($users,'s');
-        $name = $users;
-        $table = $this->table($users);
-        $user = $table->one($id);
-        $pageTitle = 'Editer l\'utilisateur';
-        $this->render('single-'.$name, ['pageTitle' => $pageTitle, 'id'=>$id, $name => $user ], 'backend');
+        $isConnect = Auth::isAuth();
+        if($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $users = rtrim('users', 's');
+            $name = $users;
+            $table = $this->table($users);
+            $user = $table->one($id);
+            $pageTitle = 'Editer l\'utilisateur';
+            $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $user], 'backend');
+        }
     }
 }

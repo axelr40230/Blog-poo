@@ -1,3 +1,10 @@
+<?php
+
+use App\Form;
+
+$form = new Form(array());
+
+?>
 <div class="container">
 
     <!-- Outer Row -->
@@ -16,15 +23,20 @@
                                     <h1 class="h4 text-gray-900 mb-2">Mot de passe oublié ?</h1>
                                     <p class="mb-4">Aucun problème, pas facile de se souvenir de tous ces mots de passe. Entrez simplement votre adresse e-mail ci-dessous et nous vous enverrons un lien pour réinitialiser votre mot de passe !</p>
                                 </div>
-                                <form class="user">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control form-control-user"
-                                               id="exampleInputEmail" aria-describedby="emailHelp"
-                                               placeholder="Entrer votre adresse mail...">
+                                <?php  if($errors) : ?>
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        <?php echo $errors ?>
                                     </div>
-                                    <a href="admin" class="btn btn-primary btn-user btn-block">
-                                        Réinitialiser le mot de passe
-                                    </a>
+                                <?php endif; ?>
+                                <form class="user" action="" method="post">
+                                    <div class="form-group">
+
+                                        <?php echo $form->input('email','w-100 form-control form-control-user', 'email','email', 'Entrer votre adresse mail...'); ?>
+
+                                    </div>
+
+                                    <?php echo $form->submit('Réinitialiser le mot de passe', 'ForgotPass', 'btn btn-primary btn-user btn-block'); ?>
+
                                 </form>
                                 <hr>
                                 <div class="text-center">

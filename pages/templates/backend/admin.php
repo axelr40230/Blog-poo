@@ -1,6 +1,7 @@
 <?php
 
 use App\App;
+use App\Session;
 use App\Table\CommentTable;
 use App\Table\UserTable;
 use App\Table\PostTable;
@@ -13,6 +14,9 @@ $numberUsers = $tableUsers->howManyUsers();
 
 $tablePosts = new PostTable();
 $numberPosts = $tablePosts->howManyPosts();
+
+//var_dump(session::getInstance('first_name'));
+
 
 ?>
 <!-- Begin Page Content -->
@@ -34,11 +38,11 @@ $numberPosts = $tablePosts->howManyPosts();
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Date de dernière connexion</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">10·04·2021 à 16h52</div>
+                                Bienvenue</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo session::getInstance('first_name') ?> <?php echo session::getInstance('last_name') ?></div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                            <i class="fas fa-door-open fa-2x text-gray-300"></i>
                         </div>
                     </div>
                     <div class="row py-3">

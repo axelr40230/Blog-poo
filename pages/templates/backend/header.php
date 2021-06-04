@@ -1,7 +1,11 @@
 <?php
 
 use App\App;
+use App\Session;
 
+
+
+//var_dump(session::getInstance('first_name'))
 ?>
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
@@ -70,27 +74,19 @@ use App\App;
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php // $_SESSION['first_name'].' '.$_SESSION['last_name'] ?>Alexandra Rochette</span>
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo session::getInstance('first_name') ?> <?php echo session::getInstance('last_name') ?></span>
                         <img class="img-profile rounded-circle"
                              src="<?= App::url('') ?>public/images/admin/undraw_profile.svg">
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                          aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="<?= App::url('admin/users/') ?><?php echo session::getInstance('id') ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Mon profil
                         </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Réglages
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Infos de connexion
-                        </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <a class="dropdown-item" href="<?= App::url('logout') ?>" data-toggle="modal" data-target="#logoutModal">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Se déconnecter
                         </a>

@@ -4,6 +4,7 @@ namespace App\Table;
 
 use App\App;
 use App\Entity\PostEntity;
+use App\Session;
 
 class PostTable extends Table
 {
@@ -37,7 +38,7 @@ class PostTable extends Table
             $data['title'],
             $data['introduction'],
             $data['content'],
-            1
+            session::getInstance('id')
         ]);
 
         if($query == false) {

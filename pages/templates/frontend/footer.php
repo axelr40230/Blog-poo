@@ -21,11 +21,11 @@ use App\App;
 
         <ul>
 
-            <li><a href="<?php __DIR__ ?>/blog/home" title="About">Accueil</a></li>
+            <li><a href="<?= App::url('') ?>" title="About">Accueil</a></li>
 
-            <li><a href="<?php __DIR__ ?>/blog/posts" title="Blog">Blog</a></li>
+            <li><a href="<?= App::url('') ?>posts" title="Blog">Blog</a></li>
 
-            <li><a href="<?php __DIR__ ?>/blog/contact" title="Contact">Contact</a></li>
+            <li><a href="<?= App::url('') ?>contact" title="Contact">Contact</a></li>
 
         </ul>
 

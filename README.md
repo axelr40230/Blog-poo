@@ -55,3 +55,7 @@ Sur la page permettant de modifier un blog post, l’utilisateur a la possibilit
 Dans le footer menu, il doit figurer un lien pour accéder à l’administration du blog.
 
 Comment installer le projet : 
+
+Lancer maildev :
+Depuis le terminal, saisir maildev
+Puis suivre le lien et remplacer les 0 par localhost
