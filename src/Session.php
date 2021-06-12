@@ -1,52 +1,65 @@
 <?php
 
-
 namespace App;
-
-use Singleton;
 
 class Session
 {
-    private static $_instance = null;
 
-    private function __construct()
+    public function __construct(?string $cacheExpire = null, ?string $cacheLimiter = null)
     {
-        session_start();
-    }
+        if (session_status() === PHP_SESSION_NONE) {
 
-    static public function instance()
-    {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new Session();
+            if ($cacheLimiter !== null) {
+                session_cache_limiter($cacheLimiter);
+            }
+
+            if ($cacheExpire !== null) {
+                session_cache_expire($cacheExpire);
+            }
+
+            session_start();
         }
-
-        return self::$_instance;
     }
 
-    static public function getInstance(string $key)
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function get(string $key)
     {
-        self::instance();
-
-        if (array_key_exists($key, $_SESSION)) {
-
+        if ($this->has($key)) {
             return $_SESSION[$key];
         }
 
         return null;
     }
 
-    static public function setInstance(string $key, $value = null): void
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return Session
+     */
+    public function set(string $key, $value): Session
     {
-        self::instance();
-
         $_SESSION[$key] = $value;
+        return $this;
     }
 
-    static public function destroy()
+    public function remove(string $key): void
     {
-        self::setInstance('id');
-        self::setInstance('first_name');
-        self::setInstance('last_name');
-        self::setInstance('email');
+        if ($this->has($key)) {
+            unset($_SESSION[$key]);
+        }
     }
+
+    public function clear(): void
+    {
+        session_destroy();
+    }
+
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $_SESSION);
+    }
+
 }

@@ -3,9 +3,9 @@
 use App\App;
 use App\Session;
 
+$session = new Session();
+$user = $session->get('user');
 
-
-//var_dump(session::getInstance('first_name'))
 ?>
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
@@ -74,14 +74,14 @@ use App\Session;
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo session::getInstance('first_name') ?> <?php echo session::getInstance('last_name') ?></span>
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $user->first_name; ?> <?= $user->last_name; ?></span>
                         <img class="img-profile rounded-circle"
                              src="<?= App::url('') ?>public/images/admin/undraw_profile.svg">
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                          aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="<?= App::url('admin/users/') ?><?php echo session::getInstance('id') ?>">
+                        <a class="dropdown-item" href="<?= App::url('admin/users/') ?><?= $user->id; ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Mon profil
                         </a>

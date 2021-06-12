@@ -20,14 +20,14 @@ class Database
      * @param string $db_pass
      * @param string $db_host
      */
-    public function __construct($db_name, $db_user = 'root', $db_pass='', $db_host='localhost')
+    public function __construct($db_name, $db_user = 'root', $db_pass = '', $db_host = 'localhost')
     {
         $this->db_name = $db_name;
         $this->db_user = $db_user;
         $this->db_pass = $db_pass;
         $this->db_host = $db_host;
 
-        $pdo = new \PDO('mysql:host='.$this->db_host.';dbname='.$this->db_name.';charset=utf8', $this->db_user, $this->db_pass);
+        $pdo = new \PDO('mysql:host=' . $this->db_host . ';dbname=' . $this->db_name . ';charset=utf8', $this->db_user, $this->db_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->pdo = $pdo;
     }
@@ -35,7 +35,7 @@ class Database
     /**
      * @return PDO
      */
-    public function pdo() : \PDO
+    public function pdo(): \PDO
     {
         return $this->pdo;
     }

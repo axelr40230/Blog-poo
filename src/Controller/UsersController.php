@@ -8,7 +8,7 @@ use App\Table\UserTable;
 
 class UsersController extends Controller
 {
-    private function table($users)
+    public function table($users)
     {
         $users = ucfirst($users);
         $users = rtrim($users, 's');

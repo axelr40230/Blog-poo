@@ -38,13 +38,15 @@ class UserTable extends Table
 
     public function update($id, $data)
     {
-        $req = "UPDATE {$this->getTable()} SET first_name=?, last_name=?, email=? WHERE id={$id}";
+        //var_dump($data);
+        $req = "UPDATE {$this->getTable()} SET first_name=?, last_name=?, email=?, status=?, modify_at=NOW() WHERE id={$id}";
         $query = App::db()->pdo()->prepare($req);
 
         $query->execute([
             $data['first_name'],
             $data['last_name'],
-            $data['email']
+            $data['email'],
+            $data['status']
         ]);
     }
 
@@ -78,16 +80,12 @@ class UserTable extends Table
                 if (!$isPasswordCorrect) {
                     return false;
                 } else {
-                    //$session = session::instance();
+                    if($user->status == 'not confirmed') {
+                        return false;
+                    }else{
+                        return $user;
+                    }
 
-                    session::setInstance('id', $user->id);
-                    session::setInstance('first_name', $user->first_name);
-                    session::setInstance('last_name', $user->last_name);
-                    session::setInstance('email', $user->email);
-
-                    //var_dump($user);
-
-                    return session::getInstance('id');
                 }
             }
         } else {
@@ -104,7 +102,7 @@ class UserTable extends Table
         $email = htmlspecialchars($data['email']);
         $password = htmlspecialchars($data['password']);
         $password_confirmed = htmlspecialchars($data['password_confirmed']);
-        $status = 'user';
+        $status = 'not confirmed';
 
         $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
         $query = App::db()->pdo()->prepare($req);
@@ -129,20 +127,33 @@ class UserTable extends Table
             // Le message
 
             $token = uniqid();
-            $url = App::url('') . '/admin/confirm?token=' . $token;
-            $message = "Bonjour $first_name \r\nMerci de confirmer votre inscription en suivant ce lien : $url\r\nA très bientôt";
+
+            $url = App::url('') . 'confirm?token=' . $token;
+            $message = '
+     <html>
+      <head>
+       <title>Valider votre compte</title>
+      </head>
+      <body>
+       <p>Bonjour ' . $first_name . '</p>
+       <p>Pour finaliser votre inscription, merci de suivre ce lien <a href="' . $url . '">' . $url . '</a> ou de le saisir dans votre navigateur</p>
+        <p>A très bientôt</p>
+      </body>
+     </html>
+     ';
 
             $message = wordwrap($message, 70, "\r\n");
 
             mail($email, 'Merci de confirmer votre inscription', $message);
 
-            $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at) VALUES(:first_name, :last_name, :email, :password, :status, NOW())');
+            $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at, modify_at, token) VALUES(:first_name, :last_name, :email, :password, :status, NOW(), NOW(), :token)');
             $register->execute(array(
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     'email' => $email,
                     'password' => $pass_hash,
                     'status' => $status,
+                    'token' => $token
                 )
             );
 
@@ -180,5 +191,28 @@ class UserTable extends Table
 
 
         return $count = $query->rowCount();
+    }
+
+    public function validUser($token) {
+        $status = 'user';
+        $req = "UPDATE {$this->getTable()} SET status=:status, modify_at=NOW() WHERE token=:token";
+        //var_dump($req);
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute([
+            'status' => $status,
+            'token' => $token
+        ]);
+
+        return true;
+    }
+
+    public function showColumn($for){
+        $req = "SHOW COLUMNS FROM {$this->getTable()} LIKE '{$for}'";
+        $query = App::db()->pdo()->query($req);
+        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $options = $query->fetch();
+
+        return $options;
     }
 }

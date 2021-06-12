@@ -1,7 +1,14 @@
 <?php
 
 use App\App;
+use App\Auth;
+use App\Session;
 
+$session = new Session();
+if($session->get('user')) :
+$user = $session->get('user');
+$status = $user->status;
+endif;
 ?>
 <!-- main -->
 
@@ -21,11 +28,26 @@ use App\App;
 
                 </header>
 
-                <p>Connectez-vous ou créez un compte pour partager vos propres actus</p>
+                <p>Votre avis est précieux ! N'hésitez pas à le donner en nous laissant vos commentaires</p>
+
+                <?php
+                $isConnect = Auth::isAuth();
+                if ($isConnect == false) :
+                ?>
 
                 <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">S'identifier</a>
 
-                <p>OU commencez à lire les dernières actus dès à présent<br/><br/>
+                <?php elseif($status == 'admin') : ?>
+
+                <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Accéder au back office</a>
+
+                <?php else : ?>
+
+                <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Se déconnecter</a>
+
+                <?php endif; ?>
+
+                <p>Commencez à lire les dernières actus dès à présent<br/><br/>
                     <i class="fa fa-chevron-down" aria-hidden="true"></i><br/>
                     <i class="fa fa-chevron-down" aria-hidden="true"></i><br/>
                     <i class="fa fa-chevron-down" aria-hidden="true"></i><br/>

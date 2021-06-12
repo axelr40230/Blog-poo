@@ -50,7 +50,7 @@ class App
             'intrash' => 'A la corbeille',
             'waiting' => 'En attente de validation',
             'admin' => 'Administrateur du site',
-            'author' => 'Auteur',
+            'not confirmed' => 'Non confirmé',
             'user' => 'Utilisateur',
             'draft' => 'Brouillon',
             'publish' => 'Publié',

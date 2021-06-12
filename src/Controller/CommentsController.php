@@ -8,7 +8,7 @@ use App\Table\CommentTable;
 
 class CommentsController extends Controller
 {
-    private function table($comments)
+    public function table($comments)
     {
         $comments = ucfirst($comments);
         $comments = rtrim($comments, 's');

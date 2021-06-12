@@ -15,7 +15,9 @@ $numberUsers = $tableUsers->howManyUsers();
 $tablePosts = new PostTable();
 $numberPosts = $tablePosts->howManyPosts();
 
-//var_dump(session::getInstance('first_name'));
+$session = new Session();
+$user = $session->get('user');
+//var_dump($_SESSION);exit();
 
 
 ?>
@@ -39,14 +41,14 @@ $numberPosts = $tablePosts->howManyPosts();
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Bienvenue</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo session::getInstance('first_name') ?> <?php echo session::getInstance('last_name') ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $user->first_name; ?> <?= $user->last_name; ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-door-open fa-2x text-gray-300"></i>
                         </div>
                     </div>
                     <div class="row py-3">
-                        <a href="#" class="btn btn-primary">Gérer mon compte</a>
+                        <a href="<?= App::url('admin/users/') ?><?= $user->id; ?>" class="btn btn-primary">Gérer mon compte</a>
                     </div>
                 </div>
             </div>

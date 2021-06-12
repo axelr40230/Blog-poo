@@ -43,6 +43,12 @@ $date = $user->date_fr('exact', 'created_at');
                                     <?php echo $form->input('email','form-control', 'text','email', $user->email, $user->email); ?>
                                 </div>
                                 <div class="p-2">
+                                    <div class="form-group">
+                                        <?php echo $form->label('status','Modifier le statut'); ?>
+                                        <?php echo $form->select('status', $user->status); ?>
+                                    </div>
+                                </div>
+                                <div class="p-2">
                                     <?php echo $form->label('password','Modifier le mot de passe'); ?>
                                     <?php echo $form->input('password','form-control', 'password','password'); ?>
                                 </div>
@@ -52,7 +58,7 @@ $date = $user->date_fr('exact', 'created_at');
                                     <?php echo $form->input('password','form-control', 'password','password'); ?>
                                 </div>
                                 <div class="p-2">
-                                        <?php echo $form->input('publish','w-100','hidden', 'status', 'publish','publish'); ?>
+                                        <?php echo $form->input('publish','w-100','hidden', 'send', 'publish','publish'); ?>
                                         <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary'); ?>
                                 </div>
 

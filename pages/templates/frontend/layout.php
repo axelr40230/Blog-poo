@@ -3,7 +3,7 @@
 use App\App;
 use App\Session;
 
-session::instance();
+$session = new Session();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

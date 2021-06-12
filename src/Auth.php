@@ -8,7 +8,8 @@ class Auth
 {
     public static function isAuth()
     {
-        if (is_null(session::getInstance('id'))) {
+        $session = new Session();
+        if (is_null($session->get('user'))) {
 
             return false;
         } else {
@@ -18,4 +19,5 @@ class Auth
 
 
     }
+
 }

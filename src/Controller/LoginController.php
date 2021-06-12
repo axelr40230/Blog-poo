@@ -90,7 +90,15 @@ class LoginController extends Controller
             $pageTitle = 'Connexion au back office';
             $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         } else {
-            $this->goAdmin();
+            $session = new Session();
+            $session->set('user', $user);
+            $user = $session->get('user');
+
+            if($user->status == 'admin') {
+                $this->goAdmin();
+            }else{
+                $this->goFront();
+            }
         }
     }
 
@@ -101,13 +109,50 @@ class LoginController extends Controller
         exit();
     }
 
-    public function logout()
+    public function goFront()
     {
-        session::destroy();
-        //var_dump(session::getInstance('id'));
-        $url = App::url('login');
+        $url = App::url('');
         header("Location: {$url}");
         exit();
+    }
+
+    public function logout()
+    {
+        $session = new Session();
+        $session->clear();
+
+        //var_dump(session::getInstance('id'));
+        $url = App::url('login');
+        //var_dump($url);exit;
+        header("Location: {$url}");
+        exit();
+    }
+
+    public function confirm(){
+        if(isset($_GET['token'])) {
+            $token = $_GET['token'];
+            $table = $this->table('users');
+            $user = $table->validUser($token);
+            if($user == true){
+                $this->goConfirmed();
+            }else{
+                echo 'Votre lien ne semble pas fonctionner';
+            }
+        }else{
+            echo 'Votre lien ne semble pas fonctionner';
+        }
+    }
+
+    public function goConfirmed(){
+        $url = App::url('confirmed');
+        header("Location: {$url}");
+        exit();
+    }
+
+    public function confirmed() {
+        $errors = 'Merci de votre confirmation, vous pouvez désormais vous connecter à votre compte';
+        $pageTitle = 'Bienvenue';
+        $this->render('confirmed', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
 }

@@ -21,6 +21,8 @@ $router->get('/login', 'LoginController@login');
 $router->get('/logout', 'LoginController@logout');
 $router->post('/login', 'LoginController@connect', 'login.connect');
 $router->get('/register', 'LoginController@register');
+$router->get('/confirm', 'LoginController@confirm');
+$router->get('/confirmed', 'LoginController@confirmed');
 $router->post('/register', 'LoginController@registered');
 $router->get('/forgot-password', 'LoginController@forgotpassword');
 $router->post('/forgot-password', 'LoginController@retrievepassword');

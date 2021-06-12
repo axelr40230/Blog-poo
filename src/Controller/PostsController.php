@@ -8,7 +8,7 @@ use App\Table\PostTable;
 
 class PostsController extends Controller
 {
-    private function table($posts)
+    public function table($posts)
     {
         $posts = ucfirst($posts);
         $posts = rtrim($posts, 's');

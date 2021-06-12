@@ -4,6 +4,9 @@
 namespace App;
 
 
+use App\Controller\UsersController;
+use App\Table\UserTable;
+
 class Form
 {
     private $data;
@@ -70,20 +73,28 @@ class Form
      * @return string
      * @todo Finaliser
      */
-    public function select($for): string
+    public function select($for, $default) : string
     {
-        return $this->surround('
-        <div class="form-group">
-                        <select class="form-control form-control-solid" id="' . $for . '">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-        ');
+        $html = '<select name="'.$for.'" class="form-control" id="'.$for.'">';
+        $table = new UserTable();
+        $options = $table->showColumn($for);
+
+        foreach(explode("','",substr($options['Type'],6,-2)) as $option) {
+            if($default == $option) {
+                $trad = new App();
+                $optionTranslate = $trad->translate($option);
+                $html .= '<option selected name="'.$option.'" value="'.$option.'">'.$optionTranslate.'</option>';
+            }else {
+                $trad = new App();
+                $optionTranslate = $trad->translate($option);
+                $html .= '<option value="'.$option.'" name="'.$option.'" >'.$optionTranslate.'</option>';
+            }
+        }
+        $html .= '</select>';
+
+        return $html;
     }
+
 
     /**
      * Création d'un champs de formulaire de type submit // Creating a submit form field
