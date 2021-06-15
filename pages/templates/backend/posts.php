@@ -13,11 +13,19 @@ $status = new App();
     <h1 class="h3 mb-2 text-gray-800">
         <?= $pageTitle; ?>
     </h1>
+    <div class="pb-2">
+        <a class="btn btn-light" href="<?= App::url('admin/posts/corbeille') ?>">Voir la corbeille</a>
+        <a class="btn btn-light" href="<?= App::url('admin/posts/brouillons') ?>">Voir les brouillons</a>
+        <a class="btn btn-light" href="<?= App::url('admin/posts/publies') ?>">Voir les articles publiés</a>
+        <a class="btn btn-light" href="<?= App::url('admin/posts') ?>">Tout voir</a>
+
+    </div>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
 
         <div class="card-body">
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -42,7 +50,7 @@ $status = new App();
                     <tbody>
                     <?php foreach ($posts as $post) : ?>
                     <tr>
-                        <td><a class="text-info" href="<?= App::url('posts') ?>/<?= $post->id; ?>"><?= $post->title; ?></a></td>
+                        <td><a class="text-info" href="<?= App::url('posts') ?>/<?= $post->slug; ?>"><?= $post->title; ?></a></td>
                         <td>
                             <?= $trad = $status->translate($post->status); ?>
                         </td>

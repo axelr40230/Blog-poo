@@ -80,9 +80,9 @@ class UserTable extends Table
                 if (!$isPasswordCorrect) {
                     return false;
                 } else {
-                    if($user->status == 'not confirmed') {
+                    if ($user->status == 'not confirmed') {
                         return false;
-                    }else{
+                    } else {
                         return $user;
                     }
 
@@ -97,39 +97,40 @@ class UserTable extends Table
 
     public function userVerif($data)
     {
-        $first_name = htmlspecialchars($data['first_name']);
-        $last_name = htmlspecialchars($data['last_name']);
-        $email = htmlspecialchars($data['email']);
-        $password = htmlspecialchars($data['password']);
-        $password_confirmed = htmlspecialchars($data['password_confirmed']);
-        $status = 'not confirmed';
+        if (!empty($data['first_name']) and !empty($data['last_name']) and !empty($data['email']) and !empty($data['password']) and !empty($data['password_confirmed'])) {
+            $first_name = htmlspecialchars($data['first_name']);
+            $last_name = htmlspecialchars($data['last_name']);
+            $email = htmlspecialchars($data['email']);
+            $password = htmlspecialchars($data['password']);
+            $password_confirmed = htmlspecialchars($data['password_confirmed']);
+            $status = 'not confirmed';
 
-        $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
-        $query = App::db()->pdo()->prepare($req);
+            $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
+            $query = App::db()->pdo()->prepare($req);
 
-        $query->execute(array(
-                'email' => $email)
-        );
+            $query->execute(array(
+                    'email' => $email)
+            );
 
-        $count = $query->rowCount();
-        $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
-        $user = $query->fetch();
+            $count = $query->rowCount();
+            $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+            $user = $query->fetch();
 
-        if ($count != 0) {
-            return false;
-        } elseif ($password != $password_confirmed) {
-            return false;
-        } else {
-            $options = [
-                'cost' => 10,
-            ];
-            $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
-            // Le message
+            if ($count != 0) {
+                return false;
+            } elseif ($password != $password_confirmed) {
+                return false;
+            } else {
+                $options = [
+                    'cost' => 10,
+                ];
+                $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
+                // Le message
 
-            $token = uniqid();
+                $token = uniqid();
 
-            $url = App::url('') . 'confirm?token=' . $token;
-            $message = '
+                $url = App::url('') . 'confirm?token=' . $token;
+                $message = '
      <html>
       <head>
        <title>Valider votre compte</title>
@@ -142,23 +143,27 @@ class UserTable extends Table
      </html>
      ';
 
-            $message = wordwrap($message, 70, "\r\n");
+                $message = wordwrap($message, 70, "\r\n");
 
-            mail($email, 'Merci de confirmer votre inscription', $message);
+                mail($email, 'Merci de confirmer votre inscription', $message);
 
-            $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at, modify_at, token) VALUES(:first_name, :last_name, :email, :password, :status, NOW(), NOW(), :token)');
-            $register->execute(array(
-                    'first_name' => $first_name,
-                    'last_name' => $last_name,
-                    'email' => $email,
-                    'password' => $pass_hash,
-                    'status' => $status,
-                    'token' => $token
-                )
-            );
+                $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at, modify_at, token) VALUES(:first_name, :last_name, :email, :password, :status, NOW(), NOW(), :token)');
+                $register->execute(array(
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                        'email' => $email,
+                        'password' => $pass_hash,
+                        'status' => $status,
+                        'token' => $token
+                    )
+                );
 
-            return true;
+                return true;
+            }
+        }else{
+            return false;
         }
+
     }
 
     public function emailVerif($data)
@@ -193,7 +198,8 @@ class UserTable extends Table
         return $count = $query->rowCount();
     }
 
-    public function validUser($token) {
+    public function validUser($token)
+    {
         $status = 'user';
         $req = "UPDATE {$this->getTable()} SET status=:status, modify_at=NOW() WHERE token=:token";
         //var_dump($req);
@@ -207,7 +213,8 @@ class UserTable extends Table
         return true;
     }
 
-    public function showColumn($for){
+    public function showColumn($for)
+    {
         $req = "SHOW COLUMNS FROM {$this->getTable()} LIKE '{$for}'";
         $query = App::db()->pdo()->query($req);
         $query->setFetchMode(\PDO::FETCH_ASSOC);

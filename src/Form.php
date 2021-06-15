@@ -52,7 +52,7 @@ class Form
      */
     public function input($for, $class, $type, $name, $placeholder = null, $value = null)
     {
-        return '<input id="' . $for . '" class="' . $class . '" type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '">';
+            return '<input id="' . $for . '" class="' . $class . '" type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '">';
     }
 
     /**
@@ -103,8 +103,8 @@ class Form
      * @param $class
      * @return string
      */
-    public function submit($content, $name, $class): string
+    public function submit($content, $name, $class, $value): string
     {
-        return $this->surround('<button class="' . $class . '" type="submit" name="' . $name . '">' . $content . '</button>');
+        return $this->surround('<button class="' . $class . '" type="submit" name="' . $name . '" value="' . $value . '">' . $content . '</button>');
     }
 }

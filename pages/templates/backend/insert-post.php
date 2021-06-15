@@ -1,9 +1,11 @@
 <?php
 use App\App;
 use App\Form;
+use App\Session;
 
 $form = new Form(array());
 $trad = new App();
+
 
 ?>
 <!-- Begin Page Content -->
@@ -19,6 +21,11 @@ $trad = new App();
                     <h1 class="h3 mb-2 text-gray-800">
                         <?php echo $trad->translate($pageTitle); ?>
                     </h1>
+                    <?php  if($errors) : ?>
+                        <div class="alert alert-danger text-center" role="alert">
+                            <?php echo $errors ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -27,7 +34,6 @@ $trad = new App();
                                 <div class="p-2">
                                 <?php echo $form->label('title','Votre titre'); ?>
                                 <?php echo $form->input('title','form-control', 'text','title', 'Donnez un joli titre à votre article'); ?>
-
                                 </div>
                                 <div class="p-2">
                                 <?php echo $form->label('introduction','Ajouter une introduction'); ?>
@@ -38,8 +44,8 @@ $trad = new App();
                                 <?php echo $form->textarea('', 'content'); ?>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->submit('Enregistrer en tant que brouillon', 'insert', 'btn btn-light w-100'); ?>
-                                    <?php echo $form->submit('Publier', 'insert', 'btn btn-success w-100'); ?>
+                                    <?php echo $form->submit('Enregistrer en tant que brouillon', 'insert', 'btn btn-light w-100', 'draft'); ?>
+                                    <?php echo $form->submit('Publier', 'insert', 'btn btn-success w-100', 'publish'); ?>
                                 </div>
 
                             </form>

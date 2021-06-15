@@ -1,4 +1,5 @@
 <?php
+
 use App\App;
 use App\Form;
 use App\Table\UserTable;
@@ -27,23 +28,28 @@ $dateModify = $post->date_fr('exact', 'modify_at');
             <!-- Edit post -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h1 class="h3 mb-2 text-gray-800"><?= $pageTitle ?> - <a href="<?= App::url('posts') ?>/<?= $post->id; ?>">Voir l'article</a></h1>
+                    <h1 class="h3 mb-2 text-gray-800"><?= $pageTitle ?> - <a
+                                href="<?= App::url('posts') ?>/<?= $post->slug; ?>">Voir l'article</a></h1>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
                             <form action="" method="post">
                                 <div class="p-2">
-                                <?php echo $form->label('title','Modifier le titre'); ?>
-                                <?php echo $form->input('title','form-control', 'text','title', $pageTitle, $pageTitle); ?>
+                                    <?php echo $form->label('title', 'Modifier le titre'); ?>
+                                    <?php echo $form->input('title', 'form-control', 'text', 'title', $pageTitle, $pageTitle); ?>
                                 </div>
                                 <div class="p-2">
-                                <?php echo $form->label('introduction','Modifier l\'introduction'); ?>
-                                <?php echo $form->input('introduction','form-control','text', 'introduction', $post->introduction, $post->introduction); ?>
+                                    <?php echo $form->label('slug', 'Modifier le permalien'); ?>
+                                    <?php echo $form->input('slug', 'form-control', 'text', 'slug', $post->slug, $post->slug); ?>
                                 </div>
                                 <div class="p-2">
-                                <?php echo $form->label('content','Modifier le contenu'); ?>
-                                <?php echo $form->textarea($post->content, 'content'); ?>
+                                    <?php echo $form->label('introduction', 'Modifier l\'introduction'); ?>
+                                    <?php echo $form->input('introduction', 'form-control', 'text', 'introduction', $post->introduction, $post->introduction); ?>
+                                </div>
+                                <div class="p-2">
+                                    <?php echo $form->label('content', 'Modifier le contenu'); ?>
+                                    <?php echo $form->textarea($post->content, 'content'); ?>
                                 </div>
                         </div>
                     </div>
@@ -66,48 +72,33 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                                 echo $trad;
                                 ?><br/>
                                 Dernière modification le <?= $dateModify; ?><br/>
-                                Auteur : <?= $author->first_name.' '.$author->last_name; ?>
+                                Auteur : <?= $author->first_name . ' ' . $author->last_name; ?>
                             </p>
-                                <?php if($status_post == 'draft') : ?>
+                            <?php if ($status_post == 'draft') : ?>
 
-                                    <?php echo $form->input('update','form-control','hidden', 'status', 'publish', $status_post); ?>
-                                    <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100'); ?>
+                                <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
+                                <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'publish'); ?>
 
-                                    <?php echo $form->input('publish','form-control','hidden', 'status', 'publish', 'publish'); ?>
-                                    <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100'); ?>
-
-
-                                    <?php echo $form->input('intrash','w-100','hidden', 'status', 'intrash', 'intrash'); ?>
-                                    <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100'); ?>
+                                <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
-                                <?php elseif($status_post == 'publish') : ?>
+                            <?php elseif ($status_post == 'publish') : ?>
 
-                                    <?php echo $form->input('update','form-control','hidden', 'status', 'publish', $status_post); ?>
-                                    <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100'); ?>
+                                <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
-                                    <?php echo $form->input('draft','w-100','hidden', 'status', 'draft', 'draft'); ?>
-                                    <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100'); ?>
+                                <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100', 'draft'); ?>
 
-
-
-                                    <?php echo $form->input('intrash','w-100','hidden', 'status', 'intrash', 'intrash'); ?>
-                                    <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100'); ?>
+                                <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
-                                <?php elseif($status_post == 'intrash') : ?>
+                            <?php elseif ($status_post == 'intrash') : ?>
 
-                                    <?php echo $form->input('update','form-control','hidden', 'status', 'publish', $status_post); ?>
-                                    <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100'); ?>
+                                <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
-                                    <?php echo $form->input('draft','w-100','hidden', 'status', 'draft','draft'); ?>
-                                    <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100'); ?>
+                                <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100', 'draft'); ?>
 
-
-
-                                    <?php echo $form->input('publish','w-100','hidden', 'status', 'publish','publish'); ?>
-                                    <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100'); ?>
+                                <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'publish'); ?>
                                 </form>
                             <?php endif; ?>
                         </div>
@@ -116,9 +107,6 @@ $dateModify = $post->date_fr('exact', 'modify_at');
             </div>
         </section>
     </div>
-
-
-
 
 
 </div>

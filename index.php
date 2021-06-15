@@ -9,7 +9,7 @@ $router->get('/', 'HomeController@home');
 $router->get('/posts', 'PostsController@all');
 $router->get('/contact', 'GlobalController@contact');
 $router->get('/404', 'GlobalController@notFound');
-$router->get('/posts/:id', 'PostsController@show', 'posts.show')->with('id', '[0-9]+');
+$router->get('/posts/:slug', 'PostsController@show', 'posts.show')->with('action', '([a-z\-0-9]+)');
 $router->post('/posts/:id', 'PostsController@addComment', 'posts.addComment')->with('id', '[0-9]+');
 
 // ROUTER ADMIN - global
@@ -29,10 +29,14 @@ $router->post('/forgot-password', 'LoginController@retrievepassword');
 
 // ROUTER POSTS - posts
 $router->get('/admin/posts', 'PostsController@list', 'posts.list');
-$router->get('/admin/posts/:id', 'PostsController@edit', 'posts.edit')->with('id', '[0-9]+');
-$router->post('/admin/posts/:id', 'PostsController@update', 'posts.update')->with('id', '[0-9]+');
-$router->get('/admin/posts/:action', 'PostsController@new', 'posts.new')->with('action', '([a-z\-0-9]+)');
-$router->post('/admin/posts/:action', 'PostsController@insert', 'posts.insert')->with('action', '([a-z\-0-9]+)');
+$router->get('/admin/posts/corbeille', 'PostsController@trash', 'posts.trash');
+$router->get('/admin/posts/brouillons', 'PostsController@draft', 'posts.draft');
+$router->get('/admin/posts/publies', 'PostsController@publish', 'posts.publish');
+$router->get('/admin/posts/corbeille', 'PostsController@trash', 'posts.trash');
+$router->get('/admin/posts/edit/:slug', 'PostsController@edit', 'posts.edit')->with('slug', '([a-z\-0-9]+)');
+$router->post('/admin/posts/edit/:slug', 'PostsController@update', 'posts.update')->with('slug', '([a-z\-0-9]+)');
+$router->get('/admin/posts/insert', 'PostsController@new', 'posts.new');
+$router->post('/admin/posts/insert', 'PostsController@insert', 'posts.insert');
 
 // ROUTER USERS - users
 $router->get('/admin/users', 'UsersController@list', 'users.list');

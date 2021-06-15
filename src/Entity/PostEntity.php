@@ -22,7 +22,7 @@ class PostEntity extends Entity
      */
     public function url()
     {
-        return 'posts/' . $this->id;
+        return 'posts/edit/' . $this->slug;
     }
 
 }
