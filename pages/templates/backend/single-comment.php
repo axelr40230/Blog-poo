@@ -61,7 +61,7 @@ $post = $table->one($postId);
                                 echo $trad;
                                 ?><br/>
                                 Auteur : <?= $author->first_name.' '.$author->last_name; ?><br/>
-                                Article : <?= $post->title; ?> - <a class="text-info" href="<?= App::url('admin/posts') ?>/<?= $post->id; ?>">Modifier l'article</a>
+                                Article : <?= $post->title; ?> - <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $post->slug; ?>">Modifier l'article</a>
                             </p>
 
                         </div>

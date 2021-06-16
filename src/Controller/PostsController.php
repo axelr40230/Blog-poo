@@ -59,34 +59,33 @@ class PostsController extends Controller
         $table = $this->table('posts');
         $post = $table->oneBySlug($slug);
         $id = $post->id;
-        $table->update($id,$slug, $data);
+        $table->update($id, $slug, $data);
         header("Refresh:0");
     }
 
     public function insert()
     {
-        //echo 'yes';exit();
-        $errors = [];
-        $data = $_POST;
-        //var_dump($data);exit();
-        $table = $this->table('posts');
-        $postId = $table->insert($data);
-        //$postId = intval($postId);
-        //var_dump($postId);exit();
-        if ($postId == false) {
-            $errors = 'Oups ! Quelque chose s\'est mal passé. Recommencez...';
-            $posts = rtrim('posts', 's');
-            $name = $posts;
-            $pageTitle = 'insert' . $posts;
-            $this->render('insert-' . $name, ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend');
-        } else {
-            $post = new PostTable();
-            $post = $post->one($postId);
-            //var_dump($post);exit;
-            $url = App::url("admin/posts/edit/{$post->slug}");
-            header("Location: {$url}");
-            exit();
+        $isAdmin = Auth::isAdmin();
+        if ($isAdmin == true) {
+            $errors = [];
+            $data = $_POST;
+            $table = $this->table('posts');
+            $postId = $table->insert($data);
+            if ($postId == false) {
+                $errors = 'Oups ! Quelque chose s\'est mal passé. Recommencez...';
+                $posts = rtrim('posts', 's');
+                $name = $posts;
+                $pageTitle = 'insert' . $posts;
+                $this->render('insert-' . $name, ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend');
+            } else {
+                $post = new PostTable();
+                $post = $post->one($postId);
+                $url = App::url("admin/posts/edit/{$post->slug}");
+                header("Location: {$url}");
+                exit();
+            }
         }
+
     }
 
     public function list()
@@ -97,12 +96,15 @@ class PostsController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $table = $this->table('posts');
-            $trad = new App();
-            $pageTitle = $trad->translate('posts');
-            $table = $table->findNotTrash();
-            //var_dump($table);exit();
-            $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('posts');
+                $trad = new App();
+                $pageTitle = $trad->translate('posts');
+                $table = $table->findNotTrash();
+                //var_dump($table);exit();
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            }
         }
     }
 
@@ -114,12 +116,38 @@ class PostsController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $table = $this->table('posts');
-            $trad = new App();
-            $pageTitle = $trad->translate('posts');
-            $table = $table->findInTrash();
-            //var_dump($table);exit();
-            $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('posts');
+                $trad = new App();
+                $pageTitle = $trad->translate('posts');
+                $table = $table->findInTrash();
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            }
+
+        }
+    }
+
+    public function delete($slug)
+    {
+        $isConnect = Auth::isAuth();
+        if ($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('posts');
+                $delete = $table->delete($slug);
+                if ($delete == true) {
+                    $url = App::url('admin/posts');
+                    header("Location: {$url}");
+                    exit();
+                } else {
+                    header("Refresh:0");
+                }
+            }
         }
     }
 
@@ -131,12 +159,15 @@ class PostsController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $table = $this->table('posts');
-            $trad = new App();
-            $pageTitle = $trad->translate('posts');
-            $table = $table->findDraft();
-            //var_dump($table);exit();
-            $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('posts');
+                $trad = new App();
+                $pageTitle = $trad->translate('posts');
+                $table = $table->findDraft();
+                //var_dump($table);exit();
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            }
         }
     }
 
@@ -148,12 +179,15 @@ class PostsController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $table = $this->table('posts');
-            $trad = new App();
-            $pageTitle = $trad->translate('posts');
-            $table = $table->findPublish();
-            //var_dump($table);exit();
-            $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('posts');
+                $trad = new App();
+                $pageTitle = $trad->translate('posts');
+                $table = $table->findPublish();
+                //var_dump($table);exit();
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+            }
         }
     }
 
@@ -161,21 +195,23 @@ class PostsController extends Controller
     public function edit($slug)
     {
         $errors = [];
-        //var_dump($slug);
         $isConnect = Auth::isAuth();
         if ($isConnect == false) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();
         } else {
-            $post = rtrim('posts', 's');
-            $name = $post;
-            $posts = 'posts';
-            $table = $this->table($posts);
-            $post = $table->oneBySlug($slug);
-            $pageTitle = $post->title;
-            $id = $post->id;
-            $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $post, 'errors' => $errors], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $post = rtrim('posts', 's');
+                $name = $post;
+                $posts = 'posts';
+                $table = $this->table($posts);
+                $post = $table->oneBySlug($slug);
+                $pageTitle = $post->title;
+                $id = $post->id;
+                $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $post, 'errors' => $errors], 'backend');
+            }
         }
     }
 
@@ -188,10 +224,13 @@ class PostsController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $posts = rtrim('posts', 's');
-            $name = $posts;
-            $pageTitle = 'insert' . $posts;
-            $this->render('insert-' . $name, ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $posts = rtrim('posts', 's');
+                $name = $posts;
+                $pageTitle = 'insert' . $posts;
+                $this->render('insert-' . $name, ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend');
+            }
         }
     }
 }

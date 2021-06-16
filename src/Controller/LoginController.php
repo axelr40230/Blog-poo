@@ -61,15 +61,40 @@ class LoginController extends Controller
         $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
+    public function changePassword($id)
+    {
+        $errors = [];
+        $pageTitle = 'Réinitialiser mon mot de passe';
+        $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+    }
+
+    public function changedPassword($id)
+    {
+        $data = $_POST;
+        $table = $this->table('users');
+        $user = $table->changePass($id);
+        if ($user == false) {
+            $errors = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
+            $pageTitle = 'Réinitialisation de mot de passe';
+            $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+        } else {
+            $errors = 'Le mot de passe à bien été changé';
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        }
+    }
+
     public function retrievepassword()
     {
         $data = $_POST;
+        //var_dump($data);exit();
         $table = $this->table('users');
         $user = $table->emailVerif($data);
         if ($user == false) {
             $errors = 'Nous n\'avons pas trouvé cet email';
             //echo $errors;exit();
-            $pageTitle = 'Créer un compte';
+            $pageTitle = 'Mot de passe oublié';
             $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         } else {
             $errors = 'Un email vous a été envoyé';
@@ -120,10 +145,7 @@ class LoginController extends Controller
     {
         $session = new Session();
         $session->clear();
-
-        //var_dump(session::getInstance('id'));
         $url = App::url('login');
-        //var_dump($url);exit;
         header("Location: {$url}");
         exit();
     }

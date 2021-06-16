@@ -17,33 +17,6 @@ class UsersController extends Controller
         return $table = new $table();
     }
 
-    /**
-     * @param $id
-     */
-    public function show($id)
-    {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $table = new UserTable();
-            $user = $table->one($id);
-            $pageTitle = $user->title;
-            $this->render('single', ['pageTitle' => $pageTitle, 'id' => $id, 'post' => $user], 'frontend');
-        }
-    }
-
-    /**
-     *
-     */
-    public function all()
-    {
-        $table = new UserTable();
-        $pageTitle = 'Mes articles';
-        $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findByStatus('publish')], 'frontend');
-    }
 
     /**
      * @param $id
@@ -58,18 +31,24 @@ class UsersController extends Controller
 
     public function update($id)
     {
-        $data = $_POST;
-        $table = $this->table('users');
-        $table->update($id, $data);
-        header("Refresh:0");
+        $isAdmin = Auth::isAdmin();
+        if ($isAdmin == true) {
+            $data = $_POST;
+            $table = $this->table('users');
+            $table->update($id, $data);
+            header("Refresh:0");
+        }
     }
 
     public function insert($action)
     {
-        $data = $_POST;
-        $table = $this->table('users');
-        $table->insert($data);
-        header("Refresh:0");
+        $isAdmin = Auth::isAdmin();
+        if ($isAdmin == true) {
+            $data = $_POST;
+            $table = $this->table('users');
+            $table->insert($data);
+            header("Refresh:0");
+        }
     }
 
     public function list()
@@ -80,12 +59,14 @@ class UsersController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $table = $this->table('users');
-            $trad = new App();
-            $pageTitle = $trad->translate('users');
-            $table = $table->findAll();
-            //var_dump($table);exit();
-            $this->render('users', ['pageTitle' => $pageTitle, 'users' => $table], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('users');
+                $trad = new App();
+                $pageTitle = $trad->translate('users');
+                $table = $table->findAll();
+                $this->render('users', ['pageTitle' => $pageTitle, 'users' => $table], 'backend');
+            }
         }
     }
 
@@ -97,12 +78,44 @@ class UsersController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $users = rtrim('users', 's');
-            $name = $users;
-            $table = $this->table($users);
-            $user = $table->one($id);
-            $pageTitle = 'Editer l\'utilisateur';
-            $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $user], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $users = rtrim('users', 's');
+                $name = $users;
+                $table = $this->table($users);
+                $user = $table->one($id);
+                if ($user == false) {
+                    $url = App::url('admin/404');
+                    header("Location: {$url}");
+                    exit();
+                } else {
+                    $pageTitle = 'Editer l\'utilisateur';
+                    $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $user], 'backend');
+                }
+            }
+        }
+    }
+
+    public function delete($id)
+    {
+        $isConnect = Auth::isAuth();
+        if ($isConnect == false) {
+            $url = App::url('login');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $table = $this->table('users');
+                $delete = $table->delete($id);
+                if ($delete == true) {
+                    $url = App::url('admin/users');
+                    header("Location: {$url}");
+                    exit();
+                } else {
+                    header("Refresh:0");
+                }
+            }
         }
     }
 }

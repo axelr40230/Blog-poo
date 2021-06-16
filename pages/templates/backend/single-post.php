@@ -71,6 +71,9 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                                 $trad = $status->translate($post->status);
                                 echo $trad;
                                 ?><br/>
+                                <?php if($post->status == 'intrash') : ?>
+                                    <a class="text-danger" href="<?= App::url('admin/posts/delete') ?>/<?= $post->slug; ?>">Supprimer définitivement</a><br/>
+                                <?php endif; ?>
                                 Dernière modification le <?= $dateModify; ?><br/>
                                 Auteur : <?= $author->first_name . ' ' . $author->last_name; ?>
                             </p>

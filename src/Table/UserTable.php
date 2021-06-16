@@ -171,21 +171,27 @@ class UserTable extends Table
         $email = $data['email'];
         $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
         $query = App::db()->pdo()->prepare($req);
-
         $query->execute(array(
                 'email' => $email)
         );
-
         $count = $query->rowCount();
+        $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+        $user = $query->fetch();
+        //var_dump($user);exit();
+        $user = $user->id;
+
         if ($count == 0) {
             return false;
         } else {
-            $url = App::url('') . '/admin/confirm?email=' . $email;
+            //var_dump($query);exit();
+            $url = App::url('') . 'change/' . $user;
             $message = "Bonjour \r\nMerci d'utiliser ce lien pour réinitialiser votre mot de passe' : $url\r\nA très bientôt";
 
             $message = wordwrap($message, 70, "\r\n");
 
             mail($email, 'Réinitialisation de mot de passe', $message);
+
+            return true;
         }
     }
 
@@ -221,5 +227,53 @@ class UserTable extends Table
         $options = $query->fetch();
 
         return $options;
+    }
+
+    public function delete($id) {
+        $req = "DELETE FROM {$this->getTable()} WHERE id = :id";
+        $result = App::db()->pdo()->prepare($req);
+        $result->execute([
+            'id' => $id
+        ]);
+
+        return true;
+    }
+
+    public function changePass($id) {
+        $data = $_POST;
+        $password = htmlspecialchars($data['password']);
+        $password_confirmed = htmlspecialchars($data['password_confirmed']);
+        $req = "SELECT * FROM {$this->getTable()} WHERE id =:id";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute(array(
+                'id' => $id)
+        );
+
+        $count = $query->rowCount();
+        $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+        $user = $query->fetch();
+
+        if ($count == 0) {
+            return false;
+        }elseif ($password != $password_confirmed) {
+            return false;
+        } else {
+            $options = [
+                'cost' => 10,
+            ];
+            $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
+
+            $req = "UPDATE {$this->getTable()} SET password=:password, modify_at=NOW() WHERE id=:id";
+            //var_dump($req);
+            $query = App::db()->pdo()->prepare($req);
+
+            $query->execute([
+                'password' => $pass_hash,
+                'id' => $id
+            ]);
+
+            return true;
+        }
     }
 }

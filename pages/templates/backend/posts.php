@@ -67,7 +67,7 @@ $status = new App();
                             Le <?= $date; ?>
                         </td>
                         <td>
-                            <a class="text-info" href="<?= $post->url(); ?>">Modifier</a>
+                            <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $post->slug; ?>">Modifier</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

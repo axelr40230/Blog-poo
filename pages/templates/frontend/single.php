@@ -151,7 +151,7 @@ $number = $tableComments->howManyComments($post->id, 'approuved');
                             <div class="text-center">
 
                                 <!--                                <input name="" type="button" value="Envoyer le com'">-->
-                                <?php echo $form->submit('Envoyer le com\'', 'addComment', '', 'addComment'); ?>
+                                <?php echo $form->submit('Envoyer le com\'', 'addComment', 'btn btn-red my-5', 'addComment'); ?>
 
                             </div>
 

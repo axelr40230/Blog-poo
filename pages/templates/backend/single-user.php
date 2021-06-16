@@ -25,6 +25,8 @@ $date = $user->date_fr('exact', 'created_at');
                         $trad = $status->translate($user->status);
                         echo $trad;
                         ?></h3>
+                    <a class="text-danger" href="<?= App::url('admin/users/delete') ?>/<?= $user->id; ?>">Supprimer l'utilisateur</a><br/>
+
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -49,17 +51,8 @@ $date = $user->date_fr('exact', 'created_at');
                                     </div>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->label('password','Modifier le mot de passe'); ?>
-                                    <?php echo $form->input('password','form-control', 'password','password'); ?>
-                                </div>
-                                <div class="p-2">
-                                    <?php /* @todo  A finaliser pour la gestion du nouveau mot de passe */?>
-                                    <?php echo $form->label('password','Confirmer le mot de passe'); ?>
-                                    <?php echo $form->input('password','form-control', 'password','password'); ?>
-                                </div>
-                                <div class="p-2">
-                                        <?php echo $form->input('publish','w-100','hidden', 'send', 'publish','publish'); ?>
-                                        <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary'); ?>
+                                        <?php //echo $form->input('publish','w-100','hidden', 'send', 'publish','publish'); ?>
+                                        <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary', 'publish'); ?>
                                 </div>
 
                     </div>

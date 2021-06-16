@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
+use App\Session;
 
 class AdminController extends Controller
 {
@@ -15,8 +16,11 @@ class AdminController extends Controller
             header("Location: {$url}");
             exit();
         } else {
-            $pageTitle = 'Tableau de bord';
-            $this->render('admin', ['pageTitle' => $pageTitle], 'backend');
+            $isAdmin = Auth::isAdmin();
+            if ($isAdmin == true) {
+                $pageTitle = 'Tableau de bord';
+                $this->render('admin', ['pageTitle' => $pageTitle], 'backend');
+            }
         }
 
     }

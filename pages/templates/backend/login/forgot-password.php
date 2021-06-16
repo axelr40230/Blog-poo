@@ -35,7 +35,7 @@ $form = new Form(array());
 
                                     </div>
 
-                                    <?php echo $form->submit('Réinitialiser le mot de passe', 'ForgotPass', 'btn btn-primary btn-user btn-block'); ?>
+                                    <?php echo $form->submit('Réinitialiser le mot de passe', 'ForgotPass', 'btn btn-primary btn-user btn-block', 'ForgotPass'); ?>
 
                                 </form>
                                 <hr>

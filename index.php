@@ -13,7 +13,7 @@ $router->get('/posts/:slug', 'PostsController@show', 'posts.show')->with('action
 $router->post('/posts/:id', 'PostsController@addComment', 'posts.addComment')->with('id', '[0-9]+');
 
 // ROUTER ADMIN - global
-$router->get('/404-admin', 'AdminController@notFound');
+$router->get('admin/404', 'AdminController@notFound');
 $router->get('/admin', 'AdminController@admin');
 
 // ROUTER LOGIN
@@ -26,6 +26,9 @@ $router->get('/confirmed', 'LoginController@confirmed');
 $router->post('/register', 'LoginController@registered');
 $router->get('/forgot-password', 'LoginController@forgotpassword');
 $router->post('/forgot-password', 'LoginController@retrievepassword');
+$router->get('/change/:id', 'LoginController@changePassword')->with('id', '[0-9]+');
+$router->post('/change/:id', 'LoginController@changedPassword')->with('id', '[0-9]+');
+
 
 // ROUTER POSTS - posts
 $router->get('/admin/posts', 'PostsController@list', 'posts.list');
@@ -34,6 +37,7 @@ $router->get('/admin/posts/brouillons', 'PostsController@draft', 'posts.draft');
 $router->get('/admin/posts/publies', 'PostsController@publish', 'posts.publish');
 $router->get('/admin/posts/corbeille', 'PostsController@trash', 'posts.trash');
 $router->get('/admin/posts/edit/:slug', 'PostsController@edit', 'posts.edit')->with('slug', '([a-z\-0-9]+)');
+$router->get('/admin/posts/delete/:slug', 'PostsController@delete', 'posts.delete')->with('slug', '([a-z\-0-9]+)');
 $router->post('/admin/posts/edit/:slug', 'PostsController@update', 'posts.update')->with('slug', '([a-z\-0-9]+)');
 $router->get('/admin/posts/insert', 'PostsController@new', 'posts.new');
 $router->post('/admin/posts/insert', 'PostsController@insert', 'posts.insert');
@@ -42,6 +46,7 @@ $router->post('/admin/posts/insert', 'PostsController@insert', 'posts.insert');
 $router->get('/admin/users', 'UsersController@list', 'users.list');
 $router->get('/admin/users/:id', 'UsersController@edit', 'users.edit')->with('id', '[0-9]+');
 $router->post('/admin/users/:id', 'UsersController@update', 'users.update')->with('id', '[0-9]+');
+$router->get('/admin/users/delete/:id', 'UsersController@delete', 'users.delete')->with('id', '[0-9]+');
 $router->get('/admin/users/:action', 'UsersController@new', 'users.new')->with('action', '([a-z\-0-9]+)');
 $router->post('/admin/users/:action', 'UsersController@insert', 'users.insert')->with('action', '([a-z\-0-9]+)');
 

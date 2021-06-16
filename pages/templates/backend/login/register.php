@@ -45,7 +45,7 @@ $form = new Form(array());
                                     <?php echo $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>
                                 </div>
                             </div>
-                            <?php echo $form->submit('S\'enregistrer', 'register', 'btn btn-primary btn-user btn-block'); ?>
+                            <?php echo $form->submit('S\'enregistrer', 'register', 'btn btn-primary btn-user btn-block', 'register'); ?>
                         </form>
                         <hr>
                         <div class="text-center">

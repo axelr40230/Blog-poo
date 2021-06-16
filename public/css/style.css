@@ -899,3 +899,90 @@ a.btn-red:hover {
     font-size: 5rem !important;
     border-radius: 0 !important;
 }
+
+.main-timeline{ font-family: 'Poppins', sans-serif; }
+.main-timeline:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.main-timeline .timeline{
+    width: 50%;
+    padding: 0 0 0 30px;
+    margin: 0 0 0 5px;
+    float: right;
+}
+.main-timeline .timeline-content{
+    color: #fff;
+    background: #e84d49;
+    text-align: center;
+    padding: 20px 20px 20px 45px;
+    box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.2);
+    display: block;
+    position: relative;
+}
+.main-timeline .timeline-content:hover{ text-decoration: none; }
+.main-timeline .timeline-year{
+    color: #e84d49;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 50px;
+    transform: translateY(-50%) rotate(-90deg);
+    position: absolute;
+    left: -91px;
+    top: 50%;
+}
+.main-timeline .timeline-icon{
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 35px;
+    margin: 0 0 10px;
+}
+.main-timeline .title{
+    font-size: 25px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+}
+.main-timeline .description{
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 1px;
+    margin: 0;
+}
+.main-timeline .timeline:nth-child(even){
+    padding: 0 30px 0 0;
+    margin: 0 5px 0 0;
+    float: left;
+}
+.main-timeline .timeline:nth-child(even) .timeline-content{ padding: 20px 45px 20px 20px; }
+.main-timeline .timeline:nth-child(even) .timeline-year{
+    left: auto;
+    right: -95px;
+}
+.main-timeline .timeline:nth-child(4n+2) .timeline-content{ background: #404040; }
+.main-timeline .timeline:nth-child(4n+2) .timeline-year{ color: #404040; }
+.main-timeline .timeline:nth-child(4n+3) .timeline-content{ background: #16CABE; }
+.main-timeline .timeline:nth-child(4n+3) .timeline-year{ color: #16CABE; }
+.main-timeline .timeline:nth-child(4n+4) .timeline-content{ background: #2C1E75; }
+.main-timeline .timeline:nth-child(4n+4) .timeline-year{ color: #2C1E75; }
+@media screen and (max-width:767px){
+    .main-timeline .timeline,
+    .main-timeline .timeline:nth-child(even){
+        width: 100%;
+        padding: 55px 0 0 0;
+        margin: 0 0 30px;
+    }
+    .main-timeline .timeline-content,
+    .main-timeline .timeline:nth-child(even) .timeline-content{
+        padding: 20px;
+    }
+    .main-timeline .timeline-year,
+    .main-timeline .timeline:nth-child(even) .timeline-year{
+        transform: translateY(0) translateX(-50%);
+        left: 50%;
+        right: auto;
+        top: -55px;
+    }
+}

@@ -101,7 +101,7 @@ endif;
 
                         <section class="blog-content">
 
-                            <a href="<?= $post->url(); ?>">
+                            <a href="<?= App::url('posts/') ?><?= $post->slug; ?>">
 
                                 <figure>
 

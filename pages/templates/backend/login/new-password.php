@@ -22,7 +22,7 @@ $form = new Form(array());
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Bon retour parmi nous !</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Merci de compléter le formulaire pour mettre à jour votre mot de passe</h1>
                                 </div>
                                 <?php if($errors) : ?>
                                     <div class="alert alert-danger text-center" role="alert">
@@ -30,19 +30,15 @@ $form = new Form(array());
                                     </div>
                                 <?php endif; ?>
                                 <form class="user" action="" method="post">
-                                    <div class="form-group">
-                                        <?php echo $form->input('email','w-100 form-control form-control-user', 'text','email', 'Votre email'); ?>
-                                    </div>
-                                    <div class="form-group">
-                                        <?php echo $form->input('password','w-100 form-control form-control-user', 'password','password', 'Votre mot de passe'); ?>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <?php echo $form->input('remember','custom-control-input', 'checkbox','remember '); ?>
-                                            <?php echo $form->label('remember','Se souvenir de moi', 'custom-control-label'); ?>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <?php echo $form->input('password','w-100 form-control form-control-user', 'password','password', 'Saisissez un mot de passe'); ?>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <?php echo $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>
                                         </div>
                                     </div>
-                                    <?php echo $form->submit('Se connecter', 'connect', 'btn btn-primary btn-user btn-block', 'connect'); ?>
+                                    <?php echo $form->submit('Réinitialiser le mot de passe', 'newPass', 'btn btn-primary btn-user btn-block', 'newPass'); ?>
                                 </form>
                                 <hr>
                                 <div class="text-center">

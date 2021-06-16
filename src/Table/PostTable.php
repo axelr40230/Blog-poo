@@ -120,15 +120,13 @@ class PostTable extends Table
      */
     public function oneBySlug($slug)
     {
-        //var_dump($slug);
         $req = "SELECT * FROM {$this->getTable()} WHERE slug = :slug";
         $result = App::db()->pdo()->prepare($req);
         $result->execute([
             'slug' => $slug
         ]);
-        //var_dump($result);exit();
         $result->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
-        //var_dump($post = $result->fetch());
+
         return $post = $result->fetch();
     }
 
@@ -174,6 +172,16 @@ class PostTable extends Table
         $results = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' WHERE status = "publish" ORDER BY created_at DESC ');
 
         return $results->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
+    }
+
+    public function delete($slug) {
+        $req = "DELETE FROM {$this->getTable()} WHERE slug = :slug";
+        $result = App::db()->pdo()->prepare($req);
+        $result->execute([
+            'slug' => $slug
+        ]);
+
+        return true;
     }
 
 }

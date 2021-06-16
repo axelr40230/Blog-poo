@@ -5,13 +5,14 @@ use App\App;
 ?>
 <!-- main -->
 
+
 <main role="main-inner-wrapper" class="container">
 
 
     <div class="row">
 
 
-        <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ">
+        <section class="col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
 
             <article role="pge-title-content">
 
@@ -31,7 +32,7 @@ use App\App;
         </section>
 
 
-        <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <section class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 
             <article class="about-content">
 
@@ -48,11 +49,16 @@ use App\App;
 
         </section>
 
+    </div>
+
+
+
 
         <div class="clearfix"></div>
 
 
         <!-- thumbnails -->
+    <div class="row">
 
         <div class="thumbnails-pan">
 
@@ -114,11 +120,88 @@ use App\App;
 
         </div>
 
+    </div>
+</main>
         <!-- thumbnails -->
+
+
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-md-12">
+                    <div class="main-timeline">
+                        <div class="timeline">
+                            <a href="#" class="timeline-content">
+                                <div class="timeline-year">20/22</div>
+                                <div class="timeline-icon"><i class="fa fa-globe"></i></div>
+                                <h3 class="title">DÉVELOPPEUSE / INTÉGRATRICE WEB</h3>
+                                <p class="description">
+                                    Poste occupé dans le cadre d'une alternance<br/>
+
+                                    Formation développeuse PHP/Symfony                                </p>
+                            </a>
+                        </div>
+                        <div class="timeline">
+                            <a href="#" class="timeline-content">
+                                <div class="timeline-year">17/20</div>
+                                <div class="timeline-icon"><i class="fa fa-rocket"></i></div>
+                                <h3 class="title">Web Development</h3>
+                                <p class="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer males uada tellus lorem, et condimentum neque commodo Integer males uada tellus lorem, et condimentum neque commodo
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="main-timeline">
+                        <div class="timeline">
+                            <a href="#" class="timeline-content">
+                                <div class="timeline-year">2021</div>
+                                <div class="timeline-icon"><i class="fa fa-globe"></i></div>
+                                <h3 class="title">Web Designing</h3>
+                                <p class="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer males uada tellus lorem, et condimentum neque commodo Integer males uada tellus lorem, et condimentum neque commodo
+                                </p>
+                            </a>
+                        </div>
+                        <div class="timeline">
+                            <a href="#" class="timeline-content">
+                                <div class="timeline-year">2020</div>
+                                <div class="timeline-icon"><i class="fa fa-rocket"></i></div>
+                                <h3 class="title">Web Development</h3>
+                                <p class="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer males uada tellus lorem, et condimentum neque commodo Integer males uada tellus lorem, et condimentum neque commodo
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="main-timeline">
+                        <div class="timeline">
+                            <a href="#" class="timeline-content">
+                                <div class="timeline-year">2021</div>
+                                <div class="timeline-icon"><i class="fa fa-globe"></i></div>
+                                <h3 class="title">Web Designing</h3>
+                                <p class="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer males uada tellus lorem, et condimentum neque commodo Integer males uada tellus lorem, et condimentum neque commodo
+                                </p>
+                            </a>
+                        </div>
+                        <div class="timeline">
+                            <a href="#" class="timeline-content">
+                                <div class="timeline-year">2020</div>
+                                <div class="timeline-icon"><i class="fa fa-rocket"></i></div>
+                                <h3 class="title">Web Development</h3>
+                                <p class="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer males uada tellus lorem, et condimentum neque commodo Integer males uada tellus lorem, et condimentum neque commodo
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
 
-</main>
+
 
 <!-- main -->
