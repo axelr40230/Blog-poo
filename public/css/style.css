@@ -986,3 +986,7 @@ a.btn-red:hover {
         top: -55px;
     }
 }
+
+.dataTables_filter label, .dataTables_filter input {
+    display: none!important;
+}

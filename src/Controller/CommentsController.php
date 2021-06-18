@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
-use App\Table\CommentTable;
 
 class CommentsController extends Controller
 {
+    /**
+     * @param $comments
+     * @return mixed
+     */
     public function table($comments)
     {
         $comments = ucfirst($comments);
@@ -19,38 +22,24 @@ class CommentsController extends Controller
 
 
     /**
-     * @param $id
-     * @todo A finaliser
+     * @param $slug
      */
-    public function addComment($id)
+    public function addComment($slug)
     {
         $data = $_POST;
-        var_dump($data);
-        var_dump($id);
-    }
-
-    public function update($id)
-    {
-        $isAdmin = Auth::isAdmin();
-        if ($isAdmin == true) {
-            $data = $_POST;
-            $table = $this->table('comments');
-            $table->update($id, $data);
+        $table = $this->table('comments');
+        $tablePost = $this->table('posts');
+        $post = $tablePost->oneBySlug($slug);
+        $id = $post->id;
+        $table->insert($id, $data);
+        if ($table == true) {
             header("Refresh:0");
         }
     }
 
-    public function insert($action)
-    {
-        $isAdmin = Auth::isAdmin();
-        if ($isAdmin == true) {
-            $data = $_POST;
-            $table = $this->table('comments');
-            $table->insert($data);
-            header("Refresh:0");
-        }
-    }
-
+    /**
+     *
+     */
     public function list()
     {
         $isConnect = Auth::isAuth();
@@ -71,6 +60,9 @@ class CommentsController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     */
     public function edit($id)
     {
         $isConnect = Auth::isAuth();
@@ -81,12 +73,20 @@ class CommentsController extends Controller
         } else {
             $isAdmin = Auth::isAdmin();
             if ($isAdmin == true) {
-                $comments = rtrim('comments', 's');
-                $name = $comments;
-                $table = $this->table($comments);
+                $table = $this->table('comments');
                 $comment = $table->one($id);
-                $pageTitle = 'Commentaire n°' . $comment->id;
-                $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $comment], 'backend');
+                if ($comment == false) {
+                    $url = App::url('admin/404');
+                    header("Location: {$url}");
+                    exit();
+                } else {
+                    $comments = rtrim('comments', 's');
+                    $name = $comments;
+                    $table = $this->table($comments);
+                    $comment = $table->one($id);
+                    $pageTitle = 'Commentaire n°' . $comment->id;
+                    $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $comment], 'backend');
+                }
             }
 
         }

@@ -5,6 +5,7 @@ namespace App\Table;
 use App\App;
 use App\Entity\UserEntity;
 use App\FormValidator;
+use App\Mailer;
 use App\Session;
 
 class UserTable extends Table
@@ -130,23 +131,11 @@ class UserTable extends Table
                 $token = uniqid();
 
                 $url = App::url('') . 'confirm?token=' . $token;
-                $message = '
-     <html>
-      <head>
-       <title>Valider votre compte</title>
-      </head>
-      <body>
-       <p>Bonjour ' . $first_name . '</p>
-       <p>Pour finaliser votre inscription, merci de suivre ce lien <a href="' . $url . '">' . $url . '</a> ou de le saisir dans votre navigateur</p>
-        <p>A très bientôt</p>
-      </body>
-     </html>
-     ';
 
-                $message = wordwrap($message, 70, "\r\n");
-
-                mail($email, 'Merci de confirmer votre inscription', $message);
-
+                $mailer = new Mailer();
+                $templateFile = $mailer->file('mail-register');
+                $message = $mailer->extract($templateFile);
+                $mailer->send($email, 'Confirmation', $message);
                 $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at, modify_at, token) VALUES(:first_name, :last_name, :email, :password, :status, NOW(), NOW(), :token)');
                 $register->execute(array(
                         'first_name' => $first_name,
@@ -160,9 +149,11 @@ class UserTable extends Table
 
                 return true;
             }
-        }else{
+        } else {
+
             return false;
         }
+
 
     }
 
@@ -229,7 +220,8 @@ class UserTable extends Table
         return $options;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $req = "DELETE FROM {$this->getTable()} WHERE id = :id";
         $result = App::db()->pdo()->prepare($req);
         $result->execute([
@@ -239,7 +231,8 @@ class UserTable extends Table
         return true;
     }
 
-    public function changePass($id) {
+    public function changePass($id)
+    {
         $data = $_POST;
         $password = htmlspecialchars($data['password']);
         $password_confirmed = htmlspecialchars($data['password_confirmed']);
@@ -256,7 +249,7 @@ class UserTable extends Table
 
         if ($count == 0) {
             return false;
-        }elseif ($password != $password_confirmed) {
+        } elseif ($password != $password_confirmed) {
             return false;
         } else {
             $options = [

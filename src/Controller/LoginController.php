@@ -49,7 +49,7 @@ class LoginController extends Controller
         } else {
             $errors = 'Votre compte a bien été créé, vous devez le valider grâce à l\'email que nous venons de vous envoyer';
             $pageTitle = 'Connexion au back office';
-            $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         }
 
     }

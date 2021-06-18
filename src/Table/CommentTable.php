@@ -4,6 +4,7 @@ namespace App\Table;
 
 use App\App;
 use App\Entity\CommentEntity;
+use App\Session;
 
 class CommentTable extends Table
 {
@@ -70,5 +71,34 @@ class CommentTable extends Table
         );
 
         return $count = $query->rowCount();
+    }
+
+    public function insert($id, $data)
+    {
+        $session = new Session();
+        $user = $session->get('user');
+        $author = $user->id;
+        $status = 'approuved';
+
+        if (!empty($data['comment'])) {
+            $req = "INSERT INTO {$this->getTable()} SET author=?, comment=?, article_id=?, status=?, created_at=NOW()";
+            $query = App::db()->pdo()->prepare($req);
+
+            $query->execute([
+                $author,
+                $data['comment'],
+                $id,
+                $status,
+            ]);
+
+            if ($query == false) {
+                var_dump($query->errorInfo());
+                exit();
+            } else {
+                return App::db()->pdo()->lastInsertId();
+            }
+        } else {
+            return false;
+        }
     }
 }

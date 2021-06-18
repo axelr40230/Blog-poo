@@ -10,7 +10,7 @@ $router->get('/posts', 'PostsController@all');
 $router->get('/contact', 'GlobalController@contact');
 $router->get('/404', 'GlobalController@notFound');
 $router->get('/posts/:slug', 'PostsController@show', 'posts.show')->with('action', '([a-z\-0-9]+)');
-$router->post('/posts/:id', 'PostsController@addComment', 'posts.addComment')->with('id', '[0-9]+');
+$router->post('/posts/:slug', 'CommentsController@addComment', 'comments.addComment')->with('slug', '([a-z\-0-9]+)');
 
 // ROUTER ADMIN - global
 $router->get('admin/404', 'AdminController@notFound');
@@ -54,8 +54,6 @@ $router->post('/admin/users/:action', 'UsersController@insert', 'users.insert')-
 $router->get('/admin/comments', 'CommentsController@list', 'comments.list');
 $router->get('/admin/comments/:id', 'CommentsController@edit', 'comments.edit')->with('id', '[0-9]+');
 $router->post('/admin/comments/:id', 'CommentsController@update', 'comments.update')->with('id', '[0-9]+');
-$router->get('/admin/comments/:action', 'CommentsController@new', 'comments.new')->with('action', '([a-z\-0-9]+)');
-$router->post('/admin/comments/:action', 'CommentsController@insert', 'comments.insert')->with('action', '([a-z\-0-9]+)');
 
 
 $router->run();
