@@ -1,3 +1,10 @@
+<?php
+
+use App\Form;
+
+$form = new Form(array());
+
+?>
 <!-- main -->
 
 <main role="main-inner-wrapper" class="container">
@@ -50,19 +57,30 @@
 
             <div id="message"></div>
 
-            <form method="post" action="inc/contactfrom.php" name="cform" id="cform">
+            <form method="post" action="" name="cform" id="cform">
 
                 <div class="row">
 
+                    <col-12 id="error">
+                        <?php  if($errors) : ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                <?php echo $errors ?>
+                            </div>
+                        <?php endif; ?>
+                    </col-12>
+
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 
-                        <input name="name" id="name" type="text" placeholder="Quel est votre nom ?">
+
+
+                        <!--                        <input name="name" id="name" type="text" placeholder="Quel est votre nom ?">-->
+                        <?php echo $form->input('name', '', 'text', 'name', 'Quel est votre nom ?'); ?>
 
                     </div>
 
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 
-                        <input name="email" id="email" type="email" placeholder="Et votre email ?">
+                        <?php echo $form->input('email', '', 'email', 'email', 'Et votre email ?'); ?>
 
                     </div>
 
@@ -70,11 +88,14 @@
 
                 <div class="clearfix"></div>
 
-                <textarea name="comments" id="comments" cols="" rows="" placeholder="Un petit mot ?"></textarea>
+                <?php echo $form->textarea('', 'message', 'Un petit mot ?'); ?>
 
                 <div class="clearfix"></div>
 
-                <input name="" type="submit" value="C'est parti !!">
+                <div class="text-center">
+                    <?php echo $form->submit('C\'est parti !!', 'send-message', 'btn btn-red my-5', 'send-message'); ?>
+                </div>
+
 
                 <div id="simple-msg"></div>
 

@@ -10,7 +10,12 @@ class Mailer
 
     public $headers = 'Content-type: text/html; charset=iso-8859-1';
     public $message;
+    public $infos = [];
 
+    /**
+     * @param $file
+     * @return string
+     */
     public function file($file): string
     {
         $path = self::URL_FILE;
@@ -18,11 +23,17 @@ class Mailer
         return $filePath = $path . '/' . $file . '.php';
     }
 
-    public function extract($fileTemplate) {
+    /**
+     * @param $fileTemplate
+     * @return string|string[]
+     */
+    public function extract($fileTemplate, $infos) {
         if(file_exists($fileTemplate)) {
-            $content = 'Whatever you want to insert...';
             $tpl = file_get_contents($fileTemplate);
-            $tpl = str_replace('{{content}}', $content, $tpl);
+            foreach (array_keys($infos) as $key){
+                $tpl = str_replace($key, $infos[$key], $tpl);
+            }
+
 
             return $tpl;
         }
@@ -40,7 +51,5 @@ class Mailer
             $headers = $this->headers;
             mail($to, $subject, $message, $headers);
         }
-
-
     }
 }

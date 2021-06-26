@@ -125,7 +125,7 @@ use App\App;
         <!-- thumbnails -->
 
 
-        <div class="container">
+<!--        <div class="container">
             <div class="row py-5">
                 <div class="col-md-12">
                     <div class="main-timeline">
@@ -197,7 +197,7 @@ use App\App;
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
 
     </div>

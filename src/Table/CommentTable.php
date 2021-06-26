@@ -78,7 +78,7 @@ class CommentTable extends Table
         $session = new Session();
         $user = $session->get('user');
         $author = $user->id;
-        $status = 'approuved';
+        $status = 'waiting';
 
         if (!empty($data['comment'])) {
             $req = "INSERT INTO {$this->getTable()} SET author=?, comment=?, article_id=?, status=?, created_at=NOW()";
@@ -100,5 +100,22 @@ class CommentTable extends Table
         } else {
             return false;
         }
+    }
+
+    /**
+     * Requête de mise à jour d'une instance de table // Request to update a table instance
+     * @param $id
+     * @param $data
+     * @param $slug
+     */
+    public function update($id, $data)
+    {
+        $req = "UPDATE {$this->getTable()} SET status=? WHERE id=?";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute([
+            $data['update'],
+            $id
+        ]);
     }
 }

@@ -61,27 +61,38 @@ class LoginController extends Controller
         $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
-    public function changePassword($id)
+    public function changePassword()
     {
         $errors = [];
         $pageTitle = 'Réinitialiser mon mot de passe';
         $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
-    public function changedPassword($id)
+    public function changedPassword()
     {
-        $data = $_POST;
-        $table = $this->table('users');
-        $user = $table->changePass($id);
-        if ($user == false) {
-            $errors = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
-            $pageTitle = 'Réinitialisation de mot de passe';
-            $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
-        } else {
-            $errors = 'Le mot de passe à bien été changé';
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
+        if(isset($_GET['token'])) {
+            $token = $_GET['token'];
+            //var_dump($token);
+            $table = $this->table('users');
+            $user = $table->validUser($token);
+            if($user == true){
+                $data = $_POST;
+                $user = $table->changePass($token);
+                if ($user == false) {
+                    $errors = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
+                    $pageTitle = 'Réinitialisation de mot de passe';
+                    $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+                } else {
+                    $errors = 'Le mot de passe à bien été changé';
+                    $url = App::url('login');
+                    header("Location: {$url}");
+                    exit();
+                }
+            }else{
+                echo 'Votre lien ne semble pas fonctionner';
+            }
+        }else{
+            echo 'Votre lien ne semble pas fonctionner';
         }
     }
 

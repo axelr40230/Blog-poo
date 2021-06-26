@@ -19,8 +19,8 @@
 </head>
 <body>
 <p>Bonjour</p>
-<p>Pour finaliser votre inscription, merci de suivre ce lien : <br/><br/>
-    <a class="btn" href="{{content}}">Confirmer mon inscription</a><br/><br/>
+<p>Pour modifier votre mot de passe, merci de suivre ce lien : <br/><br/>
+    <a class="btn" href="{{content}}">Modifier le mot de passe</a><br/><br/>
     OU, si ce lien ne fonctionne pas, merci de le saisir dans votre navigateur : <br/><br/>
     {{content}}</p>
 <p>Merci de votre confiance</p>

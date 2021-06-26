@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
+use App\Mailer;
+use App\Session;
+use App\Table\UserTable;
 
 class CommentsController extends Controller
 {
@@ -31,9 +34,18 @@ class CommentsController extends Controller
         $tablePost = $this->table('posts');
         $post = $tablePost->oneBySlug($slug);
         $id = $post->id;
-        $table->insert($id, $data);
+        $commentID = $table->insert($id, $data);
         if ($table == true) {
-            header("Refresh:0");
+            $email = 'axelr.apl@gmail.com';
+            $mailUrl = App::url('admin/comments'). '/' . $commentID;
+            $infos = ['{{content}}' => $mailUrl];
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-comment');
+            $message = $mailer->extract($templateFile, $infos);
+            $mailer->send($email, 'Il y a un commentaire en attente', $message);
+            $url = App::url('confirmation');
+            header("Location: {$url}");
+            exit();
         }
     }
 
@@ -90,5 +102,39 @@ class CommentsController extends Controller
             }
 
         }
+    }
+
+    /**
+     *
+     */
+    public function confirm()
+    {
+        $pageTitle = 'Commentaire en attente de validation';
+        $this->render('confirmation', ['pageTitle' => $pageTitle], 'frontend');
+    }
+
+    public function update($id)
+    {
+        $data = $_POST;
+        $status = $data['update'];
+        $table = $this->table('comments');
+        $comment = $table->one($id);
+        $id = $comment->id;
+        $table->update($id, $data);
+        $author = $comment->author;
+        $tableUser = new UserTable();
+        $user = $tableUser->one($author);
+        $email = $user->email;
+        $prenom = $user->first_name;
+        $infos = ['{{content}}' => $prenom];
+
+        if($status == 'approuved') {
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-approuved');
+            $message = $mailer->extract($templateFile, $infos);
+            $mailer->send($email, 'Votre message est en ligne', $message);
+        }
+
+        header("Refresh:0");
     }
 }

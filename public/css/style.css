@@ -987,6 +987,11 @@ a.btn-red:hover {
     }
 }
 
-.dataTables_filter label, .dataTables_filter input {
+.dataTables_wrapper div.dataTables_filter, .dataTables_wrapper div.dataTables_filter label {
+    text-align: right;
+    display: none!important;
+}
+
+.dataTables_wrapper .dataTables_filter {
     display: none!important;
 }

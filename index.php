@@ -8,9 +8,11 @@ $router = new App\Router\Router($_GET['url']);
 $router->get('/', 'HomeController@home');
 $router->get('/posts', 'PostsController@all');
 $router->get('/contact', 'GlobalController@contact');
+$router->post('/contact', 'GlobalController@sendContact');
 $router->get('/404', 'GlobalController@notFound');
 $router->get('/posts/:slug', 'PostsController@show', 'posts.show')->with('action', '([a-z\-0-9]+)');
 $router->post('/posts/:slug', 'CommentsController@addComment', 'comments.addComment')->with('slug', '([a-z\-0-9]+)');
+$router->get('/confirmation', 'CommentsController@confirm');
 
 // ROUTER ADMIN - global
 $router->get('admin/404', 'AdminController@notFound');
@@ -26,8 +28,8 @@ $router->get('/confirmed', 'LoginController@confirmed');
 $router->post('/register', 'LoginController@registered');
 $router->get('/forgot-password', 'LoginController@forgotpassword');
 $router->post('/forgot-password', 'LoginController@retrievepassword');
-$router->get('/change/:id', 'LoginController@changePassword')->with('id', '[0-9]+');
-$router->post('/change/:id', 'LoginController@changedPassword')->with('id', '[0-9]+');
+$router->get('/change', 'LoginController@changePassword');
+$router->post('/change', 'LoginController@changedPassword');
 
 
 // ROUTER POSTS - posts

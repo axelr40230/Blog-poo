@@ -13,7 +13,7 @@ $infos = new UserTable();
 $id_author = $post->author;
 $author = $infos->author($id_author);
 
-$date = $post->date_fr('long', 'created_at');
+$date = $post->date_fr('long', 'modify_at');
 //var_dump($post->id);
 $tableComments = new CommentTable();
 $comments = $tableComments->elements($post->id, 'approuved');
@@ -35,7 +35,7 @@ $number = $tableComments->howManyComments($post->id, 'approuved');
             <header role="bog-header" class="bog-header text-center">
 
                 <h1 class="post-title"><span><?= $post->title; ?></span></h1>
-                <h3>Publié le <?= $date; ?> par <span>
+                <h3>Modifié le <?= $date; ?> | Rédigé par <span>
                             <?php echo $author->first_name . ' ' . $author->last_name; ?>
                         </span></h3>
                 <h2><?= $post->introduction; ?></h2>

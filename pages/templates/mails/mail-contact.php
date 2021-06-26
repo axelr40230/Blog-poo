@@ -3,11 +3,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Valider votre compte</title>
+    <title>Il y a un commentaire en attente</title>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
+
         .btn {
             background-color: #fb5353;
             padding: 15px 20px;
@@ -19,11 +20,10 @@
 </head>
 <body>
 <p>Bonjour</p>
-<p>Pour finaliser votre inscription, merci de suivre ce lien : <br/><br/>
-    <a class="btn" href="{{content}}">Confirmer mon inscription</a><br/><br/>
-    OU, si ce lien ne fonctionne pas, merci de le saisir dans votre navigateur : <br/><br/>
-    {{content}}</p>
-<p>Merci de votre confiance</p>
-<p>Alexandra</p>
+<p>Un utilisateur vient de vous envoyer un message<br/><br/>
+    Son nom : {name}<br/>
+    Son email : <a href="mailto:{email}">{email}</a><br/>
+    Son message : {message}
+</p>
 </body>
 </html>

@@ -43,6 +43,33 @@ $post = $table->one($postId);
                             <p><?= $comment->comment ?></p>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="" method="post">
+                                <?php if ($status_comment == 'waiting') : ?>
+
+                                    <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
+
+                                    <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
+
+
+                                <?php elseif ($status_comment == 'approuved') : ?>
+
+                                    <?php echo $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
+
+                                    <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
+
+
+                                <?php elseif ($status_comment == 'intrash') : ?>
+
+                                <?php echo $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
+
+                                <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
+                            </form>
+                            <?php endif; ?>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

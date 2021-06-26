@@ -131,10 +131,11 @@ class UserTable extends Table
                 $token = uniqid();
 
                 $url = App::url('') . 'confirm?token=' . $token;
+                $infos = ['{{content}}' => $url];
 
                 $mailer = new Mailer();
                 $templateFile = $mailer->file('mail-register');
-                $message = $mailer->extract($templateFile);
+                $message = $mailer->extract($templateFile, $infos);
                 $mailer->send($email, 'Confirmation', $message);
                 $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at, modify_at, token) VALUES(:first_name, :last_name, :email, :password, :status, NOW(), NOW(), :token)');
                 $register->execute(array(
@@ -169,18 +170,19 @@ class UserTable extends Table
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
         //var_dump($user);exit();
-        $user = $user->id;
+
 
         if ($count == 0) {
             return false;
         } else {
             //var_dump($query);exit();
-            $url = App::url('') . 'change/' . $user;
-            $message = "Bonjour \r\nMerci d'utiliser ce lien pour réinitialiser votre mot de passe' : $url\r\nA très bientôt";
-
-            $message = wordwrap($message, 70, "\r\n");
-
-            mail($email, 'Réinitialisation de mot de passe', $message);
+            $user = $user->token;
+            $url = App::url('') . 'change?token=' . $user;
+            $infos = ['{{content}}' => $url];
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-password');
+            $message = $mailer->extract($templateFile, $infos);
+            $mailer->send($email, 'Modifier votre mot de passe', $message);
 
             return true;
         }
@@ -231,21 +233,22 @@ class UserTable extends Table
         return true;
     }
 
-    public function changePass($id)
+    public function changePass($token)
     {
         $data = $_POST;
         $password = htmlspecialchars($data['password']);
         $password_confirmed = htmlspecialchars($data['password_confirmed']);
-        $req = "SELECT * FROM {$this->getTable()} WHERE id =:id";
+        $req = "SELECT * FROM {$this->getTable()} WHERE token =:token";
         $query = App::db()->pdo()->prepare($req);
 
         $query->execute(array(
-                'id' => $id)
+                'token' => $token)
         );
 
         $count = $query->rowCount();
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
+        $id = $user->id;
 
         if ($count == 0) {
             return false;
