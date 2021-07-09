@@ -27,11 +27,13 @@ class Mailer
      * @param $fileTemplate
      * @return string|string[]
      */
-    public function extract($fileTemplate, $infos) {
-        if(file_exists($fileTemplate)) {
+    public function extract($fileTemplate, $infos)
+    {
+        if (file_exists($fileTemplate)) {
             $tpl = file_get_contents($fileTemplate);
-            foreach (array_keys($infos) as $key){
-                $tpl = str_replace($key, $infos[$key], $tpl);
+            foreach (array_keys($infos) as $key) {
+                $regex = "/{{\s?$key\s?}}/iu";
+                $tpl = preg_replace($regex, $infos[$key], $tpl);
             }
 
 
@@ -47,9 +49,6 @@ class Mailer
 
     public function send($to, $subject, $message)
     {
-         {
-            $headers = $this->headers;
-            mail($to, $subject, $message, $headers);
-        }
+        mail($to, $subject, $message, $this->headers);
     }
 }

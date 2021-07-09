@@ -131,7 +131,7 @@ class UserTable extends Table
                 $token = uniqid();
 
                 $url = App::url('') . 'confirm?token=' . $token;
-                $infos = ['{{content}}' => $url];
+                $infos = ['content' => $url];
 
                 $mailer = new Mailer();
                 $templateFile = $mailer->file('mail-register');
@@ -175,10 +175,9 @@ class UserTable extends Table
         if ($count == 0) {
             return false;
         } else {
-            //var_dump($query);exit();
             $user = $user->token;
             $url = App::url('') . 'change?token=' . $user;
-            $infos = ['{{content}}' => $url];
+            $infos = ['content' => $url];
             $mailer = new Mailer();
             $templateFile = $mailer->file('mail-password');
             $message = $mailer->extract($templateFile, $infos);

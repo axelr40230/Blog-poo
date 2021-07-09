@@ -38,7 +38,7 @@ class CommentsController extends Controller
         if ($table == true) {
             $email = 'axelr.apl@gmail.com';
             $mailUrl = App::url('admin/comments'). '/' . $commentID;
-            $infos = ['{{content}}' => $mailUrl];
+            $infos = ['content' => $mailUrl];
             $mailer = new Mailer();
             $templateFile = $mailer->file('mail-comment');
             $message = $mailer->extract($templateFile, $infos);
@@ -126,7 +126,7 @@ class CommentsController extends Controller
         $user = $tableUser->one($author);
         $email = $user->email;
         $prenom = $user->first_name;
-        $infos = ['{{content}}' => $prenom];
+        $infos = ['content' => $prenom];
 
         if($status == 'approuved') {
             $mailer = new Mailer();

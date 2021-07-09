@@ -38,16 +38,6 @@ class ContactTable extends Table
                 var_dump($query->errorInfo());
                 exit();
             } else {
-                $email = 'axelr.apl@gmail.com';
-                $infos = [
-                    '{name}' => $data['name'],
-                    '{email}' => $data['email'],
-                    '{message}' => $data['message']
-                ];
-                $mailer = new Mailer();
-                $templateFile = $mailer->file('mail-contact');
-                $message = $mailer->extract($templateFile, $infos);
-                $mailer->send($email, 'Vous avez un nouveau message', $message);
 
                 return App::db()->pdo()->lastInsertId();
             }

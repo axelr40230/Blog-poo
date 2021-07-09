@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\App;
+use App\Mailer;
 use App\Table\ContactTable;
 
 class GlobalController extends Controller
@@ -42,6 +43,16 @@ class GlobalController extends Controller
             $pageTitle = 'Me contacter';
             $this->render('contact', ['pageTitle' => $pageTitle, 'errors' => $errors], 'frontend');
         } else {
+            $email = 'axelr.apl@gmail.com';
+            $infos = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'message' => $data['message']
+            ];
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-contact');
+            $message = $mailer->extract($templateFile, $infos);
+            $mailer->send($email, 'Vous avez un nouveau message', $message);
             $errors = 'Le message a bien été envoyé';
             $pageTitle = 'Me contacter';
             $ancre = 'error';

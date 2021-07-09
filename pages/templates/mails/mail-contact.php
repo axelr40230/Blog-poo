@@ -21,9 +21,9 @@
 <body>
 <p>Bonjour</p>
 <p>Un utilisateur vient de vous envoyer un message<br/><br/>
-    Son nom : {name}<br/>
-    Son email : <a href="mailto:{email}">{email}</a><br/>
-    Son message : {message}
+    Son nom : {{name}}<br/>
+    Son email : <a href="mailto:{email}">{{email}}</a><br/>
+    Son message : {{message}}
 </p>
 </body>
 </html>
