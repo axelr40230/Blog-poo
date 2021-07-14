@@ -9,6 +9,7 @@ use App\Table\ContactTable;
 class GlobalController extends Controller
 {
     /**
+     * fait le lien avec la table des prises de contact via la page contact
      * @param $contact
      * @return mixed
      */
@@ -20,6 +21,9 @@ class GlobalController extends Controller
         return $table = new $table();
     }
 
+    /**
+     * gère l'affichage de la page contact
+     */
     public function contact()
     {
         $errors = [];
@@ -27,12 +31,18 @@ class GlobalController extends Controller
         $this->render('contact', ['pageTitle' => $pageTitle, 'errors' => $errors], 'frontend');
     }
 
+    /**
+     * gère l'affichage de la page 404 en front
+     */
     public function notFound()
     {
         $pageTitle = 'Page introuvable';
         $this->render('404', ['pageTitle' => $pageTitle], 'frontend');
     }
 
+    /**
+     * gère le formulaire de contact (insertion dans la base de données + notification à l'administrateur
+     */
     public function sendContact()
     {
         $data = $_POST;

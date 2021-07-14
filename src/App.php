@@ -54,7 +54,6 @@ class App
             'user' => 'Utilisateur',
             'draft' => 'Brouillon',
             'publish' => 'Publié',
-            'intrash' => 'A la corbeille',
             'insert post' => 'Ajouter un nouvel article',
             'posts' => 'Articles',
             'users' => 'Utilisateurs',

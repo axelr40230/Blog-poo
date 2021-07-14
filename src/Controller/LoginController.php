@@ -8,6 +8,11 @@ use App\Session;
 
 class LoginController extends Controller
 {
+    /**
+     * fait le lien avec la table
+     * @param $posts
+     * @return mixed
+     */
     private function table($posts)
     {
         $posts = ucfirst($posts);
@@ -17,6 +22,9 @@ class LoginController extends Controller
         return $table = new $table();
     }
 
+    /**
+     * gère l'affichage de la page de connexion au BO
+     */
     public function login()
     {
         $isConnect = Auth::isAuth();
@@ -29,6 +37,9 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * gère l'affichage de la page de création de compte utilisateur
+     */
     public function register()
     {
         $errors = [];
@@ -36,6 +47,9 @@ class LoginController extends Controller
         $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
+    /**
+     * gère la création d'un nouveau compte utilisateur
+     */
     public function registered()
     {
         $data = $_POST;
@@ -54,6 +68,9 @@ class LoginController extends Controller
 
     }
 
+    /**
+     * gère l'affichage de la page d'oubli du mot de passe
+     */
     public function forgotpassword()
     {
         $errors = [];
@@ -61,6 +78,9 @@ class LoginController extends Controller
         $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
+    /**
+     * gère l'affichage de la page de demande de réinitialisation du mot de passe
+     */
     public function changePassword()
     {
         $errors = [];
@@ -68,6 +88,9 @@ class LoginController extends Controller
         $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
     }
 
+    /**
+     * gestion du formulaire de changement de mot de passe
+     */
     public function changedPassword()
     {
         if(isset($_GET['token'])) {
@@ -96,6 +119,9 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * formulaire de demande de changement de mot de passe
+     */
     public function retrievepassword()
     {
         $data = $_POST;
@@ -115,6 +141,9 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * gestion du formulaire de connexion au BO
+     */
     public function connect()
     {
         $data = $_POST;
@@ -138,6 +167,9 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * permet de se rendre à la page tableau de bord d'administration
+     */
     public function goAdmin()
     {
         $url = App::url('admin');
@@ -145,6 +177,9 @@ class LoginController extends Controller
         exit();
     }
 
+    /**
+     * permet de se rendre sur la page d'accueil du site
+     */
     public function goFront()
     {
         $url = App::url('');
@@ -152,6 +187,9 @@ class LoginController extends Controller
         exit();
     }
 
+    /**
+     * déconnexion du BO
+     */
     public function logout()
     {
         $session = new Session();
@@ -161,6 +199,9 @@ class LoginController extends Controller
         exit();
     }
 
+    /**
+     * confirmation de compte utilisateur
+     */
     public function confirm(){
         if(isset($_GET['token'])) {
             $token = $_GET['token'];
@@ -176,12 +217,18 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * permet d'afficher la page de confirmation de compte utilisateur validé
+     */
     public function goConfirmed(){
         $url = App::url('confirmed');
         header("Location: {$url}");
         exit();
     }
 
+    /**
+     * gère l'affichage de la page de confirmation de compte utilisateur validé
+     */
     public function confirmed() {
         $errors = 'Merci de votre confirmation, vous pouvez désormais vous connecter à votre compte';
         $pageTitle = 'Bienvenue';

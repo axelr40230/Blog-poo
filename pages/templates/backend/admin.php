@@ -17,7 +17,6 @@ $numberPosts = $tablePosts->howManyPosts();
 
 $session = new Session();
 $user = $session->get('user');
-//var_dump($_SESSION);exit();
 
 
 ?>

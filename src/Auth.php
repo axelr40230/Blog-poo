@@ -12,12 +12,11 @@ class Auth
         if (is_null($session->get('user'))) {
 
             return false;
+
         } else {
 
             return true;
         }
-
-
     }
 
     public static function isAdmin()
@@ -28,8 +27,8 @@ class Auth
         if ($status == 'admin') {
 
             return true;
-        } else {
 
+        } else {
             $url = App::url('');
             header("Location: {$url}");
             exit();

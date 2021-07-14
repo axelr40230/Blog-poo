@@ -3,14 +3,13 @@
 namespace App\Controller;
 
 use App\App;
-use App\Auth;
 use App\Mailer;
-use App\Session;
 use App\Table\UserTable;
 
 class CommentsController extends Controller
 {
     /**
+     * fait le lien avec la table commentaires
      * @param $comments
      * @return mixed
      */
@@ -25,6 +24,7 @@ class CommentsController extends Controller
 
 
     /**
+     * permet d'ajouter un commentaire + envoi de la notification utilisateur
      * @param $slug
      */
     public function addComment($slug)
@@ -50,18 +50,12 @@ class CommentsController extends Controller
     }
 
     /**
-     *
+     * liste tous les commentaires
      */
     public function list()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('comments');
                 $trad = new App();
                 $pageTitle = $trad->translate('comments');
@@ -73,18 +67,13 @@ class CommentsController extends Controller
     }
 
     /**
+     * permet d'éditer un commentaire
      * @param $id
      */
     public function edit($id)
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('comments');
                 $comment = $table->one($id);
                 if ($comment == false) {
@@ -100,12 +89,11 @@ class CommentsController extends Controller
                     $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $comment], 'backend');
                 }
             }
-
         }
     }
 
     /**
-     *
+     * confirme l'envoi du commentaire pour l'utilisateur
      */
     public function confirm()
     {
@@ -113,6 +101,11 @@ class CommentsController extends Controller
         $this->render('confirmation', ['pageTitle' => $pageTitle], 'frontend');
     }
 
+
+    /**
+     * permet de mettre à jour un commentaire
+     * @param $id
+     */
     public function update($id)
     {
         $data = $_POST;

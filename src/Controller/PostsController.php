@@ -8,6 +8,11 @@ use App\Table\PostTable;
 
 class PostsController extends Controller
 {
+    /**
+     * fait le lien avec la table des posts
+     * @param $posts
+     * @return mixed
+     */
     public function table($posts)
     {
         $posts = ucfirst($posts);
@@ -18,7 +23,8 @@ class PostsController extends Controller
     }
 
     /**
-     * @param $id
+     * gère l'affichage d'un post en front
+     * @param $slug
      */
     public function show($slug)
     {
@@ -33,7 +39,7 @@ class PostsController extends Controller
     }
 
     /**
-     *
+     * gère l'affichage du listing des posts en front
      */
     public function all()
     {
@@ -43,6 +49,10 @@ class PostsController extends Controller
     }
 
 
+    /**
+     * permet de mettre à jour un post
+     * @param $slug
+     */
     public function update($slug)
     {
         $data = $_POST;
@@ -53,10 +63,12 @@ class PostsController extends Controller
         header("Refresh:0");
     }
 
+    /**
+     * gère l'insertion d'un nouveau post
+     */
     public function insert()
     {
-        $isAdmin = Auth::isAdmin();
-        if ($isAdmin == true) {
+        if ($this->isAdmin()) {
             $errors = [];
             $data = $_POST;
             $table = $this->table('posts');
@@ -75,59 +87,48 @@ class PostsController extends Controller
                 exit();
             }
         }
-
     }
 
+    /**
+     * liste de tous les posts sauf corbeille dans le BO
+     */
     public function list()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
                 $table = $table->findNotTrash();
-                //var_dump($table);exit();
                 $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
             }
         }
     }
 
+    /**
+     * listing des posts à la corbeille
+     */
     public function trash()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
                 $table = $table->findInTrash();
                 $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
             }
-
         }
     }
 
+    /**
+     * suppression définitive d'un post
+     * @param $slug
+     */
     public function delete($slug)
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('posts');
                 $delete = $table->delete($slug);
                 if ($delete == true) {
@@ -141,16 +142,13 @@ class PostsController extends Controller
         }
     }
 
+    /**
+     * liste posts en brouillon
+     */
     public function draft()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
@@ -161,16 +159,13 @@ class PostsController extends Controller
         }
     }
 
+    /**
+     * liste les posts publiés
+     */
     public function publish()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
@@ -182,17 +177,15 @@ class PostsController extends Controller
     }
 
 
+    /**
+     * permet d'éditer un post
+     * @param $slug
+     */
     public function edit($slug)
     {
         $errors = [];
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $post = rtrim('posts', 's');
                 $name = $post;
                 $posts = 'posts';
@@ -205,17 +198,14 @@ class PostsController extends Controller
         }
     }
 
+    /**
+     * gère l'affichage de la page de création d'un post
+     */
     public function new()
     {
         $errors = [];
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $posts = rtrim('posts', 's');
                 $name = $posts;
                 $pageTitle = 'insert' . $posts;

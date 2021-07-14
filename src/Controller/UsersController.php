@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\App;
-use App\Auth;
-use App\Table\UserTable;
 
 class UsersController extends Controller
 {
+    /**
+     * fait le lien avec la table users
+     * @param $users
+     * @return mixed
+     */
     public function table($users)
     {
         $users = ucfirst($users);
@@ -17,22 +20,13 @@ class UsersController extends Controller
         return $table = new $table();
     }
 
-
     /**
+     * permet de mettre à jour un utilisateur
      * @param $id
-     * @todo A finaliser
      */
-    public function addComment($id)
-    {
-        $data = $_POST;
-        var_dump($data);
-        var_dump($id);
-    }
-
     public function update($id)
     {
-        $isAdmin = Auth::isAdmin();
-        if ($isAdmin == true) {
+        if ($this->isAdmin()) {
             $data = $_POST;
             $table = $this->table('users');
             $table->update($id, $data);
@@ -40,10 +34,13 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * permet d'ajouter un utilisateur
+     * @param $action
+     */
     public function insert($action)
     {
-        $isAdmin = Auth::isAdmin();
-        if ($isAdmin == true) {
+        if ($this->isAdmin()) {
             $data = $_POST;
             $table = $this->table('users');
             $table->insert($data);
@@ -51,16 +48,13 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * liste tous les utilisateurs
+     */
     public function list()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('users');
                 $trad = new App();
                 $pageTitle = $trad->translate('users');
@@ -70,16 +64,14 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * permet d'éditer un utilisateur
+     * @param $id
+     */
     public function edit($id)
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $users = rtrim('users', 's');
                 $name = $users;
                 $table = $this->table($users);
@@ -96,16 +88,14 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * suppression d'un utilisateur
+     * @param $id
+     */
     public function delete($id)
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect == false) {
-            $url = App::url('login');
-            header("Location: {$url}");
-            exit();
-        } else {
-            $isAdmin = Auth::isAdmin();
-            if ($isAdmin == true) {
+        if ($this->isConnected()) {
+            if ($this->isAdmin()) {
                 $table = $this->table('users');
                 $delete = $table->delete($id);
                 if ($delete == true) {
