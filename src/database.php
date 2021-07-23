@@ -7,10 +7,6 @@ use \PDO;
 
 class Database
 {
-    private $db_name;
-    private $db_user;
-    private $db_pass;
-    private $db_host;
     private $pdo;
 
     /**
@@ -22,12 +18,12 @@ class Database
      */
     public function __construct($db_name, $db_user = 'root', $db_pass = '', $db_host = 'localhost')
     {
-        $this->db_name = $db_name;
-        $this->db_user = $db_user;
-        $this->db_pass = $db_pass;
-        $this->db_host = $db_host;
+        $db_name = Env::get('DB_NAME');
+        $db_user = Env::get('DB_USER');
+        $db_pass = Env::get('DB_PASS');
+        $db_host = Env::get('DB_HOST');
 
-        $pdo = new \PDO('mysql:host=' . $this->db_host . ';dbname=' . $this->db_name . ';charset=utf8', $this->db_user, $this->db_pass);
+        $pdo = new \PDO('mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8', $db_user, $db_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->pdo = $pdo;
     }
