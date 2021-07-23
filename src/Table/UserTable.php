@@ -5,8 +5,6 @@ namespace App\Table;
 use App\App;
 use App\Entity\UserEntity;
 use App\FormValidator;
-use App\Mailer;
-use App\Session;
 
 class UserTable extends Table
 {
@@ -68,14 +66,11 @@ class UserTable extends Table
             $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
             $user = $query->fetch();
 
-            //var_dump($user);
-
             if ($count == 0) {
                 return false;
             } else {
                 $pass = $password;
                 $hash = $user->password;
-                //var_dump($hash);
                 $isPasswordCorrect = password_verify($pass, $hash);
 
                 if (!$isPasswordCorrect) {
@@ -131,12 +126,10 @@ class UserTable extends Table
                 $token = uniqid();
 
                 $url = App::url('') . 'confirm?token=' . $token;
-                $infos = ['content' => $url];
 
-                $mailer = new Mailer();
-                $templateFile = $mailer->file('mail-register');
-                $message = $mailer->extract($templateFile, $infos);
-                $mailer->send($email, 'Confirmation', $message);
+                $infos = ['email' => $email, 'url' => $url];
+
+
                 $register = App::db()->pdo()->prepare('INSERT INTO users(first_name, last_name, email, password, status, created_at, modify_at, token) VALUES(:first_name, :last_name, :email, :password, :status, NOW(), NOW(), :token)');
                 $register->execute(array(
                         'first_name' => $first_name,
@@ -148,7 +141,7 @@ class UserTable extends Table
                     )
                 );
 
-                return true;
+                return $infos;
             }
         } else {
 
@@ -177,13 +170,9 @@ class UserTable extends Table
         } else {
             $user = $user->token;
             $url = App::url('') . 'change?token=' . $user;
-            $infos = ['content' => $url];
-            $mailer = new Mailer();
-            $templateFile = $mailer->file('mail-password');
-            $message = $mailer->extract($templateFile, $infos);
-            $mailer->send($email, 'Modifier votre mot de passe', $message);
 
-            return true;
+            return $infos = ['email' => $email, 'url' => $url];
+
         }
     }
 

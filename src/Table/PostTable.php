@@ -99,10 +99,6 @@ class PostTable extends Table
         ]);
     }
 
-    public function getRelation()
-    {
-        echo 'all';
-    }
 
     public function howManyPosts()
     {

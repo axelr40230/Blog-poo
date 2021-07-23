@@ -5,13 +5,6 @@ namespace App;
 
 class App
 {
-
-    const DB_NAME = 'blogpoo';
-    const DB_USER = 'root';
-    const DB_PASS = '';
-    const DB_HOST = 'localhost';
-    const URL_BLOG = 'http://localhost/BLOG-POO-AR/projet-blog-alexandra-OC';
-
     private static $database;
 
     /**
@@ -20,7 +13,11 @@ class App
     public static function db(): Database
     {
         if (self::$database === null) {
-            self::$database = new Database(self::DB_NAME, self::DB_USER, self::DB_PASS, self::DB_HOST);
+            $db_name = Env::get('DB_NAME');
+            $db_user = Env::get('DB_USER');
+            $db_pass = Env::get('DB_PASS');
+            $db_host = Env::get('DB_HOST');
+            self::$database = new Database($db_name, $db_user, $db_pass, $db_host);
         }
 
         return self::$database;
@@ -33,7 +30,7 @@ class App
      */
     public static function url($path = ''): string
     {
-        $origin = self::URL_BLOG;
+        $origin = Env::get('URL_BLOG');;
 
         return $origin . '/' . $path;
     }

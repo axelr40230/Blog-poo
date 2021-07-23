@@ -118,4 +118,12 @@ class CommentTable extends Table
             $id
         ]);
     }
+
+
+    public function findAllWithAuthor()
+    {
+        $results = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' INNER JOIN users ON ' . $this->getTable() . '.author = users.id ORDER BY ' . $this->getTable() . '.created_at DESC');
+
+        return $results->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
+    }
 }

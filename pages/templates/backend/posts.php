@@ -1,6 +1,5 @@
 <?php
 use App\App;
-use App\Table\UserTable;
 
 $status = new App();
 
@@ -55,10 +54,7 @@ $status = new App();
                             <?= $trad = $status->translate($post->status); ?>
                         </td>
                         <td><a class="text-info" href="<?= App::url('admin/users') ?>/<?= $post->author; ?>"><?php
-                            $infos = new UserTable();
-                            $id_author = $post->author;
-                                $author = $infos->author($id_author);
-                            echo $author->first_name.' '.$author->last_name;
+                            echo $first_name.' '.$last_name;
                                 ?></a></td>
                         <td>
                             <?php $date = $post->date_fr('exact', 'created_at');

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\App;
 use App\Auth;
 use App\Table\PostTable;
+use App\Table\UserTable;
 
 class PostsController extends Controller
 {
@@ -99,8 +100,15 @@ class PostsController extends Controller
                 $table = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
-                $table = $table->findNotTrash();
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+                $posts = $table->findNotTrash();
+                foreach ($posts as $post) {
+                    $infos = new UserTable();
+                    $id_author = $post->author;
+                    $author = $infos->author($id_author);
+                    $first_name = $author->first_name;
+                    $last_name = $author->last_name;
+                }
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
             }
         }
     }
@@ -112,11 +120,18 @@ class PostsController extends Controller
     {
         if ($this->isConnected()) {
             if ($this->isAdmin()) {
-                $table = $this->table('posts');
+                $posts = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
-                $table = $table->findInTrash();
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+                $posts = $posts->findInTrash();
+                foreach ($posts as $post) {
+                    $infos = new UserTable();
+                    $id_author = $post->author;
+                    $author = $infos->author($id_author);
+                    $first_name = $author->first_name;
+                    $last_name = $author->last_name;
+                }
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
             }
         }
     }
@@ -149,12 +164,18 @@ class PostsController extends Controller
     {
         if ($this->isConnected()) {
             if ($this->isAdmin()) {
-                $table = $this->table('posts');
+                $posts = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
-                $table = $table->findDraft();
-                //var_dump($table);exit();
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+                $posts = $posts->findDraft();
+                foreach ($posts as $post) {
+                    $infos = new UserTable();
+                    $id_author = $post->author;
+                    $author = $infos->author($id_author);
+                    $first_name = $author->first_name;
+                    $last_name = $author->last_name;
+                }
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
             }
         }
     }
@@ -166,12 +187,18 @@ class PostsController extends Controller
     {
         if ($this->isConnected()) {
             if ($this->isAdmin()) {
-                $table = $this->table('posts');
+                $posts = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
-                $table = $table->findPublish();
-                //var_dump($table);exit();
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table], 'backend');
+                $posts = $posts->findPublish();
+                foreach ($posts as $post) {
+                    $infos = new UserTable();
+                    $id_author = $post->author;
+                    $author = $infos->author($id_author);
+                    $first_name = $author->first_name;
+                    $last_name = $author->last_name;
+                }
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
             }
         }
     }

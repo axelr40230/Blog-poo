@@ -1,23 +1,6 @@
 <?php
 
 use App\App;
-use App\Session;
-use App\Table\CommentTable;
-use App\Table\UserTable;
-use App\Table\PostTable;
-
-$tableComments = new CommentTable();
-$numberComments = $tableComments->howManyWaiting('waiting');
-
-$tableUsers = new UserTable();
-$numberUsers = $tableUsers->howManyUsers();
-
-$tablePosts = new PostTable();
-$numberPosts = $tablePosts->howManyPosts();
-
-$session = new Session();
-$user = $session->get('user');
-
 
 ?>
 <!-- Begin Page Content -->
@@ -39,7 +22,8 @@ $user = $session->get('user');
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Bienvenue</div>
+                                Bienvenue
+                            </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $user->first_name; ?> <?= $user->last_name; ?></div>
                         </div>
                         <div class="col-auto">
@@ -47,7 +31,8 @@ $user = $session->get('user');
                         </div>
                     </div>
                     <div class="row py-3">
-                        <a href="<?= App::url('admin/users/') ?><?= $user->id; ?>" class="btn btn-primary">Gérer mon compte</a>
+                        <a href="<?= App::url('admin/users/') ?><?= $user->id; ?>" class="btn btn-primary">Gérer mon
+                            compte</a>
                     </div>
                 </div>
             </div>
@@ -60,7 +45,8 @@ $user = $session->get('user');
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Nombre d'utilisateurs</div>
+                                Nombre d'utilisateurs
+                            </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $numberUsers; ?></div>
                         </div>
                         <div class="col-auto">
@@ -80,7 +66,8 @@ $user = $session->get('user');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Nombre d'articles publiés
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Nombre d'articles
+                                publiés
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
@@ -106,7 +93,8 @@ $user = $session->get('user');
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Nombre de commentaires à approuver</div>
+                                Nombre de commentaires à approuver
+                            </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $numberComments; ?></div>
                         </div>
                         <div class="col-auto">

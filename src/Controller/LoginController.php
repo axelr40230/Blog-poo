@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
+use App\Mailer;
 use App\Session;
 
 class LoginController extends Controller
@@ -54,8 +55,17 @@ class LoginController extends Controller
     {
         $data = $_POST;
         $table = $this->table('users');
-        $user = $table->userVerif($data);
-        if ($user == false) {
+        $infos = $table->userVerif($data);
+        $email = $infos['email'];
+        $url = $infos['url'];
+        $contenu = [
+            'content' => $url
+        ];
+        $mailer = new Mailer();
+        $templateFile = $mailer->file('mail-register');
+        $message = $mailer->extract($templateFile, $contenu);
+        $mailer->send($email, 'Confirmation', $message);
+        if ($infos == false) {
             $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance !';
             //echo $errors;exit();
             $pageTitle = 'Créer un compte';
@@ -127,8 +137,18 @@ class LoginController extends Controller
         $data = $_POST;
         //var_dump($data);exit();
         $table = $this->table('users');
-        $user = $table->emailVerif($data);
-        if ($user == false) {
+        $infos = $table->emailVerif($data);
+        $email = $infos['email'];
+        $url = $infos['url'];
+        $contenu = [
+            'content' => $url
+        ];
+
+        $mailer = new Mailer();
+        $templateFile = $mailer->file('mail-password');
+        $message = $mailer->extract($templateFile, $contenu);
+        $mailer->send($email, 'Modifier votre mot de passe', $message);
+        if ($infos == false) {
             $errors = 'Nous n\'avons pas trouvé cet email';
             //echo $errors;exit();
             $pageTitle = 'Mot de passe oublié';

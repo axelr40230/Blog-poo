@@ -59,9 +59,18 @@ class CommentsController extends Controller
                 $table = $this->table('comments');
                 $trad = new App();
                 $pageTitle = $trad->translate('comments');
-                $table = $table->findAll();
-                //var_dump($table);exit();
-                $this->render('comments', ['pageTitle' => $pageTitle, 'comments' => $table], 'backend');
+                $comments = $table->findAll();
+                $statusTranslate = function () {
+                    echo 'patate';
+                };
+                foreach ($comments as $comment) {
+                    $infos = new UserTable();
+                    $id_author = $comment->author;
+                    $author = $infos->author($id_author);
+                    $first_name = $author->first_name;
+                    $last_name = $author->last_name;
+                }
+                $this->render('comments', ['pageTitle' => $pageTitle, 'comments' => $comments, 'status' => $statusTranslate, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
             }
         }
     }
