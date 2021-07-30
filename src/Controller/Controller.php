@@ -15,6 +15,9 @@ class Controller
     public function render(string $path, array $variables = [], string $folder): void
     {
         extract($variables);
+        $translator = function ($term) {
+            return App::translate($term);
+        };
         ob_start();
         require('pages/templates/' . $folder . '/' . $path . '.php');
         $content = ob_get_clean();
@@ -47,6 +50,23 @@ class Controller
         if ($isAdmin) {
             return true;
         }
+    }
+
+    /**
+     * @todo finaliser description
+     */
+    public function error()
+    {
+        if ($this->isAdmin()) {
+            $url = App::url('admin/404');
+            header("Location: {$url}");
+            exit();
+        } else {
+            $url = App::url('404');
+            header("Location: {$url}");
+            exit();
+        }
+
     }
 
 }

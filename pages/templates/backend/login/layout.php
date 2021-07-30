@@ -2,7 +2,7 @@
 use App\App;
 use App\Session;
 
-$sesion = new Session();
+$session = new Session();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

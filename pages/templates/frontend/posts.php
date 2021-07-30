@@ -5,9 +5,8 @@ use App\Auth;
 use App\Session;
 
 $session = new Session();
-if($session->get('user')) :
-$user = $session->get('user');
-$status = $user->status;
+if ($session->get('user')) :
+    $user = $session->get('user');
 endif;
 ?>
 <!-- main -->
@@ -33,17 +32,18 @@ endif;
                 <?php
                 $isConnect = Auth::isAuth();
                 if ($isConnect == false) :
-                ?>
+                    ?>
 
-                <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">S'identifier</a>
+                    <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">S'identifier</a>
 
-                <?php elseif($status == 'admin') : ?>
+                <?php elseif ($user->status == 'admin') : ?>
 
-                <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Accéder au back office</a>
+                    <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Accéder au back
+                        office</a>
 
                 <?php else : ?>
 
-                <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Se déconnecter</a>
+                    <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Se déconnecter</a>
 
                 <?php endif; ?>
 

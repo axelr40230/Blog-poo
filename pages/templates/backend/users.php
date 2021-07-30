@@ -1,11 +1,3 @@
-<?php
-use App\App;
-use App\Table\UserTable;
-
-$status = new App();
-$trad = new App();
-
-?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -48,7 +40,7 @@ $trad = new App();
                         <td><?= $user->first_name; ?></td>
                         <td><a class="text-info" href="mailto:<?= $user->email; ?>"><?= $user->email; ?></a></td>
                         <td>
-                            <?= $trad = $status->translate($user->status); ?>
+                            <?= $user->status; ?>
                         </td>
                         <td>
                             <?php $date = $user->date_fr('exact', 'created_at');

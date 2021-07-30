@@ -41,13 +41,13 @@ use App\App;
                     <?php foreach ($comments as $comment) : ?>
                         <tr>
                             <td><a class="text-info"
-                                   href="<?= App::url('admin/users') ?>/<?= $comment->author; ?>"><?php
-                                    echo $first_name . ' ' . $last_name;
+                                   href="<?= App::url('admin/users') ?>/<?= $comment->author->id; ?>"><?php
+                                    echo $comment->author->first_name . ' ' . $comment->author->last_name;
                                     ?></a></td>
                             <td><a class="text-info"
                                    href="<?= App::url('posts') ?>/<?= $comment->article_id; ?>"><?= $comment->article_id; ?></a>
                             </td>
-                            <td><?= $status; ?></td>
+                            <td><?= $translator($comment->status); ?></td>
                             <td>
                                 <?php $date = $comment->date_fr('exact', 'created_at');
 

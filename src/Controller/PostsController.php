@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\App;
-use App\Auth;
+use App\Table\CommentTable;
 use App\Table\PostTable;
 use App\Table\UserTable;
 
@@ -32,10 +32,16 @@ class PostsController extends Controller
 
         $table = new PostTable();
         $post = $table->oneBySlug($slug);
-        $pageTitle = $post->title;
-        $slug = $post->slug;
-        $id = $post->id;
-        $this->render('single', ['pageTitle' => $pageTitle, 'id' => $id, 'slug' => $slug, 'post' => $post], 'frontend');
+        $usersTable = new UserTable();
+        $post->author = $usersTable->author($post->author);
+        $tableComments = new CommentTable();
+        $comments = $tableComments->elements($post->id, 'approuved');
+        $number = $tableComments->howManyComments($post->id, 'approuved');
+        foreach ($comments as $comment) {
+            $comment->author = $usersTable->author($comment->author);
+        }
+
+        $this->render('single', ['pageTitle' => $post->title, 'id' => $post->id, 'slug' => $post->slug, 'post' => $post, 'comments' => $comments, 'number' => $number], 'frontend');
 
     }
 
@@ -103,12 +109,9 @@ class PostsController extends Controller
                 $posts = $table->findNotTrash();
                 foreach ($posts as $post) {
                     $infos = new UserTable();
-                    $id_author = $post->author;
-                    $author = $infos->author($id_author);
-                    $first_name = $author->first_name;
-                    $last_name = $author->last_name;
+                    $post->author = $infos->author($post->author);
                 }
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts], 'backend');
             }
         }
     }
@@ -126,12 +129,9 @@ class PostsController extends Controller
                 $posts = $posts->findInTrash();
                 foreach ($posts as $post) {
                     $infos = new UserTable();
-                    $id_author = $post->author;
-                    $author = $infos->author($id_author);
-                    $first_name = $author->first_name;
-                    $last_name = $author->last_name;
+                    $post->author = $infos->author($post->author);
                 }
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts], 'backend');
             }
         }
     }
@@ -170,12 +170,9 @@ class PostsController extends Controller
                 $posts = $posts->findDraft();
                 foreach ($posts as $post) {
                     $infos = new UserTable();
-                    $id_author = $post->author;
-                    $author = $infos->author($id_author);
-                    $first_name = $author->first_name;
-                    $last_name = $author->last_name;
+                    $post->author = $infos->author($post->author);
                 }
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts], 'backend');
             }
         }
     }
@@ -193,12 +190,9 @@ class PostsController extends Controller
                 $posts = $posts->findPublish();
                 foreach ($posts as $post) {
                     $infos = new UserTable();
-                    $id_author = $post->author;
-                    $author = $infos->author($id_author);
-                    $first_name = $author->first_name;
-                    $last_name = $author->last_name;
+                    $post->author = $infos->author($post->author);
                 }
-                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
+                $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $posts], 'backend');
             }
         }
     }
@@ -218,9 +212,12 @@ class PostsController extends Controller
                 $posts = 'posts';
                 $table = $this->table($posts);
                 $post = $table->oneBySlug($slug);
-                $pageTitle = $post->title;
                 $id = $post->id;
-                $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $post, 'errors' => $errors], 'backend');
+                $infos = new UserTable();
+                $author = $infos->author($post->author);
+                $status = new App();
+                $status = $status->translate($post->status);
+                $this->render('single-' . $name, ['pageTitle' => $post->title, 'id' => $id, $name => $post, 'errors' => $errors, 'author' => $author, 'status' => $status], 'backend');
             }
         }
     }
@@ -234,9 +231,10 @@ class PostsController extends Controller
         if ($this->isConnected()) {
             if ($this->isAdmin()) {
                 $posts = rtrim('posts', 's');
-                $name = $posts;
-                $pageTitle = 'insert' . $posts;
-                $this->render('insert-' . $name, ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend');
+                $pageTitle = 'insert ' . $posts;
+                $trad = new App();
+                $pageTitle = $trad->translate($pageTitle);
+                $this->render('insert-' . $posts, ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend');
             }
         }
     }

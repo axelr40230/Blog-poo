@@ -2,21 +2,9 @@
 
 use App\App;
 use App\Form;
-use App\Table\UserTable;
-
-
-$status = new App();
-$status_post = $post->status;
 
 $form = new Form(array());
 
-$infos = new UserTable();
-$id_author = $post->author;
-$author = $infos->author($id_author);
-//var_dump($form);
-
-$date = $post->date_fr('exact', 'created_at');
-$dateModify = $post->date_fr('exact', 'modify_at');
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -66,18 +54,15 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                     <div class="row">
                         <div class="col-12">
                             <p>
-                                Créé le <?= $date; ?><br/>
-                                Statut : <?php
-                                $trad = $status->translate($post->status);
-                                echo $trad;
-                                ?><br/>
+                                Créé le <?= $post->date_fr('exact', 'created_at'); ?><br/>
+                                Statut : <?= $status ?><br/>
                                 <?php if($post->status == 'intrash') : ?>
                                     <a class="text-danger" href="<?= App::url('admin/posts/delete') ?>/<?= $post->slug; ?>">Supprimer définitivement</a><br/>
                                 <?php endif; ?>
-                                Dernière modification le <?= $dateModify; ?><br/>
+                                Dernière modification le <?= $post->date_fr('exact', 'modify_at'); ?><br/>
                                 Auteur : <?= $author->first_name . ' ' . $author->last_name; ?>
                             </p>
-                            <?php if ($status_post == 'draft') : ?>
+                            <?php if ($post->status == 'draft') : ?>
 
                                 <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
@@ -86,7 +71,7 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                                 <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
-                            <?php elseif ($status_post == 'publish') : ?>
+                            <?php elseif ($post->status == 'publish') : ?>
 
                                 <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
@@ -95,7 +80,7 @@ $dateModify = $post->date_fr('exact', 'modify_at');
                                 <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
-                            <?php elseif ($status_post == 'intrash') : ?>
+                            <?php elseif ($post->status == 'intrash') : ?>
 
                                 <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 

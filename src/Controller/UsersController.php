@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\App;
+use App\Table\PostTable;
 
 class UsersController extends Controller
 {
@@ -58,8 +59,11 @@ class UsersController extends Controller
                 $table = $this->table('users');
                 $trad = new App();
                 $pageTitle = $trad->translate('users');
-                $table = $table->findAll();
-                $this->render('users', ['pageTitle' => $pageTitle, 'users' => $table], 'backend');
+                $users = $table->findAll();
+                foreach ($users as $user) {
+                    $user->status = $trad->translate($user->status);
+                }
+                $this->render('users', ['pageTitle' => $pageTitle, 'users' => $users], 'backend');
             }
         }
     }
@@ -73,16 +77,17 @@ class UsersController extends Controller
         if ($this->isConnected()) {
             if ($this->isAdmin()) {
                 $users = rtrim('users', 's');
-                $name = $users;
                 $table = $this->table($users);
                 $user = $table->one($id);
                 if ($user == false) {
-                    $url = App::url('admin/404');
-                    header("Location: {$url}");
-                    exit();
+                    $this->error();
                 } else {
+                    $trad = new App();
+                    $status = $trad->translate($user->status);
+                    $postsTable = new PostTable();
+
                     $pageTitle = 'Editer l\'utilisateur';
-                    $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $user], 'backend');
+                    $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, $users => $user, 'status' => $status], 'backend');
                 }
             }
         }

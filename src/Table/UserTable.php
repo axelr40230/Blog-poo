@@ -236,13 +236,12 @@ class UserTable extends Table
         $count = $query->rowCount();
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
-        $id = $user->id;
-
         if ($count == 0) {
             return false;
         } elseif ($password != $password_confirmed) {
             return false;
         } else {
+            $id = $user->id;
             $options = [
                 'cost' => 10,
             ];

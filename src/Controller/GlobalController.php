@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\App;
+use App\Env;
 use App\Mailer;
-use App\Table\ContactTable;
 
 class GlobalController extends Controller
 {
@@ -40,6 +39,7 @@ class GlobalController extends Controller
         $this->render('404', ['pageTitle' => $pageTitle], 'frontend');
     }
 
+
     /**
      * gère le formulaire de contact (insertion dans la base de données + notification à l'administrateur
      */
@@ -53,7 +53,7 @@ class GlobalController extends Controller
             $pageTitle = 'Me contacter';
             $this->render('contact', ['pageTitle' => $pageTitle, 'errors' => $errors], 'frontend');
         } else {
-            $email = 'axelr.apl@gmail.com';
+            $email = Env::get('ADMIN_EMAIL');
             $infos = [
                 'name' => $data['name'],
                 'email' => $data['email'],

@@ -1,29 +1,9 @@
 <?php
+
 use App\App;
 use App\Form;
+
 $form = new Form(array());
-//var_dump($comment);
-
-use App\Table\UserTable;
-use App\Table\PostTable;
-
-
-$status = new App();
-$status_comment = $comment->status;
-$form = new Form(array());
-
-$authorInfos = new UserTable();
-$id_author = $comment->author;
-$author = $authorInfos->author($id_author);
-//var_dump($form);
-
-$date = $comment->date_fr('exact', 'created_at');
-
-$table = new PostTable();
-$postId = $comment->article_id;
-$post = $table->one($postId);
-
-
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -46,21 +26,21 @@ $post = $table->one($postId);
                     <div class="row">
                         <div class="col-12">
                             <form action="" method="post">
-                                <?php if ($status_comment == 'waiting') : ?>
+                                <?php if ($comment->status == 'waiting') : ?>
 
                                     <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
 
                                     <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
-                                <?php elseif ($status_comment == 'approuved') : ?>
+                                <?php elseif ($comment->status == 'approuved') : ?>
 
                                     <?php echo $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
 
                                     <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
-                                <?php elseif ($status_comment == 'intrash') : ?>
+                                <?php elseif ($comment->status == 'intrash') : ?>
 
                                 <?php echo $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
 
@@ -82,13 +62,10 @@ $post = $table->one($postId);
                     <div class="row">
                         <div class="col-12">
                             <p>
-                                Créé le <?= $date; ?><br/>
-                                Statut : <?php
-                                $trad = $status->translate($comment->status);
-                                echo $trad;
-                                ?><br/>
-                                Auteur : <?= $author->first_name.' '.$author->last_name; ?><br/>
-                                Article : <?= $post->title; ?> - <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $post->slug; ?>">Modifier l'article</a>
+                                Créé le <?= $comment->date_fr('exact', 'created_at'); ?><br/>
+                                Statut : <?php echo $translator($comment->status); ?><br/>
+                                Auteur : <?= $comment->author->first_name . ' ' . $comment->author->last_name; ?><br/>
+                                Article : <?= $comment->article_id->title; ?> - <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $comment->article_id->slug; ?>">Modifier l'article</a>
                             </p>
 
                         </div>
@@ -97,9 +74,6 @@ $post = $table->one($postId);
             </div>
         </section>
     </div>
-
-
-
 
 
 </div>

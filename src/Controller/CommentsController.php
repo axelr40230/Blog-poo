@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\App;
+use App\Env;
 use App\Mailer;
+use App\Table\PostTable;
 use App\Table\UserTable;
 
 class CommentsController extends Controller
@@ -36,7 +38,7 @@ class CommentsController extends Controller
         $id = $post->id;
         $commentID = $table->insert($id, $data);
         if ($table == true) {
-            $email = 'axelr.apl@gmail.com';
+            $email = Env::get('ADMIN_EMAIL');
             $mailUrl = App::url('admin/comments'). '/' . $commentID;
             $infos = ['content' => $mailUrl];
             $mailer = new Mailer();
@@ -60,17 +62,11 @@ class CommentsController extends Controller
                 $trad = new App();
                 $pageTitle = $trad->translate('comments');
                 $comments = $table->findAll();
-                $statusTranslate = function () {
-                    echo 'patate';
-                };
                 foreach ($comments as $comment) {
                     $infos = new UserTable();
-                    $id_author = $comment->author;
-                    $author = $infos->author($id_author);
-                    $first_name = $author->first_name;
-                    $last_name = $author->last_name;
+                    $comment->author = $infos->author($comment->author);
                 }
-                $this->render('comments', ['pageTitle' => $pageTitle, 'comments' => $comments, 'status' => $statusTranslate, 'first_name' => $first_name, 'last_name' => $last_name], 'backend');
+                $this->render('comments', ['pageTitle' => $pageTitle, 'comments' => $comments], 'backend');
             }
         }
     }
@@ -83,19 +79,17 @@ class CommentsController extends Controller
     {
         if ($this->isConnected()) {
             if ($this->isAdmin()) {
-                $table = $this->table('comments');
-                $comment = $table->one($id);
+                $comment = $this->table('comments')->one($id);
                 if ($comment == false) {
-                    $url = App::url('admin/404');
-                    header("Location: {$url}");
-                    exit();
+                    $this->error();
                 } else {
                     $comments = rtrim('comments', 's');
-                    $name = $comments;
-                    $table = $this->table($comments);
-                    $comment = $table->one($id);
+                    $authorInfos = new UserTable();
+                    $comment->author = $authorInfos->author($comment->author);
+                    $posts = new PostTable();
+                    $comment->article_id = $posts->get_title($comment->article_id);
                     $pageTitle = 'Commentaire n°' . $comment->id;
-                    $this->render('single-' . $name, ['pageTitle' => $pageTitle, 'id' => $id, $name => $comment], 'backend');
+                    $this->render('single-' . $comments, ['pageTitle' => $pageTitle, 'id' => $id, $comments => $comment], 'backend');
                 }
             }
         }
@@ -123,18 +117,15 @@ class CommentsController extends Controller
         $comment = $table->one($id);
         $id = $comment->id;
         $table->update($id, $data);
-        $author = $comment->author;
         $tableUser = new UserTable();
-        $user = $tableUser->one($author);
-        $email = $user->email;
-        $prenom = $user->first_name;
-        $infos = ['content' => $prenom];
+        $user = $tableUser->one($comment->author);
+        $infos = ['content' => $user->first_name];
 
         if($status == 'approuved') {
             $mailer = new Mailer();
             $templateFile = $mailer->file('mail-approuved');
             $message = $mailer->extract($templateFile, $infos);
-            $mailer->send($email, 'Votre message est en ligne', $message);
+            $mailer->send($user->email, 'Votre message est en ligne', $message);
         }
 
         header("Refresh:0");

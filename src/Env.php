@@ -40,9 +40,9 @@ class Env
 
     protected static function file()
     {
-        $path = __DIR__.'\.env';
-        $pathExample =  __DIR__.'\.env.example';
-        //var_dump($path, $pathExample);exit();
+        $path = dirname(__DIR__) . '\.env';
+        $pathExample = dirname(__DIR__) . '\.env.example';
+        //var_dump($pathExample, $path);exit();
 
         if (file_exists($path)) {
             return file_get_contents($path);

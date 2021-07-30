@@ -40,7 +40,7 @@ class App
      * Gestion des traductions de l'application // Managing application translations
      * @param $term
      */
-    public function translate($term)
+    public static function translate($term)
     {
         $trad = array(
             'approuved' => 'Approuvé',

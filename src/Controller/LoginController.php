@@ -105,11 +105,9 @@ class LoginController extends Controller
     {
         if(isset($_GET['token'])) {
             $token = $_GET['token'];
-            //var_dump($token);
             $table = $this->table('users');
             $user = $table->validUser($token);
             if($user == true){
-                $data = $_POST;
                 $user = $table->changePass($token);
                 if ($user == false) {
                     $errors = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
@@ -135,7 +133,6 @@ class LoginController extends Controller
     public function retrievepassword()
     {
         $data = $_POST;
-        //var_dump($data);exit();
         $table = $this->table('users');
         $infos = $table->emailVerif($data);
         $email = $infos['email'];

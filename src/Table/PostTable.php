@@ -33,8 +33,6 @@ class PostTable extends Table
         }else{
             return $slug.'-2';
         }
-
-
     }
 
     /**
@@ -178,6 +176,18 @@ class PostTable extends Table
         ]);
 
         return true;
+    }
+
+    public function get_title($id)
+    {
+        $req = "SELECT * FROM {$this->getTable()} WHERE id = :id";
+        $result = App::db()->pdo()->prepare($req);
+        $result->execute([
+            'id' => $id
+        ]);
+        $result->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+
+        return $post = $result->fetch();
     }
 
 }

@@ -4,7 +4,6 @@ use App\Form;
 use App\Session;
 
 $form = new Form(array());
-$trad = new App();
 
 
 ?>
@@ -19,7 +18,7 @@ $trad = new App();
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h1 class="h3 mb-2 text-gray-800">
-                        <?php echo $trad->translate($pageTitle); ?>
+                        <?= $pageTitle ?>
                     </h1>
                     <?php  if($errors) : ?>
                         <div class="alert alert-danger text-center" role="alert">

@@ -1,9 +1,6 @@
 <?php
 use App\App;
 
-$status = new App();
-
-
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -51,10 +48,10 @@ $status = new App();
                     <tr>
                         <td><a class="text-info" href="<?= App::url('posts') ?>/<?= $post->slug; ?>"><?= $post->title; ?></a></td>
                         <td>
-                            <?= $trad = $status->translate($post->status); ?>
+                            <?= $translator($post->status); ?>
                         </td>
-                        <td><a class="text-info" href="<?= App::url('admin/users') ?>/<?= $post->author; ?>"><?php
-                            echo $first_name.' '.$last_name;
+                        <td><a class="text-info" href="<?= App::url('admin/users') ?>/<?= $post->author->id; ?>"><?php
+                                echo $post->author->first_name . ' ' . $post->author->last_name;
                                 ?></a></td>
                         <td>
                             <?php $date = $post->date_fr('exact', 'created_at');
