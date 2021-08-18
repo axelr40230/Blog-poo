@@ -88,10 +88,6 @@ endif;
         <!--- posts --->
 
         <?php foreach ($posts as $post) : ?>
-            <?php
-            //var_dump($post);
-            //$id = $post['id'];
-            ?>
 
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 

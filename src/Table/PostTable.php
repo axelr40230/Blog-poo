@@ -46,7 +46,6 @@ class PostTable extends Table
         $author = $user->id;
         $string = $data['title'];
         $slug = $this->dSlug($string);
-        //var_dump($data['insert']);exit();
         if (!empty($data['title']) and !empty($data['introduction']) and !empty($data['content'])) {
             $req = "INSERT INTO {$this->getTable()} SET title=?, slug=?, introduction=?, content=?, author=?, status=?, created_at=NOW(), modify_at=NOW()";
             $query = App::db()->pdo()->prepare($req);
@@ -79,7 +78,6 @@ class PostTable extends Table
      */
     public function update($id, $slug, $data)
     {
-       // var_dump($data);exit();
         $session = new Session();
         $user = $session->get('user');
         $author = $user->id;

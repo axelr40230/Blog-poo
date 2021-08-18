@@ -4,7 +4,6 @@ namespace App\Table;
 
 use App\App;
 use App\Entity\UserEntity;
-use App\FormValidator;
 
 class UserTable extends Table
 {
@@ -37,7 +36,6 @@ class UserTable extends Table
 
     public function update($id, $data)
     {
-        //var_dump($data);
         $req = "UPDATE {$this->getTable()} SET first_name=?, last_name=?, email=?, status=?, modify_at=NOW() WHERE id={$id}";
         $query = App::db()->pdo()->prepare($req);
 
@@ -51,9 +49,8 @@ class UserTable extends Table
 
     public function userAuth($data)
     {
-        //var_dump($data);exit();
         if (isset($data) and !empty($data['email']) and !empty($data['password'])) {
-            $email = htmlspecialchars($data['email']);
+            $email = $data['email'];
             $password = htmlspecialchars($data['password']);
             $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
             $query = App::db()->pdo()->prepare($req);
@@ -84,6 +81,7 @@ class UserTable extends Table
 
                 }
             }
+
         } else {
             return false;
         }
@@ -162,8 +160,6 @@ class UserTable extends Table
         $count = $query->rowCount();
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
-        //var_dump($user);exit();
-
 
         if ($count == 0) {
             return false;
@@ -189,7 +185,6 @@ class UserTable extends Table
     {
         $status = 'user';
         $req = "UPDATE {$this->getTable()} SET status=:status, modify_at=NOW() WHERE token=:token";
-        //var_dump($req);
         $query = App::db()->pdo()->prepare($req);
 
         $query->execute([
@@ -248,7 +243,6 @@ class UserTable extends Table
             $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
 
             $req = "UPDATE {$this->getTable()} SET password=:password, modify_at=NOW() WHERE id=:id";
-            //var_dump($req);
             $query = App::db()->pdo()->prepare($req);
 
             $query->execute([

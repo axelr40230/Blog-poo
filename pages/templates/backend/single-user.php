@@ -6,7 +6,6 @@ use App\Form;
 $form = new Form(array());
 
 $date = $user->date_fr('exact', 'created_at');
-//var_dump($user);
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">

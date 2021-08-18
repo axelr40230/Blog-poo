@@ -30,7 +30,6 @@ class Route
     public function with($param, $regex)
     {
         $this->params[$param] = str_replace('(', '(?:', $regex);
-        //var_dump($this);
         return $this;
     }
 
@@ -42,14 +41,12 @@ class Route
     public function match($url): bool
     {
         $url = trim($url, '/');
-        //var_dump($url);
         $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->path);
         $regex = "#^$path$#i";
         if (!preg_match($regex, $url, $matches)) {
             return false;
         }
         array_shift($matches);
-        //var_dump($matches);
         $this->matches = $matches;
         return true;
     }

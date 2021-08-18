@@ -42,7 +42,6 @@ class Env
     {
         $path = dirname(__DIR__) . '\.env';
         $pathExample = dirname(__DIR__) . '\.env.example';
-        //var_dump($pathExample, $path);exit();
 
         if (file_exists($path)) {
             return file_get_contents($path);

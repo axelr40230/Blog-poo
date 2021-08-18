@@ -6,6 +6,7 @@ use App\App;
 use App\Auth;
 use App\Mailer;
 use App\Session;
+use App\Validator;
 
 class LoginController extends Controller
 {
@@ -54,28 +55,36 @@ class LoginController extends Controller
     public function registered()
     {
         $data = $_POST;
+        //var_dump($data);exit();
         $table = $this->table('users');
-        $infos = $table->userVerif($data);
-        $email = $infos['email'];
-        $url = $infos['url'];
-        $contenu = [
-            'content' => $url
-        ];
-        $mailer = new Mailer();
-        $templateFile = $mailer->file('mail-register');
-        $message = $mailer->extract($templateFile, $contenu);
-        $mailer->send($email, 'Confirmation', $message);
-        if ($infos == false) {
+        $validator = Validator::isEmail($data['email']);
+        if ($validator == false) {
             $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance !';
             //echo $errors;exit();
             $pageTitle = 'Créer un compte';
             $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         } else {
-            $errors = 'Votre compte a bien été créé, vous devez le valider grâce à l\'email que nous venons de vous envoyer';
-            $pageTitle = 'Connexion au back office';
-            $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            $infos = $table->userVerif($data);
+            $email = $infos['email'];
+            $url = $infos['url'];
+            $contenu = [
+                'content' => $url
+            ];
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-register');
+            $message = $mailer->extract($templateFile, $contenu);
+            $mailer->send($email, 'Confirmation', $message);
+            if ($infos == false) {
+                $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance !';
+                //echo $errors;exit();
+                $pageTitle = 'Créer un compte';
+                $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            } else {
+                $errors = 'Votre compte a bien été créé, vous devez le valider grâce à l\'email que nous venons de vous envoyer';
+                $pageTitle = 'Connexion au back office';
+                $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            }
         }
-
     }
 
     /**
