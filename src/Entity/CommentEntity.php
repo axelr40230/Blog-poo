@@ -20,7 +20,7 @@ class CommentEntity extends Entity
      */
     public function url()
     {
-        return 'comments/' . $this->id;
+        return App::url('admin/') .'comments/' . $this->id;
     }
 
 

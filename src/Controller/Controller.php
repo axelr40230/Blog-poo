@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
+use App\Table\UserTable;
 
 class Controller
 {

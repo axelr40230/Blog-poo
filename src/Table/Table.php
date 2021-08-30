@@ -60,4 +60,26 @@ abstract class Table
 
     }
 
+    /** @todo  créer une fonction search avec le terme à rechercher en variable et faire une recherche dans chaque table puis afficher les résultats
+     *
+     */
+
+    public function search($term, $columns)
+    {
+        $elements = [];
+        foreach ($columns as $column) {
+            $elements[] = sprintf('%s LIKE "%%%s%%"', $column, $term);
+        }
+        $query = 'SELECT * FROM ' . $this->getTable() . ' WHERE '. implode($elements, ' OR ');
+        $result = App::db()->pdo()->query($query);
+        $result->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+        $count = $result->rowCount();
+
+        if ($count != 0) {
+            return $result->fetchAll();
+        }
+
+        return [];
+    }
+
 }

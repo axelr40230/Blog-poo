@@ -20,7 +20,7 @@ class UserEntity extends Entity
      */
     public function url()
     {
-        return 'users/' . $this->id;
+        return App::url('admin/') .'users/' . $this->id;
     }
 
 

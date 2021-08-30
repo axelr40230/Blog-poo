@@ -17,6 +17,8 @@ $router->get('/confirmation', 'CommentsController@confirm');
 // ROUTER ADMIN - global
 $router->get('admin/404', 'AdminController@notFound');
 $router->get('/admin', 'AdminController@admin');
+$router->get('/search', 'AdminController@search');
+$router->post('/search', 'AdminController@results');
 
 // ROUTER LOGIN
 $router->get('/login', 'LoginController@login');
