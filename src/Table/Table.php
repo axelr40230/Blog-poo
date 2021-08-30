@@ -32,6 +32,17 @@ abstract class Table
     }
 
     /**
+     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * @return array
+     */
+    public function findWithPagination($premier, $parPage): array
+    {
+        $results = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' ORDER BY created_at DESC LIMIT '.$premier.', '.$parPage);
+
+        return $results->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
+    }
+
+    /**
      * Requête de récupération d'une instance de table // Query to retrieve a table instance
      * @param $id
      * @return mixed

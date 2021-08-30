@@ -39,7 +39,7 @@ class CommentsController extends Controller
         $commentID = $table->insert($id, $data);
         if ($table == true) {
             $email = Env::get('ADMIN_EMAIL');
-            $mailUrl = App::url('admin/comments'). '/' . $commentID;
+            $mailUrl = App::url('admin/comments') . '/' . $commentID;
             $infos = ['content' => $mailUrl];
             $mailer = new Mailer();
             $templateFile = $mailer->file('mail-comment');
@@ -61,12 +61,32 @@ class CommentsController extends Controller
                 $table = $this->table('comments');
                 $trad = new App();
                 $pageTitle = $trad->translate('comments');
-                $comments = $table->findAll();
+
+
+                // On détermine sur quelle page on se trouve
+                if (isset($_GET['page']) && !empty($_GET['page'])) {
+                    $currentPage = (int)strip_tags($_GET['page']);
+                } else {
+                    $currentPage = 1;
+                }
+
+                $totalComments = $table->findAll();
+
+                $nbArticles  = count($totalComments);
+                // On détermine le nombre d'articles par page
+                $parPage = 10;
+                // On calcule le nombre de pages total
+                $pages = ceil($nbArticles / $parPage);
+                // Calcul du 1er article de la page
+                $premier = ($currentPage * $parPage) - $parPage;
+
+                $comments = $table->findWithPagination($premier, $parPage);
+
                 foreach ($comments as $comment) {
                     $infos = new UserTable();
                     $comment->author = $infos->author($comment->author);
                 }
-                $this->render('comments', ['pageTitle' => $pageTitle, 'comments' => $comments], 'backend');
+                $this->render('comments', ['pageTitle' => $pageTitle, 'comments' => $comments, 'currentPage' => $currentPage, 'pages' => $pages], 'backend');
             }
         }
     }
@@ -121,7 +141,7 @@ class CommentsController extends Controller
         $user = $tableUser->one($comment->author);
         $infos = ['content' => $user->first_name];
 
-        if($status == 'approuved') {
+        if ($status == 'approuved') {
             $mailer = new Mailer();
             $templateFile = $mailer->file('mail-approuved');
             $message = $mailer->extract($templateFile, $infos);

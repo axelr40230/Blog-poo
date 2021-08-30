@@ -4,7 +4,6 @@
 namespace App;
 
 
-use App\Controller\UsersController;
 use App\Table\UserTable;
 
 class Form
@@ -52,7 +51,7 @@ class Form
      */
     public function input($for, $class, $type, $name, $placeholder = null, $value = null)
     {
-            return '<input id="' . $for . '" class="' . $class . '" type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '">';
+        return '<input id="' . $for . '" class="' . $class . '" type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '">';
     }
 
     /**
@@ -72,21 +71,21 @@ class Form
      * @param $for
      * @return string
      */
-    public function select($for, $default) : string
+    public function select($for, $default): string
     {
-        $html = '<select name="'.$for.'" class="form-control" id="'.$for.'">';
+        $html = '<select name="' . $for . '" class="form-control" id="' . $for . '">';
         $table = new UserTable();
         $options = $table->showColumn($for);
 
-        foreach(explode("','",substr($options['Type'],6,-2)) as $option) {
-            if($default == $option) {
+        foreach (explode("','", substr($options['Type'], 6, -2)) as $option) {
+            if ($default == $option) {
                 $trad = new App();
                 $optionTranslate = $trad->translate($option);
-                $html .= '<option selected name="'.$option.'" value="'.$option.'">'.$optionTranslate.'</option>';
-            }else {
+                $html .= '<option selected name="' . $option . '" value="' . $option . '">' . $optionTranslate . '</option>';
+            } else {
                 $trad = new App();
                 $optionTranslate = $trad->translate($option);
-                $html .= '<option value="'.$option.'" name="'.$option.'" >'.$optionTranslate.'</option>';
+                $html .= '<option value="' . $option . '" name="' . $option . '" >' . $optionTranslate . '</option>';
             }
         }
         $html .= '</select>';
