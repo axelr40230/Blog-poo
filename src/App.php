@@ -6,6 +6,7 @@ namespace App;
 class App
 {
     private static $database;
+    private static $validator = null;
 
     /**
      * @return Database
@@ -60,8 +61,15 @@ class App
         if (array_key_exists($term, $trad)) {
             return $trad[$term];
         }
+    }
 
+    public static function validator(): Validator
+    {
+        if (empty(self::$validator)) {
+            self::$validator = new Validator();
+        }
 
+        return self::$validator;
     }
 
 }

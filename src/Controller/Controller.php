@@ -16,6 +16,7 @@ class Controller
     public function render(string $path, array $variables = [], string $folder): void
     {
         extract($variables);
+        $validator = App::validator();
         $translator = function ($term) {
             return App::translate($term);
         };
