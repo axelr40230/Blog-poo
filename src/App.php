@@ -7,6 +7,7 @@ class App
 {
     private static $database;
     private static $validator = null;
+    private static $session = null;
 
     /**
      * @return Database
@@ -70,6 +71,15 @@ class App
         }
 
         return self::$validator;
+    }
+
+    public static function session(): Session
+    {
+        if (empty(self::$session)) {
+            self::$session = new Session();
+        }
+
+        return self::$session;
     }
 
 }

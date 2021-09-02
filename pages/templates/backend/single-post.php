@@ -24,20 +24,20 @@ $form = new Form(array());
                         <div class="col-12">
                             <form action="" method="post">
                                 <div class="p-2">
-                                    <?php echo $form->label('title', 'Modifier le titre'); ?>
-                                    <?php echo $form->input('title', 'form-control', 'text', 'title', $pageTitle, $pageTitle); ?>
+                                    <?= $form->label('title', 'Modifier le titre'); ?>
+                                    <?= $form->input('title', 'form-control', 'text', 'title', $pageTitle, $pageTitle); ?>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->label('slug', 'Modifier le permalien'); ?>
-                                    <?php echo $form->input('slug', 'form-control', 'text', 'slug', $post->slug, $post->slug); ?>
+                                    <?= $form->label('slug', 'Modifier le permalien'); ?>
+                                    <?= $form->input('slug', 'form-control', 'text', 'slug', $post->slug, $post->slug); ?>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->label('introduction', 'Modifier l\'introduction'); ?>
-                                    <?php echo $form->input('introduction', 'form-control', 'text', 'introduction', $post->introduction, $post->introduction); ?>
+                                    <?= $form->label('introduction', 'Modifier l\'introduction'); ?>
+                                    <?= $form->input('introduction', 'form-control', 'text', 'introduction', $post->introduction, $post->introduction); ?>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->label('content', 'Modifier le contenu'); ?>
-                                    <?php echo $form->textarea($post->content, 'content'); ?>
+                                    <?= $form->label('content', 'Modifier le contenu'); ?>
+                                    <?= $form->textarea($post->content, 'content'); ?>
                                 </div>
                         </div>
                     </div>
@@ -64,29 +64,29 @@ $form = new Form(array());
                             </p>
                             <?php if ($post->status == 'draft') : ?>
 
-                                <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
+                                <?= $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
-                                <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'publish'); ?>
+                                <?= $form->submit('Publier', 'update', 'btn btn-success w-100', 'publish'); ?>
 
-                                <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
+                                <?= $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
                             <?php elseif ($post->status == 'publish') : ?>
 
-                                <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
+                                <?= $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
-                                <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100', 'draft'); ?>
+                                <?= $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100', 'draft'); ?>
 
-                                <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
+                                <?= $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
                             <?php elseif ($post->status == 'intrash') : ?>
 
-                                <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
+                                <?= $form->submit('Mettre à jour', 'update', 'btn btn-primary w-100', 'publish'); ?>
 
-                                <?php echo $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100', 'draft'); ?>
+                                <?= $form->submit('Enregistrer en tant que brouillon', 'update', 'btn btn-light w-100', 'draft'); ?>
 
-                                <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'publish'); ?>
+                                <?= $form->submit('Publier', 'update', 'btn btn-success w-100', 'publish'); ?>
                                 </form>
                             <?php endif; ?>
                         </div>

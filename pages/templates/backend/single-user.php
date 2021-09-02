@@ -29,26 +29,26 @@ $date = $user->date_fr('exact', 'created_at');
                         <div class="col-12">
                             <form action="" method="post">
                                 <div class="p-2">
-                                    <?php echo $form->label('last_name', 'Modifier le nom'); ?>
-                                    <?php echo $form->input('last_name', 'form-control', 'text', 'last_name', $user->last_name, $user->last_name); ?>
+                                    <?= $form->label('last_name', 'Modifier le nom'); ?>
+                                    <?= $form->input('last_name', 'form-control', 'text', 'last_name', $user->last_name, $user->last_name); ?>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->label('first_name', 'Modifier le prénom'); ?>
-                                    <?php echo $form->input('first_name', 'form-control', 'text', 'first_name', $user->first_name, $user->first_name); ?>
+                                    <?= $form->label('first_name', 'Modifier le prénom'); ?>
+                                    <?= $form->input('first_name', 'form-control', 'text', 'first_name', $user->first_name, $user->first_name); ?>
                                 </div>
                                 <div class="p-2">
-                                    <?php echo $form->label('email', 'Modifier l\'email'); ?>
-                                    <?php echo $form->input('email', 'form-control', 'text', 'email', $user->email, $user->email); ?>
+                                    <?= $form->label('email', 'Modifier l\'email'); ?>
+                                    <?= $form->input('email', 'form-control', 'text', 'email', $user->email, $user->email); ?>
                                 </div>
                                 <div class="p-2">
                                     <div class="form-group">
-                                        <?php echo $form->label('status', 'Modifier le statut'); ?>
-                                        <?php echo $form->select('status', $user->status); ?>
+                                        <?= $form->label('status', 'Modifier le statut'); ?>
+                                        <?= $form->select('status', $user->status); ?>
                                     </div>
                                 </div>
                                 <div class="p-2">
                                     <?php //echo $form->input('publish','w-100','hidden', 'send', 'publish','publish'); ?>
-                                    <?php echo $form->submit('Mettre à jour', 'update', 'btn btn-primary', 'publish'); ?>
+                                    <?= $form->submit('Mettre à jour', 'update', 'btn btn-primary', 'publish'); ?>
                                 </div>
                             </form>
                         </div>

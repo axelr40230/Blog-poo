@@ -19,34 +19,35 @@ $form = new Form(array());
                             <h1 class="h4 text-gray-900 mb-4">Créer un compte !</h1>
                         </div>
                         <form class="user" action="" method="post">
-                            <?= $validator->csrf(); ?> <!-- <input type="hidden" name="_token" value="zofhozjgozgj" /> -->
+                            <?= $validator->csrf(); ?>
+                            <!-- <input type="hidden" name="_token" value="zofhozjgozgj" /> -->
                             <p><?= $validator->errorToken('_token'); ?></p>
 
 
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <?php echo $form->input('first_name','w-100 form-control form-control-user', 'text','first_name', 'Votre prénom', $validator->old('firstname')); ?>
+                                    <?= $form->input('first_name', 'w-100 form-control form-control-user', 'text', 'first_name', 'Votre prénom', $validator->old('firstname')); ?>
                                     <?= $validator->error('first_name'); ?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <?php echo $form->input('last_name','w-100 form-control form-control-user', 'text','last_name', 'Votre nom', $validator->old('firstname')); ?>
+                                    <?= $form->input('last_name', 'w-100 form-control form-control-user', 'text', 'last_name', 'Votre nom', $validator->old('firstname')); ?>
                                     <?= $validator->error('last_name'); ?>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <?php echo $form->input('email','w-100 form-control form-control-user', 'email','email', 'Votre email', $validator->old('firstname')); ?>
+                                <?= $form->input('email', 'w-100 form-control form-control-user', 'email', 'email', 'Votre email', $validator->old('firstname')); ?>
                                 <?= $validator->error('email'); ?>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <?php echo $form->input('password','w-100 form-control form-control-user', 'password','password', 'Saisissez un mot de passe'); ?>
+                                    <?= $form->input('password', 'w-100 form-control form-control-user', 'password', 'password', 'Saisissez un mot de passe'); ?>
                                     <?= $validator->error('password'); ?>
                                 </div>
                                 <div class="col-sm-6">
-                                    <?php echo $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>
+                                    <?= $form->input('password_confirmed', 'w-100 form-control form-control-user', 'password', 'password_confirmed', 'Confirmez le mot de passe'); ?>
                                 </div>
                             </div>
-                            <?php echo $form->submit('S\'enregistrer', 'register', 'btn btn-primary btn-user btn-block', 'register'); ?>
+                            <?= $form->submit('S\'enregistrer', 'register', 'btn btn-primary btn-user btn-block', 'register'); ?>
                         </form>
                         <hr>
                         <div class="text-center">

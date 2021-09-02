@@ -67,10 +67,8 @@ class AdminController extends Controller
 
         $count = $countUsers + $countPosts + $countComments;
 
-        $trad = new App();
-
         foreach ($users as $user) {
-            $user->status = $trad->translate($user->status);
+            $user->status = App::translate($user->status);
         }
 
         foreach ($posts as $post) {
@@ -88,7 +86,7 @@ class AdminController extends Controller
         } elseif ($count === 1) {
             $pageTitle = "Il n'y qu'un seul résultat !";
         } else {
-            $pageTitle = 'Il y a '.$count.' résultats de recherche';
+            $pageTitle = 'Il y a ' . $count . ' résultats de recherche';
         }
         $this->render('search', ['pageTitle' => $pageTitle, 'count' => $count, 'countUsers' => $countUsers, 'countPosts' => $countPosts, 'countComments' => $countComments, 'users' => $users, 'posts' => $posts, 'comments' => $comments], 'backend');
     }

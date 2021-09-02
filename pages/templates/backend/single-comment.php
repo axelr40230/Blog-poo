@@ -28,23 +28,23 @@ $form = new Form(array());
                             <form action="" method="post">
                                 <?php if ($comment->status == 'waiting') : ?>
 
-                                    <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
+                                    <?= $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
 
-                                    <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
+                                    <?= $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
                                 <?php elseif ($comment->status == 'approuved') : ?>
 
-                                    <?php echo $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
+                                    <?= $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
 
-                                    <?php echo $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
+                                    <?= $form->submit('Mettre à  la corbeille', 'update', 'btn btn-danger w-100', 'intrash'); ?>
 
 
                                 <?php elseif ($comment->status == 'intrash') : ?>
 
-                                <?php echo $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
+                                <?= $form->submit('Mettre en attente d\'approbation', 'update', 'btn btn-light w-100', 'waiting'); ?>
 
-                                <?php echo $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
+                                <?= $form->submit('Publier', 'update', 'btn btn-success w-100', 'approuved'); ?>
                             </form>
                             <?php endif; ?>
                             </form>
@@ -63,7 +63,7 @@ $form = new Form(array());
                         <div class="col-12">
                             <p>
                                 Créé le <?= $comment->date_fr('exact', 'created_at'); ?><br/>
-                                Statut : <?php echo $translator($comment->status); ?><br/>
+                                Statut : <?= $translator($comment->status); ?><br/>
                                 Auteur : <?= $comment->author->first_name . ' ' . $comment->author->last_name; ?><br/>
                                 Article : <?= $comment->article_id->title; ?> - <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $comment->article_id->slug; ?>">Modifier l'article</a>
                             </p>

@@ -64,7 +64,7 @@ $form = new Form(array());
                     <col-12 id="error">
                         <?php  if($errors) : ?>
                             <div class="alert alert-danger text-center" role="alert">
-                                <?php echo $errors ?>
+                                <?= $errors ?>
                             </div>
                         <?php endif; ?>
                     </col-12>
@@ -74,13 +74,13 @@ $form = new Form(array());
 
 
                         <!--                        <input name="name" id="name" type="text" placeholder="Quel est votre nom ?">-->
-                        <?php echo $form->input('name', '', 'text', 'name', 'Quel est votre nom ?'); ?>
+                        <?= $form->input('name', '', 'text', 'name', 'Quel est votre nom ?'); ?>
 
                     </div>
 
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 
-                        <?php echo $form->input('email', '', 'email', 'email', 'Et votre email ?'); ?>
+                        <?= $form->input('email', '', 'email', 'email', 'Et votre email ?'); ?>
 
                     </div>
 
@@ -88,12 +88,12 @@ $form = new Form(array());
 
                 <div class="clearfix"></div>
 
-                <?php echo $form->textarea('', 'message', 'Un petit mot ?'); ?>
+                <?= $form->textarea('', 'message', 'Un petit mot ?'); ?>
 
                 <div class="clearfix"></div>
 
                 <div class="text-center">
-                    <?php echo $form->submit('C\'est parti !!', 'send-message', 'btn btn-red my-5', 'send-message'); ?>
+                    <?= $form->submit('C\'est parti !!', 'send-message', 'btn btn-red my-5', 'send-message'); ?>
                 </div>
 
 

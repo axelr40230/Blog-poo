@@ -20,7 +20,7 @@ $form = new Form(array());
 
                 <h1 class="post-title"><span><?= $post->title; ?></span></h1>
                 <h3>Modifié le <?= $post->date_fr('long', 'modify_at'); ?> | Rédigé par <span>
-                            <?php echo $post->author->first_name . ' ' . $post->author->last_name; ?>
+                            <?= $post->author->first_name . ' ' . $post->author->last_name; ?>
                         </span></h3>
                 <h2><?= $post->introduction; ?></h2>
 
@@ -90,7 +90,7 @@ $form = new Form(array());
                                 ?></h4>
 
                             <div class="date-pan">Le <?= $comment->date_fr('long', 'created_at'); ?>
-                                , <?php echo $comment->author->first_name . ' ' . $comment->author->last_name; ?> à écrit
+                                , <?= $comment->author->first_name . ' ' . $comment->author->last_name; ?> à écrit
                             </div>
                             <?= $comment->comment ?>
 
@@ -123,7 +123,7 @@ $form = new Form(array());
                             <div class="col-xs-12 col-sm-12 col-md-12">
 
                                 <!--                                <textarea name="" cols="" rows="" placeholder="Votre com'"></textarea>-->
-                                <?php echo $form->textarea('', 'comment', 'Votre com\''); ?>
+                                <?= $form->textarea('', 'comment', 'Votre com\''); ?>
 
 
                             </div>
@@ -131,7 +131,7 @@ $form = new Form(array());
                             <div class="text-center">
 
                                 <!--                                <input name="" type="button" value="Envoyer le com'">-->
-                                <?php echo $form->submit('Envoyer le com\'', 'addComment', 'btn btn-red my-5', 'addComment'); ?>
+                                <?= $form->submit('Envoyer le com\'', 'addComment', 'btn btn-red my-5', 'addComment'); ?>
 
                             </div>
 

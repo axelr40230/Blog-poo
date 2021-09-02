@@ -25,17 +25,17 @@ $form = new Form(array());
                                 </div>
                                 <?php  if($errors) : ?>
                                     <div class="alert alert-danger text-center" role="alert">
-                                        <?php echo $errors ?>
+                                        <?= $errors ?>
                                     </div>
                                 <?php endif; ?>
                                 <form class="user" action="" method="post">
                                     <div class="form-group">
 
-                                        <?php echo $form->input('email','w-100 form-control form-control-user', 'email','email', 'Entrer votre adresse mail...'); ?>
+                                        <?= $form->input('email','w-100 form-control form-control-user', 'email','email', 'Entrer votre adresse mail...'); ?>
 
                                     </div>
 
-                                    <?php echo $form->submit('Réinitialiser le mot de passe', 'ForgotPass', 'btn btn-primary btn-user btn-block', 'ForgotPass'); ?>
+                                    <?= $form->submit('Réinitialiser le mot de passe', 'ForgotPass', 'btn btn-primary btn-user btn-block', 'ForgotPass'); ?>
 
                                 </form>
                                 <hr>

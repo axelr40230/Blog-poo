@@ -32,13 +32,13 @@ $form = new Form(array());
                                 <form class="user" action="" method="post">
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <?php echo $form->input('password','w-100 form-control form-control-user', 'password','password', 'Saisissez un mot de passe'); ?>
+                                            <?= $form->input('password','w-100 form-control form-control-user', 'password','password', 'Saisissez un mot de passe'); ?>
                                         </div>
                                         <div class="col-sm-6">
-                                            <?php echo $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>
+                                            <?= $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>
                                         </div>
                                     </div>
-                                    <?php echo $form->submit('Réinitialiser le mot de passe', 'newPass', 'btn btn-primary btn-user btn-block', 'newPass'); ?>
+                                    <?= $form->submit('Réinitialiser le mot de passe', 'newPass', 'btn btn-primary btn-user btn-block', 'newPass'); ?>
                                 </form>
                                 <hr>
                                 <div class="text-center">

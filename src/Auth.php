@@ -3,36 +3,40 @@
 
 namespace App;
 
+/**
+ * Class Auth
+ * @package App
+ */
 
 class Auth
 {
-    public static function isAuth()
+    /**
+     * Vérifie si l'utilisateur est connecté
+     * @return bool
+     */
+    public static function isAuth(): bool
     {
         $session = new Session();
-        if (is_null($session->get('user'))) {
-
-            return false;
-
-        } else {
-
+        if (!is_null($session->get('user'))) {
             return true;
         }
     }
 
-    public static function isAdmin()
+    /**
+     * Vérifie si l'utilisateur est un administrateur
+     * @return bool
+     */
+    public static function isAdmin(): bool
     {
         $session = new Session();
         $user = $session->get('user');
         $status = $user->status;
-        if ($status == 'admin') {
-
-            return true;
-
-        } else {
+        if (!$status == 'admin') {
             $url = App::url('');
             header("Location: {$url}");
             exit();
         }
+        return true;
     }
 
 }

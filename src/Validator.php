@@ -2,23 +2,37 @@
 
 namespace App;
 
+/**
+ * Class Validator
+ * @package App
+ */
+
 class Validator
 {
     protected $data = [];
     protected $rules = [];
     protected $errors = [];
     protected $errorToken = [];
-    protected $token;
+    protected $oldToken;
     protected $method = [];
+    protected $newToken;
 
+    /**
+     * Validator constructor.
+     * Récupère le token sauvegardé dans la session
+     */
     public function __construct()
     {
-
+        $this->oldToken = App::session()->get('_token');
+        $this->generateToken();
     }
 
+    /**
+     * @param array $data
+     * @param array $rules
+     */
     public function validate(array $data = [], array $rules = [])
     {
-        // ['first_name' => 'Alexandra', 'last_name' => 'Smith']
         $this->data = $data;
         $this->rules = $rules;
 
@@ -41,13 +55,15 @@ class Validator
     {
         if (array_key_exists($key, $this->errors)) {
             $infos = $this->errors[$key];
-            echo '<div class="py-2 px-5 my-2 rounded border-warning border">';
+            $html = '<div class="py-2 px-5 my-2 rounded border-warning border">';
             foreach ($infos as $info) {
                 if ($info) {
-                    echo '<p class="text-warning small text-center">' . $info . '</p>';
+                    $html .= '<p class="text-warning small text-center">' . $info . '</p>';
                 }
             }
-            echo '</div>';
+            $html .= '</div>';
+
+            return $html;
         }
 
         return null;
@@ -57,7 +73,7 @@ class Validator
     public function errorToken(string $key): ?string
     {
         if (array_key_exists($key, $this->errorToken)) {
-            echo '<div class="py-2 px-5 my-2 rounded border-warning border"><p class="text-warning small text-center">' . $this->errorToken['_token'] . '</p></div>';
+            return '<div class="py-2 px-5 my-2 rounded border-warning border"><p class="text-warning small text-center">' . $this->errorToken['_token'] . '</p></div>';
         }
 
         return null;
@@ -75,20 +91,21 @@ class Validator
 
     public function csrf()
     {
-        if(empty($this->token)) {
-            $this->token = md5(uniqid(rand(), true));
 
-            return sprintf('<input type="hidden" name="_token" value="%s" />', $this->token);
-        }
+        return sprintf('<input type="hidden" name="_token" value="%s" />', $this->newToken);
+    }
 
-        return sprintf('<input type="hidden" name="_token" value="%s" />', $this->token);
+    protected function generateToken()
+    {
+        $this->newToken = md5(uniqid(rand(), true));
+        App::session()->set('_token', $this->newToken);
     }
 
     protected function checkCsrf()
     {
         $token = $this->data['_token'];
 
-        if (empty($token) || $token !== $this->token) {
+        if (empty($token) || $token !== $this->oldToken) {
             $this->errorToken['_token'] = 'Dommage, le formulaire a expiré';
             return false;
         }

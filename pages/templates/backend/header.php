@@ -26,11 +26,11 @@ $form = new Form();
             <!-- Topbar Search -->
             <form action="<?= App::url('') ?>search" method="post" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
-                    <?php echo $form->input('search', 'form-control bg-light border-0 small', 'search', 'search', 'Rechercher...'); ?>
+                    <?= $form->input('search', 'form-control bg-light border-0 small', 'search', 'search', 'Rechercher...'); ?>
 <!--                    <input type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..."
                            aria-label="Search" aria-describedby="basic-addon2">
 -->                    <div class="input-group-append">
-                        <?php echo $form->submit('<i class="fas fa-search fa-sm"></i>', 'button', 'btn btn-primary', 'search'); ?>
+                        <?= $form->submit('<i class="fas fa-search fa-sm"></i>', 'button', 'btn btn-primary', 'search'); ?>
 <!--                        <button class="btn btn-primary" type="button">
                             <i class="fas fa-search fa-sm"></i>
                         </button>
