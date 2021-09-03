@@ -6,8 +6,11 @@ use App\App;
 use App\Auth;
 use App\Mailer;
 use App\Session;
-use App\Validator;
 
+/**
+ * Class LoginController
+ * @package App\Controller
+ */
 class LoginController extends Controller
 {
     /**
@@ -54,7 +57,8 @@ class LoginController extends Controller
      */
     public function registered()
     {
-        App::validator()->validate($_POST, [
+        $validator = App::validator();
+        $validator->validate($_POST, [
             'first_name' => [
                 'required',
                 'min:2',
@@ -72,34 +76,33 @@ class LoginController extends Controller
             ],
             'email' => [
                 'required',
-
+                'email',
             ],
         ]);
 
-        if (App::validator()->fails()) {
+        if ($validator->fails() === false) {
             $this->render('register', ['pageTitle' => 'Créer un compte'], 'backend/login');
         }
-
+        $data = $_POST;
         $table = $this->table('users');
-        //$infos = $table->userVerif($data);
-        $email = $infos['email'];
-        $url = $infos['url'];
-        $contenu = [
-            'content' => $url
-        ];
-        $mailer = new Mailer();
-        $templateFile = $mailer->file('mail-register');
-        $message = $mailer->extract($templateFile, $contenu);
-        $mailer->send($email, 'Confirmation', $message);
+        $infos = $table->insert($data);
         if ($infos == false) {
             $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance !';
             //echo $errors;exit();
             $pageTitle = 'Créer un compte';
             $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         } else {
-            $errors = 'Votre compte a bien été créé, vous devez le valider grâce à l\'email que nous venons de vous envoyer';
-            $pageTitle = 'Connexion au back office';
-            $this->render('register', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            $email = $data['email'];
+            $url = $infos['url'];
+            $contenu = [
+                'content' => $url
+            ];
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-register');
+            $message = $mailer->extract($templateFile, $contenu);
+            $mailer->send($email, 'Confirmation', $message);
+            $pageTitle = 'Votre compte a bien été créé, vous devez le valider grâce à l\'email que nous venons de vous envoyer';
+            $this->render('register', ['pageTitle' => $pageTitle], 'backend/login');
         }
     }
 
@@ -128,11 +131,11 @@ class LoginController extends Controller
      */
     public function changedPassword()
     {
-        if(isset($_GET['token'])) {
+        if (isset($_GET['token'])) {
             $token = $_GET['token'];
             $table = $this->table('users');
             $user = $table->validUser($token);
-            if($user == true){
+            if ($user == true) {
                 $user = $table->changePass($token);
                 if ($user == false) {
                     $errors = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
@@ -144,11 +147,11 @@ class LoginController extends Controller
                     header("Location: {$url}");
                     exit();
                 }
-            }else{
-                echo 'Votre lien ne semble pas fonctionner';
+            } else {
+                return 'Votre lien ne semble pas fonctionner';
             }
-        }else{
-            echo 'Votre lien ne semble pas fonctionner';
+        } else {
+            return 'Votre lien ne semble pas fonctionner';
         }
     }
 
@@ -165,17 +168,15 @@ class LoginController extends Controller
         $contenu = [
             'content' => $url
         ];
-
-        $mailer = new Mailer();
-        $templateFile = $mailer->file('mail-password');
-        $message = $mailer->extract($templateFile, $contenu);
-        $mailer->send($email, 'Modifier votre mot de passe', $message);
         if ($infos == false) {
             $errors = 'Nous n\'avons pas trouvé cet email';
-            //echo $errors;exit();
             $pageTitle = 'Mot de passe oublié';
             $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         } else {
+            $mailer = new Mailer();
+            $templateFile = $mailer->file('mail-password');
+            $message = $mailer->extract($templateFile, $contenu);
+            $mailer->send($email, 'Modifier votre mot de passe', $message);
             $errors = 'Un email vous a été envoyé';
             $pageTitle = 'Demande envoyée';
             $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
@@ -188,22 +189,37 @@ class LoginController extends Controller
      */
     public function connect()
     {
+        $validator = App::validator();
+        $validator->validate($_POST, [
+            'password' => [
+                'required',
+                'min:2',
+                'max:8'
+            ],
+            'email' => [
+                'required',
+                'email',
+                'exist:users'
+            ]
+        ]);
+
+        if ($validator->fails() === false) {
+            $this->render('login', ['pageTitle' => 'Connexion au back office'], 'backend/login');
+        }
         $data = $_POST;
         $table = $this->table('users');
         $user = $table->userAuth($data);
         if ($user == false) {
-            $errors = 'Oups, quelque chose a mal fonctionné.. retentez votre chance ou créez un compte !';
-            //echo $errors;exit();
             $pageTitle = 'Connexion au back office';
-            $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            $this->render('login', ['pageTitle' => $pageTitle], 'backend/login');
         } else {
             $session = new Session();
             $session->set('user', $user);
             $user = $session->get('user');
 
-            if($user->status == 'admin') {
+            if ($user->status == 'admin') {
                 $this->goAdmin();
-            }else{
+            } else {
                 $this->goFront();
             }
         }
@@ -244,17 +260,18 @@ class LoginController extends Controller
     /**
      * confirmation de compte utilisateur
      */
-    public function confirm(){
-        if(isset($_GET['token'])) {
+    public function confirm()
+    {
+        if (isset($_GET['token'])) {
             $token = $_GET['token'];
             $table = $this->table('users');
             $user = $table->validUser($token);
-            if($user == true){
+            if ($user == true) {
                 $this->goConfirmed();
-            }else{
+            } else {
                 echo 'Votre lien ne semble pas fonctionner';
             }
-        }else{
+        } else {
             echo 'Votre lien ne semble pas fonctionner';
         }
     }
@@ -262,7 +279,8 @@ class LoginController extends Controller
     /**
      * permet d'afficher la page de confirmation de compte utilisateur validé
      */
-    public function goConfirmed(){
+    public function goConfirmed()
+    {
         $url = App::url('confirmed');
         header("Location: {$url}");
         exit();
@@ -271,7 +289,8 @@ class LoginController extends Controller
     /**
      * gère l'affichage de la page de confirmation de compte utilisateur validé
      */
-    public function confirmed() {
+    public function confirmed()
+    {
         $errors = 'Merci de votre confirmation, vous pouvez désormais vous connecter à votre compte';
         $pageTitle = 'Bienvenue';
         $this->render('confirmed', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');

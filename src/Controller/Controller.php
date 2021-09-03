@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
-use App\Table\UserTable;
 
+/**
+ * Class Controller
+ * @package App\Controller
+ */
 class Controller
 {
 
@@ -32,34 +35,21 @@ class Controller
      */
     public function isConnected()
     {
-        $isConnect = Auth::isAuth();
-        if ($isConnect) {
-            return true;
-        } else {
+        if (!Auth::isAuth()) {
             $url = App::url('login');
             header("Location: {$url}");
             exit();
         }
+        return true;
     }
 
-    /**
-     * administrateur ?
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        $isAdmin = Auth::isAdmin();
-        if ($isAdmin) {
-            return true;
-        }
-    }
 
     /**
-     * @todo finaliser description
+     * Oriente vers la bonne page 404 selon le statut utilisateur
      */
     public function error()
     {
-        if ($this->isAdmin()) {
+        if (Auth::isAdmin()) {
             $url = App::url('admin/404');
             header("Location: {$url}");
             exit();

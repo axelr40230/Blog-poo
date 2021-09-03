@@ -7,7 +7,6 @@ namespace App;
  * Class Auth
  * @package App
  */
-
 class Auth
 {
     /**
@@ -17,9 +16,8 @@ class Auth
     public static function isAuth(): bool
     {
         $session = new Session();
-        if (!is_null($session->get('user'))) {
-            return true;
-        }
+
+        return !is_null($session->get('user'));
     }
 
     /**
@@ -31,11 +29,11 @@ class Auth
         $session = new Session();
         $user = $session->get('user');
         $status = $user->status;
-        if (!$status == 'admin') {
-            $url = App::url('');
-            header("Location: {$url}");
-            exit();
+        if ($status == 'user') {
+
+            return false;
         }
+
         return true;
     }
 

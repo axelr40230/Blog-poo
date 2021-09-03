@@ -82,14 +82,30 @@ class UserTable extends Table
                 }
             }
 
-        } else {
-            return false;
         }
 
+        return false;
 
     }
 
-    public function userVerif($data)
+    public function emailCheck($email)
+    {
+        $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
+        $query = App::db()->pdo()->prepare($req);
+        $query->execute(array(
+                'email' => $email)
+        );
+        $count = $query->rowCount();
+        $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+        $query->fetch();
+
+        if ($count == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public function insert($data)
     {
         if (!empty($data['first_name']) and !empty($data['last_name']) and !empty($data['email']) and !empty($data['password']) and !empty($data['password_confirmed'])) {
             $first_name = htmlspecialchars($data['first_name']);
@@ -141,10 +157,9 @@ class UserTable extends Table
 
                 return $infos;
             }
-        } else {
-
-            return false;
         }
+
+        return false;
 
 
     }

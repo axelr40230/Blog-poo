@@ -3,11 +3,16 @@
 namespace App\Controller;
 
 use App\App;
+use App\Auth;
 use App\Session;
 use App\Table\CommentTable;
 use App\Table\PostTable;
 use App\Table\UserTable;
 
+/**
+ * Class AdminController
+ * @package App\Controller
+ */
 class AdminController extends Controller
 {
     /**
@@ -16,7 +21,7 @@ class AdminController extends Controller
     public function admin()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $tableComments = new CommentTable();
                 $numberComments = $tableComments->howManyWaiting('waiting');
 
@@ -43,13 +48,18 @@ class AdminController extends Controller
         $this->render('404', ['pageTitle' => $pageTitle], 'backend');
     }
 
+    /**
+     * Gère l'affichage de la page des résultats de recherche
+     */
     public function search()
     {
-        //var_dump($_POST);
         $pageTitle = 'Résultats de recherche';
         $this->render('search', ['pageTitle' => $pageTitle], 'backend');
     }
 
+    /**
+     * Gère l'affichage des résultats d'une recherche
+     */
     public function results()
     {
         $results = [
@@ -85,9 +95,8 @@ class AdminController extends Controller
             $pageTitle = "Aucun résultat de recherche, essayez autre chose !";
         } elseif ($count === 1) {
             $pageTitle = "Il n'y qu'un seul résultat !";
-        } else {
-            $pageTitle = 'Il y a ' . $count . ' résultats de recherche';
         }
+        $pageTitle = 'Il y a ' . $count . ' résultats de recherche';
         $this->render('search', ['pageTitle' => $pageTitle, 'count' => $count, 'countUsers' => $countUsers, 'countPosts' => $countPosts, 'countComments' => $countComments, 'users' => $users, 'posts' => $posts, 'comments' => $comments], 'backend');
     }
 

@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use App\App;
+use App\Auth;
 use App\Table\PostTable;
 
+/**
+ * Class UsersController
+ * @package App\Controller
+ */
 class UsersController extends Controller
 {
     /**
@@ -27,7 +32,7 @@ class UsersController extends Controller
      */
     public function update($id)
     {
-        if ($this->isAdmin()) {
+        if (Auth::isAdmin()) {
             $data = $_POST;
             $table = $this->table('users');
             $table->update($id, $data);
@@ -41,7 +46,7 @@ class UsersController extends Controller
      */
     public function insert($action)
     {
-        if ($this->isAdmin()) {
+        if (Auth::isAdmin()) {
             $data = $_POST;
             $table = $this->table('users');
             $table->insert($data);
@@ -55,7 +60,7 @@ class UsersController extends Controller
     public function list()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $table = $this->table('users');
                 $trad = new App();
                 $pageTitle = $trad->translate('users');
@@ -75,20 +80,20 @@ class UsersController extends Controller
     public function edit($id)
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $users = rtrim('users', 's');
                 $table = $this->table($users);
                 $user = $table->one($id);
                 if ($user == false) {
                     $this->error();
-                } else {
-                    $trad = new App();
-                    $status = $trad->translate($user->status);
-                    $postsTable = new PostTable();
-
-                    $pageTitle = 'Editer l\'utilisateur';
-                    $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, $users => $user, 'status' => $status], 'backend');
                 }
+                $trad = new App();
+                $status = $trad->translate($user->status);
+                $postsTable = new PostTable();
+
+                $pageTitle = 'Editer l\'utilisateur';
+                $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, $users => $user, 'status' => $status], 'backend');
+
             }
         }
     }
@@ -100,16 +105,16 @@ class UsersController extends Controller
     public function delete($id)
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $table = $this->table('users');
                 $delete = $table->delete($id);
                 if ($delete == true) {
                     $url = App::url('admin/users');
                     header("Location: {$url}");
                     exit();
-                } else {
-                    header("Refresh:0");
                 }
+                header("Refresh:0");
+
             }
         }
     }

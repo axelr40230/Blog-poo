@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
-
+/**
+ * Class HomeController
+ * @package App\Controller
+ */
 class HomeController extends Controller
 {
     /**

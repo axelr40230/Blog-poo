@@ -3,11 +3,16 @@
 namespace App\Controller;
 
 use App\App;
+use App\Auth;
 use App\Env;
 use App\Mailer;
 use App\Table\PostTable;
 use App\Table\UserTable;
 
+/**
+ * Class CommentsController
+ * @package App\Controller
+ */
 class CommentsController extends Controller
 {
     /**
@@ -57,7 +62,7 @@ class CommentsController extends Controller
     public function list()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $table = $this->table('comments');
                 $trad = new App();
                 $pageTitle = $trad->translate('comments');
@@ -72,7 +77,7 @@ class CommentsController extends Controller
 
                 $totalComments = $table->findAll();
 
-                $nbArticles  = count($totalComments);
+                $nbArticles = count($totalComments);
                 // On détermine le nombre d'articles par page
                 $parPage = 10;
                 // On calcule le nombre de pages total
@@ -98,7 +103,7 @@ class CommentsController extends Controller
     public function edit($id)
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $comment = $this->table('comments')->one($id);
                 if ($comment == false) {
                     $this->error();

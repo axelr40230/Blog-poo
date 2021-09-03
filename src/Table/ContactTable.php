@@ -38,11 +38,10 @@ class ContactTable extends Table
                 var_dump($query->errorInfo());
                 exit();
             } else {
-
                 return App::db()->pdo()->lastInsertId();
             }
-        } else {
-            return false;
         }
+        return false;
+
     }
 }

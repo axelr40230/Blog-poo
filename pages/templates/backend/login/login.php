@@ -24,17 +24,17 @@ $form = new Form(array());
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Bon retour parmi nous !</h1>
                                 </div>
-                                <?php if($errors) : ?>
-                                    <div class="alert alert-danger text-center" role="alert">
-                                        <?= $errors ?>
-                                    </div>
-                                <?php endif; ?>
                                 <form class="user" action="" method="post">
+                                    <?= $validator->csrf(); ?>
+                                    <!-- <input type="hidden" name="_token" value="zofhozjgozgj" /> -->
+                                    <p><?= $validator->errorToken('_token'); ?></p>
                                     <div class="form-group">
                                         <?= $form->input('email','w-100 form-control form-control-user', 'text','email', 'Votre email'); ?>
+                                        <?= $validator->error('email'); ?>
                                     </div>
                                     <div class="form-group">
                                         <?= $form->input('password','w-100 form-control form-control-user', 'password','password', 'Votre mot de passe'); ?>
+                                        <?= $validator->error('password'); ?>
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">

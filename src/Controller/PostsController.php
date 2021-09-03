@@ -3,10 +3,15 @@
 namespace App\Controller;
 
 use App\App;
+use App\Auth;
 use App\Table\CommentTable;
 use App\Table\PostTable;
 use App\Table\UserTable;
 
+/**
+ * Class PostsController
+ * @package App\Controller
+ */
 class PostsController extends Controller
 {
     /**
@@ -75,7 +80,7 @@ class PostsController extends Controller
      */
     public function insert()
     {
-        if ($this->isAdmin()) {
+        if (Auth::isAdmin()) {
             $errors = [];
             $data = $_POST;
             $table = $this->table('posts');
@@ -102,7 +107,7 @@ class PostsController extends Controller
     public function list()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $table = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
@@ -122,7 +127,7 @@ class PostsController extends Controller
     public function trash()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $posts = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
@@ -143,7 +148,7 @@ class PostsController extends Controller
     public function delete($slug)
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $table = $this->table('posts');
                 $delete = $table->delete($slug);
                 if ($delete == true) {
@@ -163,7 +168,7 @@ class PostsController extends Controller
     public function draft()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $posts = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
@@ -183,7 +188,7 @@ class PostsController extends Controller
     public function publish()
     {
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $posts = $this->table('posts');
                 $trad = new App();
                 $pageTitle = $trad->translate('posts');
@@ -206,7 +211,7 @@ class PostsController extends Controller
     {
         $errors = [];
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $post = rtrim('posts', 's');
                 $name = $post;
                 $posts = 'posts';
@@ -229,7 +234,7 @@ class PostsController extends Controller
     {
         $errors = [];
         if ($this->isConnected()) {
-            if ($this->isAdmin()) {
+            if (Auth::isAdmin()) {
                 $posts = rtrim('posts', 's');
                 $pageTitle = 'insert ' . $posts;
                 $trad = new App();

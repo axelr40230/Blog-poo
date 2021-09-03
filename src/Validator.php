@@ -6,7 +6,6 @@ namespace App;
  * Class Validator
  * @package App
  */
-
 class Validator
 {
     protected $data = [];
@@ -42,15 +41,21 @@ class Validator
         }
     }
 
+    /**
+     * @return bool
+     */
     public function fails(): bool
     {
         if (count($this->errors) > 0) {
-            return true;
-        } else {
             return false;
         }
+        return true;
     }
 
+    /**
+     * @param string $key
+     * @return string|null
+     */
     public function error(string $key): ?string
     {
         if (array_key_exists($key, $this->errors)) {
@@ -70,6 +75,10 @@ class Validator
 
     }
 
+    /**
+     * @param string $key
+     * @return string|null
+     */
     public function errorToken(string $key): ?string
     {
         if (array_key_exists($key, $this->errorToken)) {
@@ -80,6 +89,10 @@ class Validator
 
     }
 
+    /**
+     * @param string $key
+     * @return string|null
+     */
     public function old(string $key): ?string
     {
         if (array_key_exists($key, $this->data)) {
@@ -89,12 +102,18 @@ class Validator
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function csrf()
     {
 
         return sprintf('<input type="hidden" name="_token" value="%s" />', $this->newToken);
     }
 
+    /**
+     *
+     */
     protected function generateToken()
     {
         $this->newToken = md5(uniqid(rand(), true));
@@ -113,10 +132,20 @@ class Validator
         return true;
     }
 
+    /**
+     * @param string $key
+     * @param array $rules
+     * @return bool
+     */
     protected function checkInput(string $key, array $rules): bool
     {
         foreach ($rules as $rule) {
             if ($rule === 'required') {
+                $method = sprintf('rule%s', ucfirst($rule));
+                $param = null;
+
+                $this->$method($key, $param);
+            } elseif ($rule === 'email') {
                 $method = sprintf('rule%s', ucfirst($rule));
                 $param = null;
 
@@ -138,20 +167,30 @@ class Validator
 
     }
 
+    /**
+     * @param string $key
+     * @param null $param
+     * @return bool
+     */
     protected function ruleRequired(string $key, $param = null): bool
     {
         $check = !empty($key);
 
-        if (true === $check) {
+        if ($check === false) {
             $this->errors[$key][] = 'Ce champs est requis';
         }
 
         return $check;
     }
 
+    /**
+     * @param string $key
+     * @param null $param
+     * @return bool
+     */
     protected function ruleMin(string $key, $param = null): bool
     {
-        $check = strlen($key) <= $param;
+        $check = strlen($this->data[$key]) >= $param;
 
         if (!$check) {
             $this->errors[$key][] = sprintf('Ce champs doit faire au moins %d caractères', $param);
@@ -160,9 +199,14 @@ class Validator
         return $check;
     }
 
+    /**
+     * @param string $key
+     * @param null $param
+     * @return bool
+     */
     protected function ruleMax(string $key, $param = null): bool
     {
-        $check = strlen($key) >= $param;
+        $check = strlen($this->data[$key]) <= $param;
 
         if (!$check) {
             $this->errors[$key][] = sprintf('Ce champs doit faire au maximum %d caractères', $param);
@@ -171,13 +215,56 @@ class Validator
         return $check;
     }
 
+    /**
+     * @param string $key
+     * @param null $param
+     * @return bool
+     */
     protected function ruleEmail(string $key, $param = null): bool
     {
-        return false;
+        if(!filter_var($this->data[$key], FILTER_VALIDATE_EMAIL)) {
+            $this->errors[$key][] = sprintf('Ce champs doit être un email', $param);
+        }
+
+        return true;
     }
 
+    /**
+     * @param string $key
+     * @param null $param
+     * @return bool
+     */
     protected function ruleUnique(string $key, $param = null): bool
     {
-        return false;
+        $type = rtrim($param, 's');
+        $table = ucfirst($type);
+        $table = "App\Table\\" . $table . "Table";
+        $table = new $table;
+        $function = $key . 'Check';
+        $check = $table->$function($this->data['email']);
+
+        if ($check) {
+            $this->errors[$key][] = sprintf('Cet email est déjà pris', $param);
+        }
+
+        return true;
+    }
+
+    protected function ruleExist(string $key, $param = null): bool
+    {
+        $type = rtrim($param, 's');
+        $table = ucfirst($type);
+        $table = "App\Table\\" . $table . "Table";
+        $table = new $table;
+        $function = $key . 'Check';
+        $check = $table->$function($this->data['email']);
+
+        if (!$check) {
+
+            $this->errors[$key][] = sprintf('Nous n\'avons pas trouvé de compte rattaché à cet email', $param);
+        }
+
+
+        return true;
     }
 }

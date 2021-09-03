@@ -5,6 +5,10 @@ namespace App\Controller;
 use App\Env;
 use App\Mailer;
 
+/**
+ * Class GlobalController
+ * @package App\Controller
+ */
 class GlobalController extends Controller
 {
     /**
