@@ -22,11 +22,10 @@ $form = new Form(array());
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Bon retour parmi nous !</h1>
+                                    <h1 class="h4 text-gray-900 mb-4"><?= $pageTitle; ?></h1>
                                 </div>
                                 <form class="user" action="" method="post">
                                     <?= $validator->csrf(); ?>
-                                    <!-- <input type="hidden" name="_token" value="zofhozjgozgj" /> -->
                                     <p><?= $validator->errorToken('_token'); ?></p>
                                     <div class="form-group">
                                         <?= $form->input('email','w-100 form-control form-control-user', 'text','email', 'Votre email'); ?>

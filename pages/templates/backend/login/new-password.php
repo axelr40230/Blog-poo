@@ -22,17 +22,16 @@ $form = new Form(array());
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Merci de compléter le formulaire pour mettre à jour votre mot de passe</h1>
+                                    <h1 class="h4 text-gray-900 mb-2"><?= $pageTitle; ?></h1>
+                                    <p class="mb-4"><?= $text; ?></p>
                                 </div>
-                                <?php if($errors) : ?>
-                                    <div class="alert alert-danger text-center" role="alert">
-                                        <?= $errors ?>
-                                    </div>
-                                <?php endif; ?>
                                 <form class="user" action="" method="post">
+                                    <?= $validator->csrf(); ?>
+                                    <p><?= $validator->errorToken('_token'); ?></p>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <?= $form->input('password','w-100 form-control form-control-user', 'password','password', 'Saisissez un mot de passe'); ?>
+                                            <?= $validator->error('password'); ?>
                                         </div>
                                         <div class="col-sm-6">
                                             <?= $form->input('password_confirmed','w-100 form-control form-control-user', 'password','password_confirmed', 'Confirmez le mot de passe'); ?>

@@ -1,12 +1,6 @@
 <?php
 
 use App\App;
-use App\Session;
-
-$session = new Session();
-$user = $session->get('user');
-use App\Form;
-$form = new Form();
 
 ?>
 <!-- Content Wrapper -->
@@ -24,17 +18,19 @@ $form = new Form();
             </button>
 
             <!-- Topbar Search -->
-            <form action="<?= App::url('') ?>search" method="post" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <form action="<?= App::url('') ?>search" method="post"
+                  class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <?= $form->input('search', 'form-control bg-light border-0 small', 'search', 'search', 'Rechercher...'); ?>
-<!--                    <input type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..."
-                           aria-label="Search" aria-describedby="basic-addon2">
--->                    <div class="input-group-append">
+                    <!--                    <input type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..."
+                                               aria-label="Search" aria-describedby="basic-addon2">
+                    -->
+                    <div class="input-group-append">
                         <?= $form->submit('<i class="fas fa-search fa-sm"></i>', 'button', 'btn btn-primary', 'search'); ?>
-<!--                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
--->                    </div>
+                        <!--                        <button class="btn btn-primary" type="button">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                        -->                    </div>
                 </div>
             </form>
 
@@ -67,7 +63,8 @@ $form = new Form();
 
                 <div class="d-sm-flex align-items-center justify-content-between ">
 
-                    <a href="<?= App::url('') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Visiter le site <i
+                    <a href="<?= App::url('') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Visiter
+                        le site <i
                                 class="fas fa-eye fa-sm text-white-50"></i> </a>
                 </div>
 
@@ -89,7 +86,8 @@ $form = new Form();
                             Mon profil
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?= App::url('logout') ?>" data-toggle="modal" data-target="#logoutModal">
+                        <a class="dropdown-item" href="<?= App::url('logout') ?>" data-toggle="modal"
+                           data-target="#logoutModal">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Se déconnecter
                         </a>

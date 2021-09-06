@@ -1,9 +1,7 @@
 <?php
 
 use App\App;
-use App\Session;
 
-$session = new Session();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -32,7 +30,8 @@ $session = new Session();
 
     <link href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    <script src="https://cdn.tiny.cloud/1/cfxs3qxefmtsich5szb75tensvbgsgfhth2h6e6q551rcy0h/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/cfxs3qxefmtsich5szb75tensvbgsgfhth2h6e6q551rcy0h/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
 
 </head>
 
@@ -40,13 +39,13 @@ $session = new Session();
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-<?php require 'sidebar.php';
-?>
-<?php require 'header.php';
-?>
-<?= $content ?>
+    <?php require 'sidebar.php';
+    ?>
+    <?php require 'header.php';
+    ?>
+    <?= $content ?>
 
-<?php require('footer.php'); ?>
+    <?php require('footer.php'); ?>
 </body>
 </html>
 

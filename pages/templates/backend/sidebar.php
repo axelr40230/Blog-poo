@@ -44,7 +44,7 @@ use App\App;
                 <h6 class="collapse-header">Gérer les articles</h6>
                 <a class="collapse-item" href="<?= App::url('admin/posts') ?>">Tous les articles</a>
                 <a class="collapse-item" href="<?= App::url('admin/posts/insert') ?>">Ajouter un article</a>
-<!--                <a class="collapse-item" href="cards.html">Catégories</a>-->
+                <!--                <a class="collapse-item" href="cards.html">Catégories</a>-->
             </div>
         </div>
     </li>
@@ -63,7 +63,6 @@ use App\App;
             </div>
         </div>
     </li>
-
 
 
     <!-- Divider -->
@@ -99,7 +98,8 @@ use App\App;
 
     <!-- Sidebar Message -->
     <div class="sidebar-card">
-        <img class="sidebar-card-illustration mb-2" src="<?= App::url('') ?>public/images/admin/undraw_rocket.svg" alt="">
+        <img class="sidebar-card-illustration mb-2" src="<?= App::url('') ?>public/images/admin/undraw_rocket.svg"
+             alt="">
         <p class="text-center mb-2"><strong>Bienvenue</strong> dans votre administration !</p>
         <a class="btn btn-success btn-sm" href="<?= App::url('') ?>">Voir le site</a>
     </div>

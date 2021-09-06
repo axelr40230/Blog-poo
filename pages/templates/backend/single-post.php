@@ -1,9 +1,6 @@
 <?php
 
 use App\App;
-use App\Form;
-
-$form = new Form(array());
 
 ?>
 <!-- Begin Page Content -->
@@ -56,8 +53,10 @@ $form = new Form(array());
                             <p>
                                 Créé le <?= $post->date_fr('exact', 'created_at'); ?><br/>
                                 Statut : <?= $status ?><br/>
-                                <?php if($post->status == 'intrash') : ?>
-                                    <a class="text-danger" href="<?= App::url('admin/posts/delete') ?>/<?= $post->slug; ?>">Supprimer définitivement</a><br/>
+                                <?php if ($post->status == 'intrash') : ?>
+                                    <a class="text-danger"
+                                       href="<?= App::url('admin/posts/delete') ?>/<?= $post->slug; ?>">Supprimer
+                                        définitivement</a><br/>
                                 <?php endif; ?>
                                 Dernière modification le <?= $post->date_fr('exact', 'modify_at'); ?><br/>
                                 Auteur : <?= $author->first_name . ' ' . $author->last_name; ?>

@@ -1,5 +1,7 @@
 <?php
+
 use App\App;
+
 ?>
 <!-- Footer -->
 <footer class="sticky-footer bg-white">
@@ -68,8 +70,8 @@ use App\App;
 <script>
     tinymce.init({
         selector: 'textarea#form-content',
-        width:'100%',
-        height:500,
+        width: '100%',
+        height: 500,
         plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
         toolbar_mode: 'wrap',
     });

@@ -65,8 +65,10 @@ class UsersController extends Controller
                 $trad = new App();
                 $pageTitle = $trad->translate('users');
                 $users = $table->findAll();
+
                 foreach ($users as $user) {
                     $user->status = $trad->translate($user->status);
+                    $user->created_at = $user->date_fr('exact', 'created_at');
                 }
                 $this->render('users', ['pageTitle' => $pageTitle, 'users' => $users], 'backend');
             }
@@ -87,12 +89,13 @@ class UsersController extends Controller
                 if ($user == false) {
                     $this->error();
                 }
+                $date = $user->date_fr('exact', 'created_at');
                 $trad = new App();
                 $status = $trad->translate($user->status);
                 $postsTable = new PostTable();
 
                 $pageTitle = 'Editer l\'utilisateur';
-                $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, $users => $user, 'status' => $status], 'backend');
+                $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, $users => $user, 'status' => $status, 'date' => $date], 'backend');
 
             }
         }

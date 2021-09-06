@@ -1,9 +1,7 @@
 <?php
 
 use App\App;
-use App\Session;
 
-$session = new Session();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

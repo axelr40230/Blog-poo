@@ -196,6 +196,27 @@ class UserTable extends Table
         return $count = $query->rowCount();
     }
 
+    /**
+     * Requête de récupération d'une instance de table // Query to retrieve a table instance
+     * @param $id
+     * @return mixed
+     */
+    public function oneWithToken($token)
+    {
+        $req = "SELECT * FROM {$this->getTable()} WHERE token=:token";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute([
+            'token' => $token
+        ]);
+        $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
+        $count = $query->rowCount();
+        if ($count === 0) {
+            return false;
+        }
+        return $user = $query->fetch();
+    }
+
     public function validUser($token)
     {
         $status = 'user';
@@ -242,30 +263,31 @@ class UserTable extends Table
         $query->execute(array(
                 'token' => $token)
         );
-
         $count = $query->rowCount();
         $query->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $user = $query->fetch();
+        $id = $user->id;
+        $status = $user->status;
         if ($count == 0) {
             return false;
         } elseif ($password != $password_confirmed) {
             return false;
-        } else {
-            $id = $user->id;
-            $options = [
-                'cost' => 10,
-            ];
-            $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
-
-            $req = "UPDATE {$this->getTable()} SET password=:password, modify_at=NOW() WHERE id=:id";
-            $query = App::db()->pdo()->prepare($req);
-
-            $query->execute([
-                'password' => $pass_hash,
-                'id' => $id
-            ]);
-
-            return true;
         }
+        $options = [
+            'cost' => 10,
+        ];
+        $pass_hash = password_hash($password, PASSWORD_DEFAULT, $options);
+
+        $req = "UPDATE {$this->getTable()} SET password=:password, status=:status, modify_at=NOW() WHERE id=:id";
+        $query = App::db()->pdo()->prepare($req);
+
+        $query->execute([
+            'password' => $pass_hash,
+            'status' => $status,
+            'id' => $id
+        ]);
+
+        return true;
+
     }
 }

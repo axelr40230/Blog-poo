@@ -1,10 +1,6 @@
 <?php
+
 use App\App;
-use App\Form;
-use App\Session;
-
-$form = new Form(array());
-
 
 ?>
 <!-- Begin Page Content -->
@@ -20,7 +16,7 @@ $form = new Form(array());
                     <h1 class="h3 mb-2 text-gray-800">
                         <?= $pageTitle ?>
                     </h1>
-                    <?php  if($errors) : ?>
+                    <?php if ($errors) : ?>
                         <div class="alert alert-danger text-center" role="alert">
                             <?= $errors ?>
                         </div>
@@ -31,16 +27,16 @@ $form = new Form(array());
                         <div class="col-12">
                             <form action="" method="post">
                                 <div class="p-2">
-                                <?= $form->label('title','Votre titre'); ?>
-                                <?= $form->input('title','form-control', 'text','title', 'Donnez un joli titre à votre article'); ?>
+                                    <?= $form->label('title', 'Votre titre'); ?>
+                                    <?= $form->input('title', 'form-control', 'text', 'title', 'Donnez un joli titre à votre article'); ?>
                                 </div>
                                 <div class="p-2">
-                                <?= $form->label('introduction','Ajouter une introduction'); ?>
-                                <?= $form->input('introduction','form-control','text', 'introduction', 'Une petite introduction pour donner envie de lire la suite'); ?>
+                                    <?= $form->label('introduction', 'Ajouter une introduction'); ?>
+                                    <?= $form->input('introduction', 'form-control', 'text', 'introduction', 'Une petite introduction pour donner envie de lire la suite'); ?>
                                 </div>
                                 <div class="p-2">
-                                <?= $form->label('content','Modifier le contenu'); ?>
-                                <?= $form->textarea('', 'content'); ?>
+                                    <?= $form->label('content', 'Modifier le contenu'); ?>
+                                    <?= $form->textarea('', 'content'); ?>
                                 </div>
                                 <div class="p-2">
                                     <?= $form->submit('Enregistrer en tant que brouillon', 'insert', 'btn btn-light w-100', 'draft'); ?>
@@ -62,9 +58,6 @@ $form = new Form(array());
         </section>
 
     </div>
-
-
-
 
 
 </div>

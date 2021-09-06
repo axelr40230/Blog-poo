@@ -1,11 +1,7 @@
 <?php
 
 use App\App;
-use App\Form;
 
-$form = new Form(array());
-
-$date = $user->date_fr('exact', 'created_at');
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">

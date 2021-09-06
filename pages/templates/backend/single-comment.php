@@ -1,9 +1,7 @@
 <?php
 
 use App\App;
-use App\Form;
 
-$form = new Form(array());
 ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -65,7 +63,9 @@ $form = new Form(array());
                                 Créé le <?= $comment->date_fr('exact', 'created_at'); ?><br/>
                                 Statut : <?= $translator($comment->status); ?><br/>
                                 Auteur : <?= $comment->author->first_name . ' ' . $comment->author->last_name; ?><br/>
-                                Article : <?= $comment->article_id->title; ?> - <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $comment->article_id->slug; ?>">Modifier l'article</a>
+                                Article : <?= $comment->article_id->title; ?> - <a class="text-info"
+                                                                                   href="<?= App::url('admin/posts/edit') ?>/<?= $comment->article_id->slug; ?>">Modifier
+                                    l'article</a>
                             </p>
 
                         </div>

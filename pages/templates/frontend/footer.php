@@ -38,9 +38,12 @@ use App\App;
 
     <ul role="social-icons">
 
-        <li><a href="https://www.linkedin.com/in/alexandra-rochette/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/alexandra-rochette/" target="_blank"><i class="fa fa-linkedin"
+                                                                                         aria-hidden="true"></i></a>
+        </li>
 
-        <li><a href="https://github.com/axelr40230" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+        <li><a href="https://github.com/axelr40230" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        </li>
 
     </ul>
 

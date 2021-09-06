@@ -1,30 +1,21 @@
 <?php
 
 use App\App;
-use App\Auth;
-use App\Session;
-
-$session = new Session();
-if($session->get('user')) :
-$user = $session->get('user');
-$status = $user->status;
-
-endif;
 
 ?>
 <header role="header">
-    <?php
-    $isConnect = Auth::isAuth();
-    if ($isConnect == false) :
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 offset-md-10 col-md-2 text-right">
-                <a class="btn btn-red my-5" href="<?= App::url('login') ?>">Connexion</a>
+
+    <?php if ($isConnect == false) : ?>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 offset-md-10 col-md-2 text-right">
+                    <a class="btn btn-red my-5" href="<?= App::url('login') ?>">Connexion</a>
+                </div>
             </div>
         </div>
-    </div>
-    <?php elseif($status == 'admin') : ?>
+
+    <?php elseif ($status == 'admin') : ?>
 
         <div class="container">
             <div class="row">
@@ -33,6 +24,7 @@ endif;
                 </div>
             </div>
         </div>
+
     <?php else : ?>
 
         <div class="container">
@@ -51,7 +43,8 @@ endif;
 
         <h1>
 
-            <a href="<?= App::url('') ?>" title="Alexandra Rochette"><img src="<?= App::url('') ?>public/images/logo.png" alt="Alexandra Rochette"/></a>
+            <a href="<?= App::url('') ?>" title="Alexandra Rochette"><img
+                        src="<?= App::url('') ?>public/images/logo.png" alt="Alexandra Rochette"/></a>
 
         </h1>
 

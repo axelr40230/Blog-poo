@@ -20,19 +20,17 @@ $form = new Form(array());
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-2">Mot de passe oublié ?</h1>
-                                    <p class="mb-4">Aucun problème, pas facile de se souvenir de tous ces mots de passe. Entrez simplement votre adresse e-mail ci-dessous et nous vous enverrons un lien pour réinitialiser votre mot de passe !</p>
+                                    <h1 class="h4 text-gray-900 mb-2"><?= $pageTitle; ?></h1>
+                                    <p class="mb-4"><?= $text; ?></p>
                                 </div>
-                                <?php  if($errors) : ?>
-                                    <div class="alert alert-danger text-center" role="alert">
-                                        <?= $errors ?>
-                                    </div>
-                                <?php endif; ?>
                                 <form class="user" action="" method="post">
+                                    <?= $validator->csrf(); ?>
+                                    <p><?= $validator->errorToken('_token'); ?></p>
+
                                     <div class="form-group">
 
                                         <?= $form->input('email','w-100 form-control form-control-user', 'email','email', 'Entrer votre adresse mail...'); ?>
-
+                                        <?= $validator->error('email'); ?>
                                     </div>
 
                                     <?= $form->submit('Réinitialiser le mot de passe', 'ForgotPass', 'btn btn-primary btn-user btn-block', 'ForgotPass'); ?>

@@ -1,13 +1,7 @@
 <?php
 
 use App\App;
-use App\Auth;
-use App\Session;
 
-$session = new Session();
-if ($session->get('user')) :
-    $user = $session->get('user');
-endif;
 ?>
 <!-- main -->
 
@@ -29,10 +23,7 @@ endif;
 
                 <p>Votre avis est précieux ! N'hésitez pas à le donner en nous laissant vos commentaires</p>
 
-                <?php
-                $isConnect = Auth::isAuth();
-                if ($isConnect == false) :
-                    ?>
+                <?php if ($isConnect == false) : ?>
 
                     <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">S'identifier</a>
 

@@ -22,11 +22,11 @@ $form = new Form(array());
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Bienvenue parmi nous !</h1>
+                                    <h1 class="h4 text-gray-900 mb-4"><?= $pageTitle; ?></h1>
                                 </div>
-                                <?php if($errors) : ?>
+                                <?php if($text) : ?>
                                     <div class="alert alert-danger text-center" role="alert">
-                                        <?= $errors ?>
+                                        <?= $text ?>
                                     </div>
                                 <?php endif; ?>
                                 <div class="text-center">

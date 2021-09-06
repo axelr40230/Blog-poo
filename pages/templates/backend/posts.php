@@ -1,4 +1,5 @@
 <?php
+
 use App\App;
 
 ?>
@@ -45,24 +46,26 @@ use App\App;
 
                     <tbody>
                     <?php foreach ($posts as $post) : ?>
-                    <tr>
-                        <td><a class="text-info" href="<?= App::url('posts') ?>/<?= $post->slug; ?>"><?= $post->title; ?></a></td>
-                        <td>
-                            <?= $translator($post->status); ?>
-                        </td>
-                        <td><a class="text-info" href="<?= App::url('admin/users') ?>/<?= $post->author->id; ?>"><?php
-                                echo $post->author->first_name . ' ' . $post->author->last_name;
-                                ?></a></td>
-                        <td>
-                            <?php $date = $post->date_fr('exact', 'created_at');
+                        <tr>
+                            <td><a class="text-info"
+                                   href="<?= App::url('posts') ?>/<?= $post->slug; ?>"><?= $post->title; ?></a></td>
+                            <td>
+                                <?= $translator($post->status); ?>
+                            </td>
+                            <td><a class="text-info"
+                                   href="<?= App::url('admin/users') ?>/<?= $post->author->id; ?>"><?php
+                                    echo $post->author->first_name . ' ' . $post->author->last_name;
+                                    ?></a></td>
+                            <td>
+                                <?php $date = $post->date_fr('exact', 'created_at');
 
-                            ?>
-                            Le <?= $date; ?>
-                        </td>
-                        <td>
-                            <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $post->slug; ?>">Modifier</a>
-                        </td>
-                    </tr>
+                                ?>
+                                Le <?= $date; ?>
+                            </td>
+                            <td>
+                                <a class="text-info" href="<?= App::url('admin/posts/edit') ?>/<?= $post->slug; ?>">Modifier</a>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>

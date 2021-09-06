@@ -1,10 +1,3 @@
-<?php
-
-use App\Form;
-
-$form = new Form(array());
-
-?>
 <!-- main -->
 
 <main role="main-inner-wrapper" class="container">
@@ -51,7 +44,7 @@ $form = new Form(array());
         <div class="clearfix"></div>
 
 
-        <!-- contat-from-wrapper -->
+        <!-- contact-from-wrapper -->
 
         <div class="contat-from-wrapper">
 
@@ -62,7 +55,7 @@ $form = new Form(array());
                 <div class="row">
 
                     <col-12 id="error">
-                        <?php  if($errors) : ?>
+                        <?php if ($errors) : ?>
                             <div class="alert alert-danger text-center" role="alert">
                                 <?= $errors ?>
                             </div>
@@ -71,9 +64,6 @@ $form = new Form(array());
 
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 
-
-
-                        <!--                        <input name="name" id="name" type="text" placeholder="Quel est votre nom ?">-->
                         <?= $form->input('name', '', 'text', 'name', 'Quel est votre nom ?'); ?>
 
                     </div>
@@ -93,7 +83,9 @@ $form = new Form(array());
                 <div class="clearfix"></div>
 
                 <div class="text-center">
+
                     <?= $form->submit('C\'est parti !!', 'send-message', 'btn btn-red my-5', 'send-message'); ?>
+
                 </div>
 
 
@@ -103,7 +95,7 @@ $form = new Form(array());
 
         </div>
 
-        <!-- contat-from-wrapper -->
+        <!-- contact-from-wrapper -->
 
 
     </div>

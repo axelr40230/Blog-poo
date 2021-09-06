@@ -35,7 +35,7 @@ class LoginController extends Controller
         $isConnect = Auth::isAuth();
         if ($isConnect == false) {
             $errors = [];
-            $pageTitle = 'Connexion au back office';
+            $pageTitle = 'Bon retour parmi nous !';
             $this->render('login', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
         } else {
             $this->goAdmin();
@@ -111,9 +111,9 @@ class LoginController extends Controller
      */
     public function forgotpassword()
     {
-        $errors = [];
         $pageTitle = 'J\'ai oublié mon mot de passe';
-        $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+        $text = 'Aucun problème, pas facile de se souvenir de tous ces mots de passe. Entrez simplement votre adresse e-mail ci-dessous et nous vous enverrons un lien pour réinitialiser votre mot de passe !';
+        $this->render('forgot-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
     }
 
     /**
@@ -121,9 +121,9 @@ class LoginController extends Controller
      */
     public function changePassword()
     {
-        $errors = [];
+        $text = 'Vous pouvez choisir un nouveau mot de passe';
         $pageTitle = 'Réinitialiser mon mot de passe';
-        $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+        $this->render('new-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
     }
 
     /**
@@ -131,18 +131,32 @@ class LoginController extends Controller
      */
     public function changedPassword()
     {
+        $validator = App::validator();
+        $validator->validate($_POST, [
+            'password' => [
+                'required',
+                'min:2',
+                'max:8'
+            ]
+        ]);
+
+        if ($validator->fails() === false) {
+            $pageTitle = 'Oups, il y a eu un souci.';
+            $text = 'Veuillez recommencer !';
+            $this->render('new-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
+        }
         if (isset($_GET['token'])) {
             $token = $_GET['token'];
             $table = $this->table('users');
-            $user = $table->validUser($token);
+            $user = $table->oneWithToken($token);
             if ($user == true) {
                 $user = $table->changePass($token);
                 if ($user == false) {
-                    $errors = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
+                    $text = 'Nous n\'avons pas trouvé de compte pour cet utilisateur';
                     $pageTitle = 'Réinitialisation de mot de passe';
-                    $this->render('new-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+                    $this->render('new-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
                 } else {
-                    $errors = 'Le mot de passe à bien été changé';
+                    $text = 'Le mot de passe à bien été changé';
                     $url = App::url('login');
                     header("Location: {$url}");
                     exit();
@@ -160,6 +174,20 @@ class LoginController extends Controller
      */
     public function retrievepassword()
     {
+        $validator = App::validator();
+        $validator->validate($_POST, [
+            'email' => [
+                'required',
+                'email',
+                'exist:users'
+            ]
+        ]);
+
+        if ($validator->fails() === false) {
+            $pageTitle = 'Oups, il y a eu un souci.';
+            $text = 'Veuillez recommencer !';
+            $this->render('forgot-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
+        }
         $data = $_POST;
         $table = $this->table('users');
         $infos = $table->emailVerif($data);
@@ -169,17 +197,17 @@ class LoginController extends Controller
             'content' => $url
         ];
         if ($infos == false) {
-            $errors = 'Nous n\'avons pas trouvé cet email';
+            $text = 'Nous n\'avons pas trouvé cet email';
             $pageTitle = 'Mot de passe oublié';
-            $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            $this->render('forgot-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
         } else {
             $mailer = new Mailer();
             $templateFile = $mailer->file('mail-password');
             $message = $mailer->extract($templateFile, $contenu);
             $mailer->send($email, 'Modifier votre mot de passe', $message);
-            $errors = 'Un email vous a été envoyé';
+            $text = 'Un email vous a été envoyé';
             $pageTitle = 'Demande envoyée';
-            $this->render('forgot-password', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+            $this->render('forgot-password', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
         }
     }
 
@@ -204,13 +232,14 @@ class LoginController extends Controller
         ]);
 
         if ($validator->fails() === false) {
-            $this->render('login', ['pageTitle' => 'Connexion au back office'], 'backend/login');
+            $pageTitle = 'Oups, il y a eu un souci.<br/>Veuillez recommencer !';
+            $this->render('login', ['pageTitle' => $pageTitle], 'backend/login');
         }
         $data = $_POST;
         $table = $this->table('users');
         $user = $table->userAuth($data);
         if ($user == false) {
-            $pageTitle = 'Connexion au back office';
+            $pageTitle = 'Bon retour parmi nous !';
             $this->render('login', ['pageTitle' => $pageTitle], 'backend/login');
         } else {
             $session = new Session();
@@ -291,9 +320,9 @@ class LoginController extends Controller
      */
     public function confirmed()
     {
-        $errors = 'Merci de votre confirmation, vous pouvez désormais vous connecter à votre compte';
-        $pageTitle = 'Bienvenue';
-        $this->render('confirmed', ['pageTitle' => $pageTitle, 'errors' => $errors], 'backend/login');
+        $text = 'Merci de votre confirmation, vous pouvez désormais vous connecter à votre compte';
+        $pageTitle = 'Bienvenue parmi nous !';
+        $this->render('confirmed', ['pageTitle' => $pageTitle, 'text' => $text], 'backend/login');
     }
 
 }

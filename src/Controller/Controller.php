@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\App;
 use App\Auth;
+use App\Form;
+use App\Session;
 
 /**
  * Class Controller
@@ -19,6 +21,11 @@ class Controller
     public function render(string $path, array $variables = [], string $folder): void
     {
         extract($variables);
+        $session = new Session();
+        $user = $session->get('user');
+        $status = $user->status;
+        $isConnect = Auth::isAuth();
+        $form = new Form();
         $validator = App::validator();
         $translator = function ($term) {
             return App::translate($term);

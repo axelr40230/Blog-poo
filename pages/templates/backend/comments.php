@@ -69,9 +69,10 @@ use App\App;
         <ul class="pagination">
             <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
             <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
-                <a href="<?= App::url('admin/comments') ?>?page=<?= $currentPage - 1 ?>" class="page-link">Précédente</a>
+                <a href="<?= App::url('admin/comments') ?>?page=<?= $currentPage - 1 ?>"
+                   class="page-link">Précédente</a>
             </li>
-            <?php for($page = 1; $page <= $pages; $page++): ?>
+            <?php for ($page = 1; $page <= $pages; $page++): ?>
                 <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
                 <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
                     <a href="<?= App::url('admin/comments') ?>?page=<?= $page ?>" class="page-link"><?= $page ?></a>

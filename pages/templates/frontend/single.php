@@ -2,10 +2,6 @@
 <?php
 
 use App\App;
-use App\Auth;
-use App\Form;
-
-$form = new Form(array());
 
 ?>
 
@@ -103,10 +99,7 @@ $form = new Form(array());
 
             </ul>
 
-            <?php
-            $isConnect = Auth::isAuth();
-            if ($isConnect == true) :
-                ?>
+            <?php if ($isConnect == true) : ?>
 
                 <div class="commentys-form">
 
