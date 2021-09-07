@@ -15,11 +15,9 @@ class RouterException extends \Exception
         if ($isAdmin == true) {
             $url = App::url('admin/404');
             header("Location: {$url}");
-            exit();
         } else {
             $url = App::url('404');
             header("Location: {$url}");
-            exit();
         }
     }
 }

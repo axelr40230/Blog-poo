@@ -96,7 +96,6 @@ class PostsController extends Controller
                 $post = $post->one($postId);
                 $url = App::url("admin/posts/edit/{$post->slug}");
                 header("Location: {$url}");
-                exit();
             }
         }
     }
@@ -154,7 +153,6 @@ class PostsController extends Controller
                 if ($delete == true) {
                     $url = App::url('admin/posts');
                     header("Location: {$url}");
-                    exit();
                 } else {
                     header("Refresh:0");
                 }

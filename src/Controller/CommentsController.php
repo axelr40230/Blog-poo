@@ -52,7 +52,6 @@ class CommentsController extends Controller
             $mailer->send($email, 'Il y a un commentaire en attente', $message);
             $url = App::url('confirmation');
             header("Location: {$url}");
-            exit();
         }
     }
 

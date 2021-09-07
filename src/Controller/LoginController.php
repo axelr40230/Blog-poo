@@ -159,7 +159,6 @@ class LoginController extends Controller
                     $text = 'Le mot de passe à bien été changé';
                     $url = App::url('login');
                     header("Location: {$url}");
-                    exit();
                 }
             } else {
                 return 'Votre lien ne semble pas fonctionner';
@@ -261,7 +260,6 @@ class LoginController extends Controller
     {
         $url = App::url('admin');
         header("Location: {$url}");
-        exit();
     }
 
     /**
@@ -271,7 +269,6 @@ class LoginController extends Controller
     {
         $url = App::url('');
         header("Location: {$url}");
-        exit();
     }
 
     /**
@@ -283,7 +280,6 @@ class LoginController extends Controller
         $session->clear();
         $url = App::url('login');
         header("Location: {$url}");
-        exit();
     }
 
     /**
@@ -312,7 +308,6 @@ class LoginController extends Controller
     {
         $url = App::url('confirmed');
         header("Location: {$url}");
-        exit();
     }
 
     /**

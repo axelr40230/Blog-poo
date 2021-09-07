@@ -45,7 +45,6 @@ class Controller
         if (!Auth::isAuth()) {
             $url = App::url('login');
             header("Location: {$url}");
-            exit();
         }
         return true;
     }
@@ -59,11 +58,9 @@ class Controller
         if (Auth::isAdmin()) {
             $url = App::url('admin/404');
             header("Location: {$url}");
-            exit();
         } else {
             $url = App::url('404');
             header("Location: {$url}");
-            exit();
         }
 
     }

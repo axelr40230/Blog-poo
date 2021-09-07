@@ -114,7 +114,6 @@ class UsersController extends Controller
                 if ($delete == true) {
                     $url = App::url('admin/users');
                     header("Location: {$url}");
-                    exit();
                 }
                 header("Refresh:0");
 
