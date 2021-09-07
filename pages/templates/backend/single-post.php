@@ -52,7 +52,7 @@ use App\App;
                         <div class="col-12">
                             <p>
                                 Créé le <?= $post->date_fr('exact', 'created_at'); ?><br/>
-                                Statut : <?= $status ?><br/>
+                                Statut : <?= $translator($post->status); ?><br/>
                                 <?php if ($post->status == 'intrash') : ?>
                                     <a class="text-danger"
                                        href="<?= App::url('admin/posts/delete') ?>/<?= $post->slug; ?>">Supprimer

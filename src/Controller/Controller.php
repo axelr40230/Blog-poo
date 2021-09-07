@@ -23,7 +23,6 @@ class Controller
         extract($variables);
         $session = new Session();
         $user = $session->get('user');
-        $status = $user->status;
         $isConnect = Auth::isAuth();
         $form = new Form();
         $validator = App::validator();

@@ -28,9 +28,7 @@ class Auth
     {
         $session = new Session();
         $user = $session->get('user');
-        $status = $user->status;
-        //var_dump($status);exit();
-        if ($status == 'user') {
+        if ($user->status == 'user') {
 
             return false;
         }

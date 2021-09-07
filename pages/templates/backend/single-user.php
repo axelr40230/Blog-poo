@@ -15,7 +15,7 @@ use App\App;
                 <div class="card-header py-3">
                     <h1 class="h3 mb-2 text-gray-800"><?= $user->first_name . ' ' . $user->last_name ?></h1>
                     <h2 class=text-xs>Date d'inscription : <?= $date ?></h2>
-                    <h3 class=text-xs>Statut : <?= $status ?></h3>
+                    <h3 class=text-xs>Statut : <?= $translator($user->status) ?></h3>
                     <a class="text-danger" href="<?= App::url('admin/users/delete') ?>/<?= $user->id; ?>">Supprimer
                         l'utilisateur</a><br/>
 
