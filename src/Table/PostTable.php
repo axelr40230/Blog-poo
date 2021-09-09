@@ -25,13 +25,14 @@ class PostTable extends Table
         return PostEntity::class;
     }
 
-    public function dSlug($string) {
-        $slug = strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1',htmlentities(preg_replace('/[&]/', ' et ', $string), ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+    public function dSlug($string)
+    {
+        $slug = strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities(preg_replace('/[&]/', ' et ', $string), ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
         $first = $this->oneBySlug($slug);
-        if(!$first) {
+        if (!$first) {
             return $slug;
-        }else{
-            return $slug.'-2';
+        } else {
+            return $slug . '-2';
         }
     }
 
@@ -59,15 +60,11 @@ class PostTable extends Table
                 $data['insert']
             ]);
 
-            if ($query == false) {
-                var_dump($query->errorInfo());
-                exit();
-            } else {
-                return App::db()->pdo()->lastInsertId();
-            }
-        } else {
-            return false;
+            return App::db()->pdo()->lastInsertId();
         }
+
+        return false;
+
     }
 
     /**
@@ -166,7 +163,8 @@ class PostTable extends Table
         return $results->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
     }
 
-    public function delete($slug) {
+    public function delete($slug)
+    {
         $req = "DELETE FROM {$this->getTable()} WHERE slug = :slug";
         $result = App::db()->pdo()->prepare($req);
         $result->execute([

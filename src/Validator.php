@@ -241,7 +241,7 @@ class Validator
         $table = "App\Table\\" . $table . "Table";
         $table = new $table;
         $function = $key . 'Check';
-        $check = $table->$function($this->data['email']);
+        $check = $table->$function($this->data[$key]);
 
         if ($check) {
             $this->errors[$key][] = sprintf('Cet email est déjà pris', $param);
@@ -257,7 +257,7 @@ class Validator
         $table = "App\Table\\" . $table . "Table";
         $table = new $table;
         $function = $key . 'Check';
-        $check = $table->$function($this->data['email']);
+        $check = $table->$function($this->data[$key]);
 
         if (!$check) {
 
@@ -267,4 +267,5 @@ class Validator
 
         return true;
     }
+
 }

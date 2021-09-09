@@ -115,7 +115,6 @@ use App\App;
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
 
-                                <!--                                <textarea name="" cols="" rows="" placeholder="Votre com'"></textarea>-->
                                 <?= $form->textarea('', 'comment', 'Votre com\''); ?>
 
 
@@ -123,7 +122,6 @@ use App\App;
 
                             <div class="text-center">
 
-                                <!--                                <input name="" type="button" value="Envoyer le com'">-->
                                 <?= $form->submit('Envoyer le com\'', 'addComment', 'btn btn-red my-5', 'addComment'); ?>
 
                             </div>

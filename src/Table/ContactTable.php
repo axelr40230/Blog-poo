@@ -4,8 +4,6 @@ namespace App\Table;
 
 use App\App;
 use App\Entity\ContactEntity;
-use App\Mailer;
-use App\Session;
 
 class ContactTable extends Table
 {
@@ -34,12 +32,8 @@ class ContactTable extends Table
                 $data['message']
             ]);
 
-            if ($query == false) {
-                var_dump($query->errorInfo());
-                exit();
-            } else {
-                return App::db()->pdo()->lastInsertId();
-            }
+            return App::db()->pdo()->lastInsertId();
+
         }
         return false;
 

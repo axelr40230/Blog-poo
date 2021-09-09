@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\App;
 use App\Env;
 use App\Mailer;
 
@@ -29,9 +30,9 @@ class GlobalController extends Controller
      */
     public function contact()
     {
-        $errors = [];
+        $text = '<p>Vous pouvez aussi m\'appeler ou m\'écrire directement</p>';
         $pageTitle = 'Me contacter';
-        $this->render('contact', ['pageTitle' => $pageTitle, 'errors' => $errors], 'frontend');
+        $this->render('contact', ['pageTitle' => $pageTitle, 'text' => $text], 'frontend');
     }
 
     /**
@@ -49,29 +50,44 @@ class GlobalController extends Controller
      */
     public function sendContact()
     {
-        $data = $_POST;
-        $table = $this->table('contact');
-        $contact = $table->insert($data);
-        if ($contact == false) {
-            $errors = 'Il y a un souci dans le formulaire';
-            $pageTitle = 'Me contacter';
-            $this->render('contact', ['pageTitle' => $pageTitle, 'errors' => $errors], 'frontend');
+        $validator = App::validator();
+        $validator->validate($_POST, [
+            'email' => [
+                'required',
+                'email'
+            ]
+        ]);
+
+        if ($validator->fails() === false) {
+            $pageTitle = 'Oups, il y a eu un souci.';
+            $text = '<p class="text-warning border border-warning p-3"><i class="fa fa-exclamation-triangle"></i> Veuillez recommencer !</p>';
+            $this->render('contact', ['pageTitle' => $pageTitle, 'text' => $text], 'frontend');
         } else {
-            $email = Env::get('ADMIN_EMAIL');
-            $infos = [
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'message' => $data['message']
-            ];
-            $mailer = new Mailer();
-            $templateFile = $mailer->file('mail-contact');
-            $message = $mailer->extract($templateFile, $infos);
-            $mailer->send($email, 'Vous avez un nouveau message', $message);
-            $errors = 'Le message a bien été envoyé';
-            $pageTitle = 'Me contacter';
-            $ancre = 'error';
-            $this->render('contact', ['pageTitle' => $pageTitle, 'errors' => $errors, 'ancre' => $ancre], 'frontend');
+            $data = $_POST;
+            $table = $this->table('contact');
+            $contact = $table->insert($data);
+            if ($contact == false) {
+                $text = '<p class="text-warning border border-warning p-3"><i class="fa fa-exclamation-triangle"></i> Il y a un souci dans le formulaire</p>';
+                $pageTitle = 'Me contacter';
+                $this->render('contact', ['pageTitle' => $pageTitle, 'text' => $text], 'frontend');
+            } else {
+                $email = Env::get('ADMIN_EMAIL');
+                $infos = [
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'message' => $data['message']
+                ];
+                $mailer = new Mailer();
+                $templateFile = $mailer->file('mail-contact');
+                $message = $mailer->extract($templateFile, $infos);
+                $mailer->send($email, 'Vous avez un nouveau message', $message);
+                $text = '<p class="text-success border border-success p-3"><i class="fa fa-thumbs-up"></i> Le message a bien été envoyé</p>';
+                $pageTitle = 'Me contacter';
+                $ancre = 'error';
+                $this->render('contact', ['pageTitle' => $pageTitle, 'text' => $text, 'ancre' => $ancre], 'frontend');
+            }
         }
+
     }
 
 }

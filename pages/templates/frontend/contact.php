@@ -11,8 +11,9 @@
             <article role="pge-title-content" class="contact-header">
 
                 <header>
-
+                    <h1><?= $pageTitle; ?></h1>
                     <h2><span>Promis</span> Je ne mords pas.</h2>
+                    <?= $text ?>
 
                 </header>
 
@@ -51,16 +52,9 @@
             <div id="message"></div>
 
             <form method="post" action="" name="cform" id="cform">
-
+                <?= $validator->csrf(); ?>
+                <p><?= $validator->errorToken('_token'); ?></p>
                 <div class="row">
-
-                    <col-12 id="error">
-                        <?php if ($errors) : ?>
-                            <div class="alert alert-danger text-center" role="alert">
-                                <?= $errors ?>
-                            </div>
-                        <?php endif; ?>
-                    </col-12>
 
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 
@@ -71,6 +65,7 @@
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 
                         <?= $form->input('email', '', 'email', 'email', 'Et votre email ?'); ?>
+                        <?= $validator->error('email'); ?>
 
                     </div>
 

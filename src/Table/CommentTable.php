@@ -44,6 +44,7 @@ class CommentTable extends Table
                 'id' => $id,
                 'status' => $status)
         );
+
         return $query->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
 
     }
@@ -91,15 +92,11 @@ class CommentTable extends Table
                 $status,
             ]);
 
-            if ($query == false) {
-                var_dump($query->errorInfo());
-                exit();
-            } else {
-                return App::db()->pdo()->lastInsertId();
-            }
-        } else {
-            return false;
+            return App::db()->pdo()->lastInsertId();
+
         }
+        return false;
+
     }
 
     /**
