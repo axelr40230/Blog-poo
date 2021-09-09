@@ -64,6 +64,9 @@ class App
         }
     }
 
+    /** singleton validator
+     * @return Validator
+     */
     public static function validator(): Validator
     {
         if (empty(self::$validator)) {
@@ -73,6 +76,10 @@ class App
         return self::$validator;
     }
 
+    /**
+     * singleton session
+     * @return Session
+     */
     public static function session(): Session
     {
         if (empty(self::$session)) {

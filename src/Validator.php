@@ -27,6 +27,7 @@ class Validator
     }
 
     /**
+     * permet d'initier le controle csrf et d'initier la bonne méthode de contr$ole pour chaque champ de formulaire
      * @param array $data
      * @param array $rules
      */
@@ -41,7 +42,7 @@ class Validator
         }
     }
 
-    /**
+    /** vérifie s'il y a des erreurs
      * @return bool
      */
     public function fails(): bool
@@ -52,7 +53,7 @@ class Validator
         return true;
     }
 
-    /**
+    /** vérifie si le controle des champs a généré une erreur et permet sa mise en forme pour l'affichage dans la vue
      * @param string $key
      * @return string|null
      */
@@ -75,7 +76,7 @@ class Validator
 
     }
 
-    /**
+    /** vérifie si le controle du token a généré une erreur et permet sa mise en forme pour l'affichage dans la vue
      * @param string $key
      * @return string|null
      */
@@ -89,7 +90,7 @@ class Validator
 
     }
 
-    /**
+    /** vérfie si un token existait déjà et retourne sa valeur
      * @param string $key
      * @return string|null
      */
@@ -102,7 +103,7 @@ class Validator
         return null;
     }
 
-    /**
+    /** gère l'affichage du token en front
      * @return string
      */
     public function csrf()
@@ -112,7 +113,7 @@ class Validator
     }
 
     /**
-     *
+     * génère le token
      */
     protected function generateToken()
     {
@@ -120,6 +121,10 @@ class Validator
         App::session()->set('_token', $this->newToken);
     }
 
+    /**
+     * vérifie si un token est enregistré, le compare à l'ancien s'il y a et génère l'erreur d'expiraiton du formulaire -> sécurité CSRF
+     * @return bool
+     */
     protected function checkCsrf()
     {
         $token = $this->data['_token'];
@@ -132,7 +137,7 @@ class Validator
         return true;
     }
 
-    /**
+    /** permet d'orienter vers la bonne méthode de contrôle du champ de formulaire
      * @param string $key
      * @param array $rules
      * @return bool
@@ -167,7 +172,7 @@ class Validator
 
     }
 
-    /**
+    /** vérifie si le champs est requis et configure le message d'erreur au besoin
      * @param string $key
      * @param null $param
      * @return bool
@@ -183,7 +188,7 @@ class Validator
         return $check;
     }
 
-    /**
+    /** vérifie si le champs correspond à la valeur minimum et configure le message d'erreur au besoin
      * @param string $key
      * @param null $param
      * @return bool
@@ -199,7 +204,7 @@ class Validator
         return $check;
     }
 
-    /**
+    /** vérifie si le champs correspond à la valeur maximum et configure le message d'erreur au besoin
      * @param string $key
      * @param null $param
      * @return bool
@@ -216,6 +221,7 @@ class Validator
     }
 
     /**
+     * vérifie si le champs est un email et configure le message d'erreur au besoin
      * @param string $key
      * @param null $param
      * @return bool
@@ -229,7 +235,7 @@ class Validator
         return true;
     }
 
-    /**
+    /** vérifie si le champs est unique en base de données et configure le message d'erreur au besoin
      * @param string $key
      * @param null $param
      * @return bool
@@ -250,6 +256,11 @@ class Validator
         return true;
     }
 
+    /** vérifie si le champs existe bien en base de données et configure le message d'erreur au besoin
+     * @param string $key
+     * @param null $param
+     * @return bool
+     */
     protected function ruleExist(string $key, $param = null): bool
     {
         $type = rtrim($param, 's');

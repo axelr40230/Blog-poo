@@ -8,7 +8,7 @@ use App\Session;
 
 class CommentTable extends Table
 {
-    /**
+    /** permet de sélectionner la table comments
      * @return string
      */
     public function getTable(): string
@@ -16,6 +16,9 @@ class CommentTable extends Table
         return 'comments';
     }
 
+    /** permet de faire le lien avec la bonne entity
+     * @return string
+     */
     public function getEntity(): string
     {
         return CommentEntity::class;
@@ -35,6 +38,12 @@ class CommentTable extends Table
         return $author->fetch();
     }
 
+    /**
+     * permet de sélectionner des commentaires en fonction de leur statut
+     * @param $id
+     * @param $status
+     * @return array
+     */
     public function elements($id, $status)
     {
         $req = "SELECT * FROM {$this->getTable()} WHERE article_id=:id AND status =:status";
@@ -49,6 +58,12 @@ class CommentTable extends Table
 
     }
 
+    /**
+     * permet de connaître le nombre de commentaires
+     * @param $id
+     * @param $status
+     * @return int
+     */
     public function howManyComments($id, $status)
     {
         $req = "SELECT * FROM {$this->getTable()} WHERE article_id=:id AND status =:status";
@@ -62,6 +77,11 @@ class CommentTable extends Table
         return $count = $query->rowCount();
     }
 
+    /**
+     * permet de connaitre le nombre de commentaires en attente de validation
+     * @param $status
+     * @return int
+     */
     public function howManyWaiting($status)
     {
         $req = "SELECT * FROM {$this->getTable()} WHERE status =:status";
@@ -74,6 +94,12 @@ class CommentTable extends Table
         return $count = $query->rowCount();
     }
 
+    /**
+     * permet d'insérer un commentaire
+     * @param $id
+     * @param $data
+     * @return false|string
+     */
     public function insert($id, $data)
     {
         $session = new Session();
@@ -114,13 +140,5 @@ class CommentTable extends Table
             $data['update'],
             $id
         ]);
-    }
-
-
-    public function findAllWithAuthor()
-    {
-        $results = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' INNER JOIN users ON ' . $this->getTable() . '.author = users.id ORDER BY ' . $this->getTable() . '.created_at DESC');
-
-        return $results->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
     }
 }

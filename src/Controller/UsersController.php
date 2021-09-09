@@ -42,9 +42,8 @@ class UsersController extends Controller
 
     /**
      * permet d'ajouter un utilisateur
-     * @param $action
      */
-    public function insert($action)
+    public function insert()
     {
         if (Auth::isAdmin()) {
             $data = $_POST;

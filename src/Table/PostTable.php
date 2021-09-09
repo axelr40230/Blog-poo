@@ -9,7 +9,7 @@ use App\Session;
 class PostTable extends Table
 {
 
-    /**
+    /** permet de travailler sur la table posts
      * @return string
      */
     public function getTable(): string
@@ -17,7 +17,7 @@ class PostTable extends Table
         return 'posts';
     }
 
-    /**
+    /** permet de faire le lien avec la bonne entity
      * @return string
      */
     public function getEntity(): string
@@ -25,6 +25,11 @@ class PostTable extends Table
         return PostEntity::class;
     }
 
+    /**
+     * génère le slug
+     * @param $string
+     * @return string
+     */
     public function dSlug($string)
     {
         $slug = strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities(preg_replace('/[&]/', ' et ', $string), ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
@@ -92,7 +97,10 @@ class PostTable extends Table
         ]);
     }
 
-
+    /**
+     * retourne le nombre de posts
+     * @return int
+     */
     public function howManyPosts()
     {
         $req = "SELECT * FROM {$this->getTable()}";
@@ -174,6 +182,10 @@ class PostTable extends Table
         return true;
     }
 
+    /** permet de récupérer le titre d'un article
+     * @param $id
+     * @return mixed
+     */
     public function get_title($id)
     {
         $req = "SELECT * FROM {$this->getTable()} WHERE id = :id";

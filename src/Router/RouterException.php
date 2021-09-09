@@ -9,6 +9,10 @@ use App\Auth;
 
 class RouterException extends \Exception
 {
+    /**
+     * RouterException constructor.
+     * permet d'afficher la bonne 404
+     */
     public function __construct()
     {
         $isAdmin = Auth::isAdmin();

@@ -11,11 +11,12 @@ abstract class Table
 
 
     /**
+     * permet de faire le lien avec la bonne table
      * @return string
      */
     abstract public function getTable(): string;
 
-    /**
+    /** permet de faire le lien avec la bonne entity
      * @return string
      */
     abstract public function getEntity(): string;
@@ -59,6 +60,10 @@ abstract class Table
         }
     }
 
+    /** retourne des éléments selon leur statut
+     * @param $status
+     * @return array
+     */
     public function findByStatus($status): array
     {
         $req = "SELECT * FROM {$this->getTable()} WHERE status =:status";
@@ -71,10 +76,11 @@ abstract class Table
 
     }
 
-    /** @todo  créer une fonction search avec le terme à rechercher en variable et faire une recherche dans chaque table puis afficher les résultats
-     *
+    /** permet de rechercher les termes saisis par l'utilisateur dans la bonne table
+     * @param $term
+     * @param $columns
+     * @return array
      */
-
     public function search($term, $columns)
     {
         $elements = [];

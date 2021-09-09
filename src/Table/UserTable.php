@@ -8,6 +8,7 @@ use App\Entity\UserEntity;
 class UserTable extends Table
 {
     /**
+     * permet de travailler sur la table des utilisateurs
      * @return string
      */
     public function getTable(): string
@@ -15,6 +16,9 @@ class UserTable extends Table
         return 'users';
     }
 
+    /** permet de faire le lien avec la bonne entity
+     * @return string
+     */
     public function getEntity(): string
     {
         return UserEntity::class;
@@ -34,6 +38,11 @@ class UserTable extends Table
         return $author->fetch();
     }
 
+    /**
+     * mise à jour d'un utilisateur
+     * @param $id
+     * @param $data
+     */
     public function update($id, $data)
     {
         $req = "UPDATE {$this->getTable()} SET first_name=?, last_name=?, email=?, status=?, modify_at=NOW() WHERE id={$id}";
@@ -47,6 +56,11 @@ class UserTable extends Table
         ]);
     }
 
+    /**
+     * permet de vérfier l'existance d'un utilisateur pour l'authentifier
+     * @param $data
+     * @return false|mixed
+     */
     public function userAuth($data)
     {
         if (isset($data) and !empty($data['email']) and !empty($data['password'])) {
@@ -88,6 +102,11 @@ class UserTable extends Table
 
     }
 
+    /**
+     * vérifie l'email utilisateur
+     * @param $email
+     * @return bool
+     */
     public function emailCheck($email)
     {
         $req = "SELECT * FROM {$this->getTable()} WHERE email =:email";
@@ -105,6 +124,11 @@ class UserTable extends Table
         return true;
     }
 
+    /**
+     * insertion d'un utilisateur
+     * @param $data
+     * @return array|false
+     */
     public function insert($data)
     {
         if (!empty($data['first_name']) and !empty($data['last_name']) and !empty($data['email']) and !empty($data['password']) and !empty($data['password_confirmed'])) {
@@ -164,6 +188,10 @@ class UserTable extends Table
 
     }
 
+    /** vérifie l'email et génération d'un token unique pour préparer la confirmation d'inscription
+     * @param $data
+     * @return array|false
+     */
     public function emailVerif($data)
     {
         $email = $data['email'];
@@ -187,6 +215,10 @@ class UserTable extends Table
         }
     }
 
+    /**
+     * retourne le nombre d'utilisateurs enregistrés
+     * @return int
+     */
     public function howManyUsers()
     {
         $req = "SELECT * FROM {$this->getTable()}";
@@ -217,6 +249,11 @@ class UserTable extends Table
         return $user = $query->fetch();
     }
 
+    /**
+     * vérifie le token pour confirmer l'utilisateur
+     * @param $token
+     * @return bool
+     */
     public function validUser($token)
     {
         $status = 'user';
@@ -231,6 +268,11 @@ class UserTable extends Table
         return true;
     }
 
+    /**
+     * va récupérer les colonnes pour un générer un select form
+     * @param $for
+     * @return mixed
+     */
     public function showColumn($for)
     {
         $req = "SHOW COLUMNS FROM {$this->getTable()} LIKE '{$for}'";
@@ -241,6 +283,11 @@ class UserTable extends Table
         return $options;
     }
 
+    /**
+     * suppression d'un utilisateur
+     * @param $id
+     * @return bool
+     */
     public function delete($id)
     {
         $req = "DELETE FROM {$this->getTable()} WHERE id = :id";
@@ -252,6 +299,10 @@ class UserTable extends Table
         return true;
     }
 
+    /** modification de mot de passe
+     * @param $token
+     * @return bool
+     */
     public function changePass($token)
     {
         $data = $_POST;
@@ -288,6 +339,5 @@ class UserTable extends Table
         ]);
 
         return true;
-
     }
 }

@@ -16,7 +16,7 @@ use App\Table\UserTable;
 class AdminController extends Controller
 {
     /**
-     * Gère la page du tableau de bord d'administration si l'utilisateur est connecté avec statut administrateur
+     * Gère l'accès et l'affichage de la page du tableau de bord d'administration si l'utilisateur est connecté avec statut administrateur
      */
     public function admin()
     {
@@ -96,6 +96,7 @@ class AdminController extends Controller
         } elseif ($count === 1) {
             $pageTitle = "Il n'y qu'un seul résultat !";
         }
+
         $pageTitle = 'Il y a ' . $count . ' résultats de recherche';
         $this->render('search', ['pageTitle' => $pageTitle, 'count' => $count, 'countUsers' => $countUsers, 'countPosts' => $countPosts, 'countComments' => $countComments, 'users' => $users, 'posts' => $posts, 'comments' => $comments], 'backend');
     }
