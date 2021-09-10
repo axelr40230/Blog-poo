@@ -5,6 +5,10 @@ namespace App;
 
 use \PDO;
 
+/**
+ * Class Database
+ * @package App
+ */
 class Database
 {
     private $pdo;

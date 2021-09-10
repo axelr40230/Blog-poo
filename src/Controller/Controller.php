@@ -59,11 +59,30 @@ class Controller
         if (Auth::isAdmin()) {
             $url = App::url('admin/404');
             header("Location: {$url}");
-        } else {
-            $url = App::url('404');
-            header("Location: {$url}");
         }
+        $url = App::url('404');
+        header("Location: {$url}");
 
+    }
+
+    /**
+     * allows you to go to the administration dashboard page
+     * permet de se rendre à la page tableau de bord d'administration
+     */
+    public function goAdmin()
+    {
+        $url = App::url('admin');
+        header("Location: {$url}");
+    }
+
+    /**
+     * allows you to go to the home page of the site
+     * permet de se rendre sur la page d'accueil du site
+     */
+    public function goFront()
+    {
+        $url = App::url('');
+        header("Location: {$url}");
     }
 
 }

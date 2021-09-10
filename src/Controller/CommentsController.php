@@ -110,15 +110,14 @@ class CommentsController extends Controller
                 $comment = $this->table('comments')->one($id);
                 if ($comment == false) {
                     $this->error();
-                } else {
-                    $comments = rtrim('comments', 's');
-                    $authorInfos = new UserTable();
-                    $comment->author = $authorInfos->author($comment->author);
-                    $posts = new PostTable();
-                    $comment->article_id = $posts->get_title($comment->article_id);
-                    $pageTitle = 'Commentaire n°' . $comment->id;
-                    $this->render('single-' . $comments, ['pageTitle' => $pageTitle, 'id' => $id, $comments => $comment], 'backend');
                 }
+                $comments = rtrim('comments', 's');
+                $authorInfos = new UserTable();
+                $comment->author = $authorInfos->author($comment->author);
+                $posts = new PostTable();
+                $comment->article_id = $posts->get_title($comment->article_id);
+                $pageTitle = 'Commentaire n°' . $comment->id;
+                $this->render('single-' . $comments, ['pageTitle' => $pageTitle, 'id' => $id, $comments => $comment], 'backend');
             }
         }
     }

@@ -59,6 +59,9 @@ $router->get('/admin/comments', 'CommentsController@list', 'comments.list');
 $router->get('/admin/comments/:id', 'CommentsController@edit', 'comments.edit')->with('id', '[0-9]+');
 $router->post('/admin/comments/:id', 'CommentsController@update', 'comments.update')->with('id', '[0-9]+');
 
+// ROUTER CONTACT - contact
+$router->get('/admin/contacts', 'ContactsController@list', 'contacts.list');
+
 
 $router->run();
 exit;

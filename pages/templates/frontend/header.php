@@ -9,7 +9,7 @@ use App\App;
 
         <div class="container">
             <div class="row">
-                <div class="col-12 offset-md-10 col-md-2 text-right">
+                <div class="col-12 offset-md-8 col-md-2 text-right">
                     <a class="btn btn-red my-5" href="<?= App::url('login') ?>">Connexion</a>
                 </div>
             </div>
@@ -19,7 +19,7 @@ use App\App;
 
         <div class="container">
             <div class="row">
-                <div class="col-12 offset-md-10 col-md-2 text-right">
+                <div class="col-12 offset-md-8 col-md-2 text-right">
                     <a class="btn btn-red my-5" href="<?= App::url('admin') ?>">Accéder au back office</a>
                 </div>
             </div>
@@ -29,7 +29,7 @@ use App\App;
 
         <div class="container">
             <div class="row">
-                <div class="col-12 offset-md-10 col-md-2 text-right">
+                <div class="col-12 offset-md-8 col-md-2 text-right">
                     <a class="btn btn-red my-5" href="<?= App::url('logout') ?>">Se déconnecter</a>
                 </div>
             </div>
@@ -39,34 +39,39 @@ use App\App;
 
     <div class="container">
 
-        <!-- logo -->
+        <div class="row">
 
-        <h1>
+            <div class="col-12">
+                <!-- logo -->
 
-            <a href="<?= App::url('') ?>" title="Alexandra Rochette"><img
-                        src="<?= App::url('') ?>public/images/logo.png" alt="Alexandra Rochette"/></a>
+                <h1>
 
-        </h1>
+                    <a href="<?= App::url('') ?>" title="Alexandra Rochette"><img
+                                src="<?= App::url('') ?>public/images/logo.png" alt="Alexandra Rochette"/></a>
 
-        <!-- logo -->
+                </h1>
 
-        <!-- nav -->
+                <!-- logo -->
 
-        <nav role="header-nav" class="navy">
+                <!-- nav -->
 
-            <ul>
+                <nav role="header-nav" class="navy">
 
-                <li><a href="<?= App::url('') ?>" title="About">Accueil</a></li>
+                    <ul>
 
-                <li><a href="<?= App::url('posts') ?>" title="Blog">Blog</a></li>
+                        <li><a href="<?= App::url('') ?>" title="About">Accueil</a></li>
 
-                <li><a href="<?= App::url('contact') ?>" title="Contact">Contact</a></li>
+                        <li><a href="<?= App::url('posts') ?>" title="Blog">Blog</a></li>
 
-            </ul>
+                        <li><a href="<?= App::url('contact') ?>" title="Contact">Contact</a></li>
 
-        </nav>
+                    </ul>
 
-        <!-- nav -->
+                </nav>
+
+                <!-- nav -->
+            </div>
+        </div>
 
     </div>
 

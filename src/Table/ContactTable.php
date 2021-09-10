@@ -18,7 +18,7 @@ class ContactTable extends Table
      */
     public function getTable(): string
     {
-        return 'contact';
+        return 'contacts';
     }
 
     /** permet de faire le lien avec la bonne entity

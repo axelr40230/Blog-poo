@@ -37,6 +37,7 @@ class AdminController extends Controller
                 $pageTitle = 'Tableau de bord';
                 $this->render('admin', ['pageTitle' => $pageTitle, 'numberComments' => $numberComments, 'numberPosts' => $numberPosts, 'numberUsers' => $numberUsers, 'user' => $user], 'backend');
             }
+            $this->goFront();
         }
     }
 

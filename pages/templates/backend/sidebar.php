@@ -81,6 +81,13 @@ use App\App;
             <span>Utilisateurs</span></a>
     </li>
 
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= App::url('admin/contacts') ?>">
+            <i class="fas fa-envelope-open-text"></i>
+            <span>Contacts</span></a>
+    </li>
+
     <!-- Nav Item - Tables
     <li class="nav-item">
         <a class="nav-link" href="tables.html">

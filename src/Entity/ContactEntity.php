@@ -8,7 +8,7 @@ use App\App;
  * Class CommentEntity
  * @package App\Entity
  */
-class CommentEntity extends Entity
+class ContactEntity extends Entity
 {
     public $id;
     public $name;
@@ -23,7 +23,7 @@ class CommentEntity extends Entity
      */
     public function url()
     {
-        return 'contact/' . $this->id;
+        return 'contacts/' . $this->id;
     }
 
 
