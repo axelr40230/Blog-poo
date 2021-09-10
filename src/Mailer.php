@@ -3,7 +3,10 @@
 
 namespace App;
 
-
+/**
+ * Class Mailer
+ * @package App
+ */
 class Mailer
 {
     const URL_FILE = 'pages/templates/mails';
@@ -13,6 +16,8 @@ class Mailer
     public $infos = [];
 
     /**
+     * définit le bon chemin vers le bon template
+     * defines the right path to the right template
      * @param $file
      * @return string
      */
@@ -24,6 +29,8 @@ class Mailer
     }
 
     /**
+     * vérifie si le template existe et va chercher les variables à y intégrer
+     * checks if the template exists and will look for the variables to integrate into it
      * @param $fileTemplate
      * @return string|string[]
      */
@@ -42,6 +49,8 @@ class Mailer
     }
 
     /**
+     * fonction d'envoi de l'email
+     * email sending function
      * @param $to
      * @param $subject
      * @param $message

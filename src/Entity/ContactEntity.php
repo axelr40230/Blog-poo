@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use App\App;
 
+/**
+ * Class CommentEntity
+ * @package App\Entity
+ */
 class CommentEntity extends Entity
 {
     public $id;
@@ -13,7 +17,8 @@ class CommentEntity extends Entity
 
 
     /**
-     * Permet de générer l'url vers une instance // Allows you to generate the url to an instance
+     * Permet de générer l'url vers une instance
+     * Allows you to generate the url to an instance
      * @return string
      */
     public function url()

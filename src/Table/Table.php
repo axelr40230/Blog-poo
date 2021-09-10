@@ -6,12 +6,17 @@ namespace App\Table;
 
 use App\App;
 
+/**
+ * Class Table
+ * @package App\Table
+ */
 abstract class Table
 {
 
 
     /**
      * permet de faire le lien avec la bonne table
+     * allows you to make the link with the right table
      * @return string
      */
     abstract public function getTable(): string;
@@ -22,7 +27,8 @@ abstract class Table
     abstract public function getEntity(): string;
 
     /**
-     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * Requête de récupération de tous les éléments d'une table
+     * Query to retrieve all the elements of a table
      * @return array
      */
     public function findAll(): array
@@ -33,18 +39,20 @@ abstract class Table
     }
 
     /**
-     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * Requête de récupération de tous les éléments d'une table
+     * Query to retrieve all the elements of a table
      * @return array
      */
     public function findWithPagination($premier, $parPage): array
     {
-        $results = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' ORDER BY created_at DESC LIMIT '.$premier.', '.$parPage);
+        $results = App::db()->pdo()->query('SELECT * FROM ' . $this->getTable() . ' ORDER BY created_at DESC LIMIT ' . $premier . ', ' . $parPage);
 
         return $results->fetchAll(\PDO::FETCH_CLASS, $this->getEntity());
     }
 
     /**
-     * Requête de récupération d'une instance de table // Query to retrieve a table instance
+     * Requête de récupération d'une instance de table
+     * Query to retrieve a table instance
      * @param $id
      * @return mixed
      */
@@ -61,6 +69,7 @@ abstract class Table
     }
 
     /** retourne des éléments selon leur statut
+     * returns items according to their status
      * @param $status
      * @return array
      */
@@ -77,6 +86,7 @@ abstract class Table
     }
 
     /** permet de rechercher les termes saisis par l'utilisateur dans la bonne table
+     * allows you to find the terms entered by the user in the correct table
      * @param $term
      * @param $columns
      * @return array
@@ -87,7 +97,7 @@ abstract class Table
         foreach ($columns as $column) {
             $elements[] = sprintf('%s LIKE "%%%s%%"', $column, $term);
         }
-        $query = 'SELECT * FROM ' . $this->getTable() . ' WHERE '. implode($elements, ' OR ');
+        $query = 'SELECT * FROM ' . $this->getTable() . ' WHERE ' . implode($elements, ' OR ');
         $result = App::db()->pdo()->query($query);
         $result->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $count = $result->rowCount();

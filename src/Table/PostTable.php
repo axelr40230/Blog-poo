@@ -6,10 +6,15 @@ use App\App;
 use App\Entity\PostEntity;
 use App\Session;
 
+/**
+ * Class PostTable
+ * @package App\Table
+ */
 class PostTable extends Table
 {
 
     /** permet de travailler sur la table posts
+     * allows you to work on the posts table
      * @return string
      */
     public function getTable(): string
@@ -18,6 +23,7 @@ class PostTable extends Table
     }
 
     /** permet de faire le lien avec la bonne entity
+     * allows you to make the link with the right entity
      * @return string
      */
     public function getEntity(): string
@@ -27,6 +33,7 @@ class PostTable extends Table
 
     /**
      * génère le slug
+     * generate the slug
      * @param $string
      * @return string
      */
@@ -42,7 +49,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête d'insertion d'une instance dans une table // Request to insert an instance in a table
+     * Requête d'insertion d'une instance dans une table
+     * Request to insert an instance in a table
      * @param $data
      */
     public function insert($data)
@@ -73,7 +81,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête de mise à jour d'une instance de table // Request to update a table instance
+     * Requête de mise à jour d'une instance de table
+     * Request to update a table instance
      * @param $id
      * @param $data
      * @param $slug
@@ -99,6 +108,7 @@ class PostTable extends Table
 
     /**
      * retourne le nombre de posts
+     * returns the number of posts
      * @return int
      */
     public function howManyPosts()
@@ -111,7 +121,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête de récupération d'une instance de table // Query to retrieve a table instance
+     * Requête de récupération d'une instance de table
+     * Query to retrieve a table instance
      * @param $id
      * @return mixed
      */
@@ -128,7 +139,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * Requête de récupération de tous les éléments d'une table
+     * Query to retrieve all the elements of a table
      * @return array
      */
     public function findNotTrash(): array
@@ -139,7 +151,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * Requête de récupération de tous les éléments d'une table
+     * Query to retrieve all the elements of a table
      * @return array
      */
     public function findInTrash(): array
@@ -150,7 +163,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * Requête de récupération de tous les éléments d'une table
+     * Query to retrieve all the elements of a table
      * @return array
      */
     public function findDraft(): array
@@ -161,7 +175,8 @@ class PostTable extends Table
     }
 
     /**
-     * Requête de récupération de tous les éléments d'une table // Query to retrieve all the elements of a table
+     * Requête de récupération de tous les éléments d'une table
+     * Query to retrieve all the elements of a table
      * @return array
      */
     public function findPublish(): array
@@ -183,6 +198,7 @@ class PostTable extends Table
     }
 
     /** permet de récupérer le titre d'un article
+     * allows you to retrieve the title of an article
      * @param $id
      * @return mixed
      */

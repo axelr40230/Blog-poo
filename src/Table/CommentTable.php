@@ -6,9 +6,14 @@ use App\App;
 use App\Entity\CommentEntity;
 use App\Session;
 
+/**
+ * Class CommentTable
+ * @package App\Table
+ */
 class CommentTable extends Table
 {
     /** permet de sélectionner la table comments
+     * allows you to select the comments table
      * @return string
      */
     public function getTable(): string
@@ -17,6 +22,7 @@ class CommentTable extends Table
     }
 
     /** permet de faire le lien avec la bonne entity
+     * allows you to make the link with the right entity
      * @return string
      */
     public function getEntity(): string
@@ -25,7 +31,8 @@ class CommentTable extends Table
     }
 
     /**
-     * Requête de récupération de l'auteur // Author recovery request
+     * Requête de récupération de l'auteur
+     * Author recovery request
      * @param int $id_author
      * @return mixed
      */
@@ -40,6 +47,7 @@ class CommentTable extends Table
 
     /**
      * permet de sélectionner des commentaires en fonction de leur statut
+     * allows you to select comments according to their status
      * @param $id
      * @param $status
      * @return array
@@ -60,6 +68,7 @@ class CommentTable extends Table
 
     /**
      * permet de connaître le nombre de commentaires
+     * allows you to know the number of comments
      * @param $id
      * @param $status
      * @return int
@@ -79,6 +88,7 @@ class CommentTable extends Table
 
     /**
      * permet de connaitre le nombre de commentaires en attente de validation
+     * allows you to know the number of comments awaiting validation
      * @param $status
      * @return int
      */
@@ -96,6 +106,7 @@ class CommentTable extends Table
 
     /**
      * permet d'insérer un commentaire
+     * allows you to insert a comment
      * @param $id
      * @param $data
      * @return false|string
@@ -126,7 +137,8 @@ class CommentTable extends Table
     }
 
     /**
-     * Requête de mise à jour d'une instance de table // Request to update a table instance
+     * Requête de mise à jour d'une instance de table
+     * Request to update a table instance
      * @param $id
      * @param $data
      * @param $slug

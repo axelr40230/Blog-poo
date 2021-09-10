@@ -1,11 +1,13 @@
 <?php
 
-
 namespace App;
-
 
 use App\Table\UserTable;
 
+/**
+ * Class Form
+ * @package App
+ */
 class Form
 {
     private $data;
@@ -21,7 +23,8 @@ class Form
     }
 
     /**
-     * Permet de mettre en forme les champs de formulaire // Allows you to format form fields
+     * Permet de mettre en forme les champs de formulaire
+     * Allows you to format form fields
      * @param $html
      * @return string
      */
@@ -31,7 +34,8 @@ class Form
     }
 
     /**
-     * Création de label pour les champs de formulaires // Label creation for form fields
+     * Création de label pour les champs de formulaires
+     * Label creation for form fields
      * @param $for
      * @param $content
      * @return string
@@ -41,7 +45,8 @@ class Form
         return '<label for="' . $for . '" class="' . $class . '">' . $content . '</label>';
     }
 
-    /** Création de champs de formulaire de type input // Creating input type form fields
+    /** Création de champs de formulaire de type input
+     * Creating input type form fields
      * @param $for
      * @param $class
      * @param $type
@@ -55,7 +60,8 @@ class Form
     }
 
     /**
-     * Création d'un champs de formulaire de type textarea // Creating a textarea type form field
+     * Création d'un champs de formulaire de type textarea
+     * Creating a textarea type form field
      * @param $content
      * @param $name
      * @return string
@@ -67,7 +73,8 @@ class Form
 
 
     /**
-     * Création d'un champs de formulaire de type select -- A FINALISER // Creation of a form field of type select - TO FINALIZE
+     * Création d'un champs de formulaire de type select -- A FINALISER
+     * Creation of a form field of type select - TO FINALIZE
      * @param $for
      * @return string
      */
@@ -95,7 +102,8 @@ class Form
 
 
     /**
-     * Création d'un champs de formulaire de type submit // Creating a submit form field
+     * Création d'un champs de formulaire de type submit
+     * Creating a submit form field
      * @param $content
      * @param $name
      * @param $class

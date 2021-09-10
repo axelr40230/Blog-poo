@@ -15,6 +15,7 @@ use App\Table\UserTable;
 class PostsController extends Controller
 {
     /**
+     * makes the link with the posts table
      * fait le lien avec la table des posts
      * @param $posts
      * @return mixed
@@ -29,6 +30,7 @@ class PostsController extends Controller
     }
 
     /**
+     * manages the display of a post in front
      * gère l'affichage d'un post en front
      * @param $slug
      */
@@ -51,6 +53,7 @@ class PostsController extends Controller
     }
 
     /**
+     * manages the display of the listing of posts in front
      * gère l'affichage du listing des posts en front
      */
     public function all()
@@ -62,6 +65,7 @@ class PostsController extends Controller
 
 
     /**
+     * allows you to update a post
      * permet de mettre à jour un post
      * @param $slug
      */
@@ -76,6 +80,7 @@ class PostsController extends Controller
     }
 
     /**
+     * manages the insertion of a new post
      * gère l'insertion d'un nouveau post
      */
     public function insert()
@@ -101,6 +106,7 @@ class PostsController extends Controller
     }
 
     /**
+     * list of all posts except trash in the BO
      * liste de tous les posts sauf corbeille dans le BO
      */
     public function list()
@@ -121,6 +127,7 @@ class PostsController extends Controller
     }
 
     /**
+     * listing of posts in the trash
      * listing des posts à la corbeille
      */
     public function trash()
@@ -141,6 +148,7 @@ class PostsController extends Controller
     }
 
     /**
+     * permanent deletion of a post
      * suppression définitive d'un post
      * @param $slug
      */
@@ -161,6 +169,7 @@ class PostsController extends Controller
     }
 
     /**
+     * list of draft posts
      * liste posts en brouillon
      */
     public function draft()
@@ -181,6 +190,7 @@ class PostsController extends Controller
     }
 
     /**
+     * list the published posts
      * liste les posts publiés
      */
     public function publish()
@@ -202,6 +212,7 @@ class PostsController extends Controller
 
 
     /**
+     * allows you to edit a post
      * permet d'éditer un post
      * @param $slug
      */
@@ -226,6 +237,7 @@ class PostsController extends Controller
     }
 
     /**
+     * manages the display of the post creation page
      * gère l'affichage de la page de création d'un post
      */
     public function new()

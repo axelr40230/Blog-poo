@@ -36,6 +36,7 @@ class Controller
     }
 
     /**
+     * user logged in?
      * utilisateur connecté ?
      * @return bool
      */
@@ -50,6 +51,7 @@ class Controller
 
 
     /**
+     * Navigates to the correct 404 page according to user status
      * Oriente vers la bonne page 404 selon le statut utilisateur
      */
     public function error()

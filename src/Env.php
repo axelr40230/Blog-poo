@@ -3,11 +3,21 @@
 
 namespace App;
 
-
+/**
+ * Class Env
+ * @package App
+ */
 class Env
 {
     protected static $vars = null;
 
+    /**
+     * vérifie si les variables sont complétées et sinon, va chercher les variables
+     * checks if the variables are completed and if not, will look for the variables
+     * @param string $key
+     * @param null $default
+     * @return string|null
+     */
     public static function get(string $key, $default = null): ?string
     {
         if (is_null(self::$vars)) {
@@ -23,6 +33,10 @@ class Env
         return $default;
     }
 
+    /**
+     * permet de récupérer les variables
+     * allows you to retrieve the variables
+     */
     protected static function read(): void
     {
         $vars = [];
@@ -38,6 +52,10 @@ class Env
         throw new \RuntimeException(".env is empty");
     }
 
+    /** indique le chemin du fichier et le génère à partir de l'exemple s'il n'existe pas
+     * indicate the path of the file and generate it from the example if it does not exist
+     * @return false|string
+     */
     protected static function file()
     {
         $path = dirname(__DIR__) . '\.env';

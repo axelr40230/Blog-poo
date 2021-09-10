@@ -11,6 +11,7 @@ class Auth
 {
     /**
      * Vérifie si l'utilisateur est connecté
+     * Checks if the user is logged in
      * @return bool
      */
     public static function isAuth(): bool
@@ -22,6 +23,7 @@ class Auth
 
     /**
      * Vérifie si l'utilisateur est un administrateur
+     * Checks if the user is an administrator
      * @return bool
      */
     public static function isAdmin(): bool

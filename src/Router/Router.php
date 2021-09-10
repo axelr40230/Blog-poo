@@ -2,19 +2,25 @@
 
 namespace App\Router;
 
+/**
+ * Class Router
+ * @package App\Router
+ */
 class Router
 {
 
     private $url;
     /**
-     * Contient l'ensemble des routes de l'application sous forme de tableau // Contains all the routes of the application in tabular form
+     * Contient l'ensemble des routes de l'application sous forme de tableau
+     * Contains all the routes of the application in tabular form
      * @var array
      */
     private $routes = [];
     private $namedRoutes = [];
 
     /**
-     * Initialisation de l'url // Initialization of the url
+     * Initialisation de l'url
+     * Initialization of the url
      * Router constructor.
      * @param $url
      */
@@ -24,7 +30,8 @@ class Router
     }
 
     /**
-     * Définit la méthode en get // Defines the method in get
+     * Définit la méthode en get
+     * Defines the method in get
      * @param $path
      * @param $callable
      * @param null $name
@@ -36,7 +43,8 @@ class Router
     }
 
     /**
-     * Définit la méthode en post // Defines the method in post
+     * Définit la méthode en post
+     * Defines the method in post
      * @param $path
      * @param $callable
      * @param null $name
@@ -48,7 +56,8 @@ class Router
     }
 
     /**
-     * Permet de détecter les url selon la méthode avec le chemin +  un callable (une closure appelable) // Allows to detect urls according to the method with the path + a callable (a callable closure)
+     * Permet de détecter les url selon la méthode avec le chemin +  un callable (une closure appelable)
+     * Allows to detect urls according to the method with the path + a callable (a callable closure)
      * @param $path
      * @param $callable
      * @param $name
@@ -71,7 +80,8 @@ class Router
     }
 
     /**
-     * Vérifie que l'url saisie correspond à une des routes // Check that the url entered corresponds to one of the routes
+     * Vérifie que l'url saisie correspond à une des routes
+     * Check that the url entered corresponds to one of the routes
      * @return mixed
      * @throws RouterException
      */
@@ -89,7 +99,8 @@ class Router
     }
 
     /**
-     * Vérifie si une route correspond aux paramètres envoyés // Checks if a route matches the parameters sent
+     * Vérifie si une route correspond aux paramètres envoyés
+     * Checks if a route matches the parameters sent
      * @param $name
      * @param array $params
      * @return mixed

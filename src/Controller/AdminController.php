@@ -16,6 +16,7 @@ use App\Table\UserTable;
 class AdminController extends Controller
 {
     /**
+     * Manages access and display of the administration dashboard page if the user is logged in with administrator status
      * Gère l'accès et l'affichage de la page du tableau de bord d'administration si l'utilisateur est connecté avec statut administrateur
      */
     public function admin()
@@ -40,6 +41,7 @@ class AdminController extends Controller
     }
 
     /**
+     * Manage page 404
      * Gère page 404
      */
     public function notFound()
@@ -49,6 +51,7 @@ class AdminController extends Controller
     }
 
     /**
+     * Manage the display of the search results page
      * Gère l'affichage de la page des résultats de recherche
      */
     public function search()
@@ -58,6 +61,7 @@ class AdminController extends Controller
     }
 
     /**
+     * Manages the display of search results
      * Gère l'affichage des résultats d'une recherche
      */
     public function results()

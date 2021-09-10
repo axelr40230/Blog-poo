@@ -13,6 +13,7 @@ use App\Table\PostTable;
 class UsersController extends Controller
 {
     /**
+     * makes the link with the users table
      * fait le lien avec la table users
      * @param $users
      * @return mixed
@@ -27,6 +28,7 @@ class UsersController extends Controller
     }
 
     /**
+     * allows you to update a user
      * permet de mettre à jour un utilisateur
      * @param $id
      */
@@ -41,6 +43,7 @@ class UsersController extends Controller
     }
 
     /**
+     * allows you to add a user
      * permet d'ajouter un utilisateur
      */
     public function insert()
@@ -54,6 +57,7 @@ class UsersController extends Controller
     }
 
     /**
+     * list all users
      * liste tous les utilisateurs
      */
     public function list()
@@ -75,6 +79,7 @@ class UsersController extends Controller
     }
 
     /**
+     * allows you to edit a user
      * permet d'éditer un utilisateur
      * @param $id
      */
@@ -101,6 +106,7 @@ class UsersController extends Controller
     }
 
     /**
+     * deleting a user
      * suppression d'un utilisateur
      * @param $id
      */

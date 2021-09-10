@@ -14,6 +14,7 @@ use App\Session;
 class LoginController extends Controller
 {
     /**
+     * make the connection with the table
      * fait le lien avec la table
      * @param $posts
      * @return mixed
@@ -28,6 +29,7 @@ class LoginController extends Controller
     }
 
     /**
+     * manages the display of the BO connection page
      * gère l'affichage de la page de connexion au BO
      */
     public function login()
@@ -43,6 +45,7 @@ class LoginController extends Controller
     }
 
     /**
+     * manages the display of the user account creation page
      * gère l'affichage de la page de création de compte utilisateur
      */
     public function register()
@@ -53,6 +56,7 @@ class LoginController extends Controller
     }
 
     /**
+     * manages the creation of a new user account
      * gère la création d'un nouveau compte utilisateur
      */
     public function registered()
@@ -107,6 +111,7 @@ class LoginController extends Controller
     }
 
     /**
+     * manages the display of the forgetting password page
      * gère l'affichage de la page d'oubli du mot de passe
      */
     public function forgotpassword()
@@ -117,6 +122,7 @@ class LoginController extends Controller
     }
 
     /**
+     * manages the display of the password reset request page
      * gère l'affichage de la page de demande de réinitialisation du mot de passe
      */
     public function changePassword()
@@ -127,6 +133,7 @@ class LoginController extends Controller
     }
 
     /**
+     * management of the password change form
      * gestion du formulaire de changement de mot de passe
      */
     public function changedPassword()
@@ -169,6 +176,7 @@ class LoginController extends Controller
     }
 
     /**
+     * password change request form
      * formulaire de demande de changement de mot de passe
      */
     public function retrievepassword()
@@ -212,6 +220,7 @@ class LoginController extends Controller
 
 
     /**
+     * management of the BO login form
      * gestion du formulaire de connexion au BO
      */
     public function connect()
@@ -254,6 +263,7 @@ class LoginController extends Controller
     }
 
     /**
+     * allows you to go to the administration dashboard page
      * permet de se rendre à la page tableau de bord d'administration
      */
     public function goAdmin()
@@ -263,6 +273,7 @@ class LoginController extends Controller
     }
 
     /**
+     * allows you to go to the home page of the site
      * permet de se rendre sur la page d'accueil du site
      */
     public function goFront()
@@ -272,6 +283,7 @@ class LoginController extends Controller
     }
 
     /**
+     * disconnection of the BO
      * déconnexion du BO
      */
     public function logout()
@@ -283,6 +295,7 @@ class LoginController extends Controller
     }
 
     /**
+     * user account confirmation
      * confirmation de compte utilisateur
      */
     public function confirm()
@@ -302,6 +315,7 @@ class LoginController extends Controller
     }
 
     /**
+     * allows you to display the confirmation page for a validated user account
      * permet d'afficher la page de confirmation de compte utilisateur validé
      */
     public function goConfirmed()
@@ -311,6 +325,7 @@ class LoginController extends Controller
     }
 
     /**
+     * manages the display of the validated user account confirmation page
      * gère l'affichage de la page de confirmation de compte utilisateur validé
      */
     public function confirmed()

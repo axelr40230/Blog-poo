@@ -4,10 +4,15 @@ namespace App\Entity;
 
 use App\App;
 
+/**
+ * Class Entity
+ * @package App\Entity
+ */
 abstract class Entity
 {
     /**
-     * Méthode magique // Magic method
+     * Méthode magique
+     * Magic method
      * @param $name
      * @return null
      */
@@ -21,7 +26,8 @@ abstract class Entity
     }
 
     /**
-     * Gestion des dates // Date management
+     * Gestion des dates
+     * Date management
      * @param string $format
      * @param string $type
      * @return array|string

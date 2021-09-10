@@ -5,10 +5,15 @@ namespace App\Table;
 use App\App;
 use App\Entity\UserEntity;
 
+/**
+ * Class UserTable
+ * @package App\Table
+ */
 class UserTable extends Table
 {
     /**
      * permet de travailler sur la table des utilisateurs
+     * allows you to work on the users table
      * @return string
      */
     public function getTable(): string
@@ -16,7 +21,9 @@ class UserTable extends Table
         return 'users';
     }
 
-    /** permet de faire le lien avec la bonne entity
+    /**
+     * permet de faire le lien avec la bonne entity
+     * allows you to make the link with the right entity
      * @return string
      */
     public function getEntity(): string
@@ -25,7 +32,8 @@ class UserTable extends Table
     }
 
     /**
-     * Requête de récupération de l'auteur // Author recovery request
+     * Requête de récupération de l'auteur
+     * Author recovery request
      * @param string $id_author
      * @return mixed
      */
@@ -40,6 +48,7 @@ class UserTable extends Table
 
     /**
      * mise à jour d'un utilisateur
+     * updating a user
      * @param $id
      * @param $data
      */
@@ -58,6 +67,7 @@ class UserTable extends Table
 
     /**
      * permet de vérfier l'existance d'un utilisateur pour l'authentifier
+     * allows you to check the existence of a user to authenticate
      * @param $data
      * @return false|mixed
      */
@@ -104,6 +114,7 @@ class UserTable extends Table
 
     /**
      * vérifie l'email utilisateur
+     * verify user email
      * @param $email
      * @return bool
      */
@@ -126,6 +137,7 @@ class UserTable extends Table
 
     /**
      * insertion d'un utilisateur
+     * inserting a user
      * @param $data
      * @return array|false
      */
@@ -189,6 +201,7 @@ class UserTable extends Table
     }
 
     /** vérifie l'email et génération d'un token unique pour préparer la confirmation d'inscription
+     * verifies the email and generates a unique token to prepare the registration confirmation
      * @param $data
      * @return array|false
      */
@@ -217,6 +230,7 @@ class UserTable extends Table
 
     /**
      * retourne le nombre d'utilisateurs enregistrés
+     * returns the number of registered users
      * @return int
      */
     public function howManyUsers()
@@ -229,7 +243,8 @@ class UserTable extends Table
     }
 
     /**
-     * Requête de récupération d'une instance de table // Query to retrieve a table instance
+     * Requête de récupération d'une instance de table
+     * Query to retrieve a table instance
      * @param $id
      * @return mixed
      */
@@ -251,6 +266,7 @@ class UserTable extends Table
 
     /**
      * vérifie le token pour confirmer l'utilisateur
+     * check the token to confirm the user
      * @param $token
      * @return bool
      */
@@ -270,6 +286,7 @@ class UserTable extends Table
 
     /**
      * va récupérer les colonnes pour un générer un select form
+     * will retrieve the columns to generate a select form
      * @param $for
      * @return mixed
      */
@@ -285,6 +302,7 @@ class UserTable extends Table
 
     /**
      * suppression d'un utilisateur
+     * deleting a user
      * @param $id
      * @return bool
      */
@@ -300,6 +318,7 @@ class UserTable extends Table
     }
 
     /** modification de mot de passe
+     * change password
      * @param $token
      * @return bool
      */

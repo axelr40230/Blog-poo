@@ -3,6 +3,10 @@
 
 namespace App;
 
+/**
+ * Class App
+ * @package App
+ */
 class App
 {
     private static $database;
@@ -26,7 +30,8 @@ class App
     }
 
     /**
-     * Gestion de l'url dynamique // Dynamic url management
+     * Gestion de l'url dynamique
+     * Dynamic url management
      * @param string $path
      * @return string
      */
@@ -39,7 +44,8 @@ class App
 
 
     /**
-     * Gestion des traductions de l'application // Managing application translations
+     * Gestion des traductions de l'application
+     * Managing application translations
      * @param $term
      */
     public static function translate($term)

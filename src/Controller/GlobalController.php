@@ -13,6 +13,7 @@ use App\Mailer;
 class GlobalController extends Controller
 {
     /**
+     * makes the link with the table of contacts via the contact page
      * fait le lien avec la table des prises de contact via la page contact
      * @param $contact
      * @return mixed
@@ -26,6 +27,7 @@ class GlobalController extends Controller
     }
 
     /**
+     * manages the display of the contact page
      * gère l'affichage de la page contact
      */
     public function contact()
@@ -36,6 +38,7 @@ class GlobalController extends Controller
     }
 
     /**
+     * manages the display of the 404 page in front
      * gère l'affichage de la page 404 en front
      */
     public function notFound()
@@ -46,6 +49,7 @@ class GlobalController extends Controller
 
 
     /**
+     * manages the contact form (insertion in the database + notification to the administrator
      * gère le formulaire de contact (insertion dans la base de données + notification à l'administrateur
      */
     public function sendContact()

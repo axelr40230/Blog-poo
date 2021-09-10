@@ -16,6 +16,7 @@ use App\Table\UserTable;
 class CommentsController extends Controller
 {
     /**
+     * makes the link with the comments table
      * fait le lien avec la table commentaires
      * @param $comments
      * @return mixed
@@ -31,6 +32,7 @@ class CommentsController extends Controller
 
 
     /**
+     * allows you to add a comment + send the user notification
      * permet d'ajouter un commentaire + envoi de la notification utilisateur
      * @param $slug
      */
@@ -56,6 +58,7 @@ class CommentsController extends Controller
     }
 
     /**
+     * list all comments
      * liste tous les commentaires
      */
     public function list()
@@ -96,6 +99,7 @@ class CommentsController extends Controller
     }
 
     /**
+     * allows you to edit a comment
      * permet d'éditer un commentaire
      * @param $id
      */
@@ -120,6 +124,7 @@ class CommentsController extends Controller
     }
 
     /**
+     * confirms sending of the comment for the user
      * confirme l'envoi du commentaire pour l'utilisateur
      */
     public function confirm()
@@ -130,6 +135,7 @@ class CommentsController extends Controller
 
 
     /**
+     * allows you to update a comment
      * permet de mettre à jour un commentaire
      * @param $id
      */

@@ -2,6 +2,10 @@
 
 namespace App\Router;
 
+/**
+ * Class Route
+ * @package App\Router
+ */
 class Route
 {
 
@@ -22,7 +26,8 @@ class Route
     }
 
     /**
-     * Permet d'enchainer les paramètres // Allows you to chain parameters
+     * Permet d'enchainer les paramètres
+     * Allows you to chain parameters
      * @param $param
      * @param $regex
      * @return $this
@@ -34,7 +39,8 @@ class Route
     }
 
     /**
-     * Vérifie qu'une route correspond à l'url // Check that a route matches the url
+     * Vérifie qu'une route correspond à l'url
+     * Check that a route matches the url
      * @param $url
      * @return bool
      */
@@ -52,7 +58,8 @@ class Route
     }
 
     /**
-     * Vérifie si le paramètre correspond à un de mes paramètres contraints // Check if the parameter matches one of my constrained parameters
+     * Vérifie si le paramètre correspond à un de mes paramètres contraints
+     * Check if the parameter matches one of my constrained parameters
      * @param $match
      * @return string
      */
@@ -65,7 +72,8 @@ class Route
     }
 
     /**
-     * Appelle le callable (closure) // Call the callable (closure)
+     * Appelle le callable (closure)
+     * Call the callable (closure)
      * @return false|mixed
      */
     public function call()
@@ -81,7 +89,8 @@ class Route
     }
 
     /**
-     * Transforme les paramètres de l'url // Transform url parameters
+     * Transforme les paramètres de l'url
+     * Transform url parameters
      * @param $params
      * @return string|string[]
      */
