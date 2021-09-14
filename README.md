@@ -4,19 +4,19 @@ Projet n°5 de la formation Développeur PHP / Symfony OpenClassRooms
 
 ## Installation du projet 
 
-1. Clonez le repository.
+- [ ] Clonez le repository.
 
 `git clone https://github.com/axelr40230/Blog-poo.git`
 
-2. Importez le fichier SQL sur votre serveur de base de donnée MySQL.
+- [ ] Importez le fichier SQL sur votre serveur de base de donnée MySQL.
 
 `mysql -u -p nomdelabase < blogpoo.sql`
 
-3. Modifiez le fichier .env en renseignant vos informations de connexion.
+- [ ] Modifiez le fichier .env en renseignant vos informations de connexion.
 
 `cp .env.example .env && open .env`
 
-4. Démarrez le projet en local
+- [ ] Démarrez le projet en local
 
 `php -S localhost:8000 -t public/`
 
