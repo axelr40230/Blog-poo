@@ -2,19 +2,28 @@
 
 Projet n°5 de la formation Développeur PHP / Symfony OpenClassRooms
 
-Installation le projet : 
+## Installation du projet 
 
-Clonez le repository.
+* Clonez le repository.
 
-Importez le fichier SQL sur votre serveur de base de donnée MySQL.
+`git clone https://github.com/axelr40230/Blog-poo.git`
 
-Modifiez le fichier .env en renseignant vos informations de connexion.
+* Importez le fichier SQL sur votre serveur de base de donnée MySQL.
 
-Démarrez le projet en local
+`mysql -u -p nomdelabase < blogpoo.sql`
 
-Pour acceder à l'administration du blog, vous pouvez vous identifier avec les identifiants suivant :
-email : axelr.apl@gmail.com
-pswd : admin
+* Modifiez le fichier .env en renseignant vos informations de connexion.
+
+`cp .env.example .env && open .env`
+
+* Démarrez le projet en local
+
+`php -S localhost:8000 -t public/`
+
+## Administration
+
+- email : axelr.apl@gmail.com
+- pswd : admin
 
 Lancer maildev :
 Depuis le terminal, saisir maildev
