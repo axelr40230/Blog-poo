@@ -6,7 +6,7 @@
     <div class="row">
 
 
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
 
             <article role="pge-title-content" class="contact-header">
 
@@ -27,7 +27,7 @@
 
         <!-- map -->
 
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 
             <div class="demo-wrapper">
 

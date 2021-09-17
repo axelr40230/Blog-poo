@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 08 juil. 2021 à 06:23
+-- Généré le : ven. 17 sep. 2021 à 04:47
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`id`),
   KEY `fk_author_comment` (`author`),
   KEY `fk_article_id` (`article_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=260 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `comments`
@@ -104,69 +104,33 @@ INSERT INTO `comments` (`id`, `author`, `comment`, `article_id`, `status`, `crea
 (253, 31, 'test moustache', 128, 'waiting', '2021-06-30 13:27:42'),
 (254, 31, 'test moustache', 128, 'waiting', '2021-06-30 13:31:24'),
 (255, 31, 'test moustache', 128, 'waiting', '2021-06-30 13:35:07'),
-(256, 31, 'test moustache', 128, 'approuved', '2021-06-30 13:36:00');
+(256, 31, 'test moustache', 128, 'approuved', '2021-06-30 13:36:00'),
+(257, 31, 'tester', 128, 'approuved', '2021-07-30 10:02:55'),
+(258, 31, 'Super article !', 128, 'waiting', '2021-09-07 08:24:26'),
+(259, 31, 'yes', 128, 'approuved', '2021-09-09 13:39:56');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contact`
+-- Structure de la table `contacts`
 --
 
-DROP TABLE IF EXISTS `contact`;
-CREATE TABLE IF NOT EXISTS `contact` (
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE IF NOT EXISTS `contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `contact`
+-- Déchargement des données de la table `contacts`
 --
 
-INSERT INTO `contact` (`id`, `name`, `email`, `message`, `created_at`) VALUES
-(1, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'test', '2021-06-25 16:39:43'),
-(2, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'test2', '2021-06-25 16:40:33'),
-(3, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'testtest', '2021-06-25 16:41:25'),
-(4, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'testtest', '2021-06-25 16:42:48'),
-(5, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'testtest', '2021-06-25 16:44:49'),
-(6, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'testtest', '2021-06-25 16:48:00'),
-(7, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'test', '2021-06-25 16:57:06'),
-(8, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'test', '2021-06-25 17:01:46'),
-(9, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'test', '2021-06-25 17:05:01'),
-(10, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'test message', '2021-06-25 17:05:45'),
-(11, 'Pierre', 'pmalius@gmail.com', 'Voici un petit message', '2021-06-25 17:13:35'),
-(12, 'Alexandra Rochette', 'axelr.apl@gmail.com', 'Envoi d\'un message', '2021-06-26 06:45:28');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `medias`
---
-
-DROP TABLE IF EXISTS `medias`;
-CREATE TABLE IF NOT EXISTS `medias` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name_media` varchar(100) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `type_media` enum('video','pdf','image') NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_USERS` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `medias`
---
-
-INSERT INTO `medias` (`id`, `name_media`, `user_id`, `type_media`, `link`, `created_at`) VALUES
-(11, 'temoignage.jpg', 31, 'image', 'temoignage.jpg', '2021-03-26 13:20:25'),
-(13, 'visuel-produits-investir-malraux.jpg', 31, 'image', 'visuel-produits-investir-malraux.jpg', '2021-03-26 13:21:20'),
-(14, 'instagram.jpg', 31, 'image', 'instagram.jpg', '2021-03-26 13:26:55'),
-(15, 'large-AFAO-LOGO-GIRAFE.png', 31, 'image', 'large-AFAO-LOGO-GIRAFE.png', '2021-03-26 13:28:23');
+INSERT INTO `contacts` (`id`, `name`, `email`, `message`, `created_at`) VALUES
+(28, 'Sophie Malius', 'smalius@gmail.com', 'Bonjour,\r\nJe me permets de vous contacter afin d\'envisager un nouveau lancement de produit.\r\nDans l\'attente de vous lire, je vous souhaite une excellente journée\r\nBien à vous \r\nSophie', '2021-09-10 09:48:50');
 
 -- --------------------------------------------------------
 
@@ -187,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `modify_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author` (`author`)
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `posts`
@@ -204,8 +168,8 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `introduction`, `content`, `author`,
 (137, 'La possibilité d\'atteindre vos buts en toute sécurité', 'la-possibilite-d-atteindre-vos-buts-en-toute-securite', 'Magnam nostrum ut enim cumque expedita provident ut. Aut eum ut omnis explicabo pariatur ut eius quas. Odio ex fugit natus similique sint libero. Consectetur ut fugit maxime voluptas ea.', '<p><strong>Quasi quas saepe voluptatem debitis. Earum deleniti repellat ut tempore molestiae saepe necessitatibus. Est sunt numquam ea rerum quam.</strong></p>\r\n<p>Suscipit et molestiae deleniti eius beatae. Qui omnis corrupti quibusdam sint. Earum repellat quod quis ex alias quae. Eum est voluptatibus et vel.</p>\r\n<p>Voluptas et culpa et. Enim iste non architecto modi voluptas. Eos corrupti provident et delectus. Aut nihil excepturi totam reprehenderit illum cum explicabo.</p>\r\n<p>Sed voluptatem saepe pariatur. Necessitatibus tempora corporis aut dignissimos optio. Minus beatae pariatur voluptas sint est dolore.</p>\r\n<p>Quasi tempora impedit omnis sed ut modi. Minus hic vel doloremque provident fuga quia facere. Soluta id et saepe quis autem autem velit est.</p>', 31, 'draft', '2019-01-28 01:25:46', '2021-06-15 07:02:14'),
 (138, 'La simplicité d\'atteindre vos buts en toute tranquilité', 'la-simplicite-d-atteindre-vos-buts-en-toute-tranquillite', 'Atque exercitationem tempora repellat non. Omnis delectus incidunt vitae labore. Quis ut soluta voluptatem nulla quia aut molestias illo. Aut dolor inventore doloribus suscipit aperiam. Perferendis dignissimos maiores mollitia illo.', '<p>Necessitatibus cumque molestiae odio. Quasi nihil minus beatae quia mollitia. Atque a officia fugiat aliquam. Voluptas aut consequatur repellat ut nihil quis. Quo nostrum architecto sed rem.</p><p>Quo est est sequi in accusamus asperiores. Tenetur dolorum deserunt amet quam cum. Et quod voluptas cum atque dicta aut aut. Et similique sunt placeat rem esse. Alias minus iure excepturi qui excepturi.</p><p>Vero ut natus quam fuga asperiores. Earum quia voluptates ullam. Aut cumque est enim quibusdam beatae quibusdam.</p><p>Dolor non recusandae optio quis culpa voluptas modi neque. Quia magnam ut quis eos illo magni exercitationem. Facere neque quaerat a quos exercitationem. Velit esse itaque est repudiandae ut.</p><p>Rerum temporibus distinctio et atque. Minima accusantium et quam officia qui. Rerum voluptas fugit deleniti assumenda voluptatibus accusantium quae. Praesentium ut quo aut velit.</p>', 31, 'publish', '2019-04-09 21:40:11', '2021-03-13 09:06:31'),
 (140, 'La possibilité d\'avancer plus facilement', 'la-possibilite-d-avancer-plus-facilement', 'Praesentium dolores rerum officiis culpa alias. Doloribus consequatur in ipsum perferendis. Voluptatem dolores aut consequatur corporis dolores vel quod nemo. Quis quis id ratione. Id dolores ut consequatur quam.', '<p>Molestias voluptatem optio et laborum enim. Provident doloribus similique esse officia at sequi odio. Est et ut ea et sunt accusantium.</p><p>Qui assumenda nam minima totam debitis. Architecto nobis sit tenetur aliquam velit rerum voluptas quisquam. Voluptates aut qui placeat optio.</p><p>Maiores soluta odit exercitationem qui. Quia perferendis ipsam repellat est iste dolores aperiam quis. Voluptatem quos aliquid dolorum pariatur repellendus suscipit. Quas sit est quod quos non.</p><p>Qui quod in qui commodi voluptates suscipit. Officia qui vitae neque distinctio provident molestias fugiat corrupti. Quam deleniti vero rerum qui corporis et similique.</p><p>Quia officiis beatae et voluptatem soluta ut. Aut incidunt et veritatis tempore suscipit. Quam expedita excepturi aut culpa aut ab. Totam maxime voluptates beatae aut. Qui quam quisquam nostrum nihil beatae.</p>', 31, 'publish', '2019-04-14 14:32:06', '2021-03-13 09:06:31'),
-(164, 'Les défauts & qualités attendues pour àéçïô', 'les-defauts-et-qualites-attendues-pour-aecio', 'test', '<p>test</p>', 31, 'intrash', '2021-06-15 07:39:57', '2021-06-15 08:29:39'),
-(165, 'Nouvel article', 'nouvel-article', 'Intro', '<p>Contenu</p>', 31, 'draft', '2021-06-25 17:31:52', '2021-06-25 17:31:52');
+(166, 'MME', 'mme', 'test', '<p>test</p>', 31, 'intrash', '2021-07-14 14:12:15', '2021-07-23 14:20:53'),
+(167, 'test', 'test', 'test', '<p>test</p>', 31, 'publish', '2021-09-09 13:37:26', '2021-09-10 07:26:18');
 
 -- --------------------------------------------------------
 
@@ -225,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `modify_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
@@ -259,7 +223,7 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `stat
 (28, 'Élise', 'Delahaye', 'david.noel@loiseau.org', '$2y$10$9tNLXCaviv6RvoPe324x1uweHIRI/aBd7ORghGSCnFhl9cLFf8McS', 'user', '2021-03-11 13:56:53', '2021-06-11 09:57:21', ''),
 (29, 'François', 'Martel', 'wlemaitre@rodriguez.org', '$2y$10$9tNLXCaviv6RvoPe324x1uweHIRI/aBd7ORghGSCnFhl9cLFf8McS', 'user', '2021-03-11 13:56:53', '2021-06-11 09:57:21', ''),
 (30, 'William', 'Lacombe', 'bailly.marguerite@clement.fr', '$2y$10$9tNLXCaviv6RvoPe324x1uweHIRI/aBd7ORghGSCnFhl9cLFf8McS', 'user', '2021-03-11 13:56:53', '2021-06-11 09:57:21', ''),
-(31, 'Alexandra', 'Rochette', 'axelr.apl@gmail.com', '$2y$10$oidHsF8yQC6mi86MfmZsiOOkzByyv/5OSFx9QnUoExzrOgvt0/TDi', 'admin', '2021-03-12 00:00:00', '2021-06-18 15:08:40', '60c31983a8ae2'),
+(31, 'Alexandra', 'Rochette', 'axelr.apl@gmail.com', '$2y$10$zCtOogzJeyA22GJ9fv1Z3.EpvHJEh5XYi0YC8xRfEzXP2.4ax9xYq', 'admin', '2021-03-12 00:00:00', '2021-09-10 10:37:19', '60c31983a8ae2'),
 (32, 'lucie', 'Pujol', 'lucie@gmail.com', '$2y$10$ope6vmNvV5.yYXiEFSbjV.0HmilpxCxaL2u2pl3ivhPBSJ4gKFrO6', 'user', '2021-03-26 11:12:25', '2021-06-11 09:57:21', ''),
 (33, 'Sophie', 'Dupont', 'd.sophie@gmail.com', '$2y$10$Nr9Ie6WoUpRc2zFvhfQ3O.Hlc9Ew6Op6wVsIrr8flVW2phuiTZQqi', 'user', '2021-03-26 11:13:37', '2021-06-11 09:57:21', ''),
 (44, 'Marie', 'Meyer', 'mmeyer@gmail.com', '$2y$10$J0vsPYVdI8zRmbjAcrlQa.PjlJJ2jDa1yioW4T2qOj0f81pyM.v1.', 'user', '2021-06-11 09:10:11', '2021-06-11 09:57:21', ''),
@@ -272,13 +236,12 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `stat
 (51, 'marie', 'dupont', 'mdupont@gmail.com', '$2y$10$o3mg9G4s5hpiyki5qJEdC.kcj0i9/8x9yCmBoa1H4hYEnHvzHMruy', 'user', '2021-06-16 19:15:02', '2021-06-16 19:15:34', '60ca31966a584'),
 (52, 'Roger', 'Marel', 'rmarel@gmail.com', '$2y$10$gcLo1uSPVWMNa7fHS2mzaOV7/8LAoc9QB6QCB1XouO2OjJJHJjogO', 'not confirmed', '2021-06-18 09:14:34', '2021-06-18 09:14:34', '60cc47dab8d0b'),
 (53, 'Roger', 'Marele', 'rmarele@gmail.com', '$2y$10$wOEWUQ5N3cGr9lDEbL.i7.kHkVl6lo.MjS8pI6IxnNF60afVg8gvS', 'not confirmed', '2021-06-18 09:22:01', '2021-06-18 09:22:01', '60cc4999246c0'),
-(70, 'Alexandra', 'test', 'testaxelr.apl@gmail.com', '$2y$10$bqYEZMC6IguRapRyxDx1kOtq0bxl/15vWCZp3T6KZYBKPmchZBrDS', 'not confirmed', '2021-06-18 14:34:49', '2021-06-18 14:34:49', '60cc92e8e7263'),
 (71, 'Kevin', 'Monito', 'kmonito@gmail.com', '$2y$10$j8z/t.o4IV/b2RvNzuB31uLILP2S4a1MJddDVhRfD9bi7eZxQVUSq', 'user', '2021-06-18 14:41:00', '2021-06-18 14:41:12', '60cc945c6f520'),
 (72, 'Marc', 'Pois', 'mpois@gmail.com', '$2y$10$SO7ZIJPe5Hk2tal0xFOZ2evSGuJhYwHM35XOCpFumm3ZV5TwbHdEC', 'not confirmed', '2021-06-18 14:43:19', '2021-06-18 14:43:19', '60cc94e737a09'),
 (73, 'Ingrid', 'Descamps', 'idescamps@gmail.com', '$2y$10$fvmPutu1tlWzjSLvRcS.KOwM9pOpuyXaiCP6szAC79WUz6xZGCCXe', 'not confirmed', '2021-06-18 14:46:03', '2021-06-18 14:46:03', '60cc958b0d342'),
 (74, 'Bénédicte', 'Lafont', 'blafont@gmail.com', '$2y$10$Sofwc.2KbcfUR9VcjOEqhu/.9J.zxx/y2sIsbspiu/EU73QswKNVm', 'user', '2021-06-18 14:47:13', '2021-06-18 14:47:24', '60cc95d10e4e0'),
 (75, 'Laurie', 'Michot', 'lmichot@gmail.com', '$2y$10$TIRZT0jtbmOeKaHO9FjVFusiLAmtWBmhtgezD/PZO338l602/xtDu', 'not confirmed', '2021-06-18 15:09:18', '2021-06-18 15:09:18', '60cc9afdf2c8f'),
-(76, 'Pierre', 'Malius', 'pmalius@gmail.com', '$2y$10$prX99qAHr6sIBS53b4au0OugTmeMuZJ8CM9K6DfWfEaOO8v2yYNum', 'user', '2021-06-25 17:12:27', '2021-06-25 17:13:04', '60d5f25b13e45');
+(77, 'Melissa', 'Rochet', 'mrochet@gmail.com', '$2y$10$Vrmue.lBU3/X21c2B3KiZOQ7PRJLHfOZRqmOGb6mJxtYYcKBDrzHS', 'not confirmed', '2021-07-14 14:58:52', '2021-07-14 14:58:52', '60eedf8cd4d95');
 
 --
 -- Contraintes pour les tables déchargées
