@@ -285,22 +285,6 @@ class UserTable extends Table
     }
 
     /**
-     * va récupérer les colonnes pour un générer un select form
-     * will retrieve the columns to generate a select form
-     * @param $for
-     * @return mixed
-     */
-    public function showColumn($for)
-    {
-        $req = "SHOW COLUMNS FROM {$this->getTable()} LIKE '{$for}'";
-        $query = App::db()->pdo()->query($req);
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $options = $query->fetch();
-
-        return $options;
-    }
-
-    /**
      * suppression d'un utilisateur
      * deleting a user
      * @param $id

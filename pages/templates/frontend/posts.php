@@ -93,7 +93,7 @@ use App\App;
                                 <figure>
 
                                     <div class="post-date">
-                                        <?php $date = $post->date_fr('short', 'created_at');
+                                        <?php $date = $post->date_fr('short', 'modify_at');
 
                                         $day = $date[0];
                                         $date = $date[1];
@@ -117,9 +117,11 @@ use App\App;
 
                             </a>
 
-                            <article>
+                            <article class="p-5 text-center">
 
-                                <?= $post->title; ?>
+                                <h2 class="text-uppercase"><?= $post->title; ?></h2>
+                                <p class="text-center"><i class="fa fa-arrow-down"></i></p>
+                                <p class="small font-weight-light"><i class="fa fa-angle-double-left"></i> <?= $post->introduction; ?> <i class="fa fa-angle-double-right"></i></p>
 
                             </article>
 

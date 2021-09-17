@@ -60,7 +60,7 @@ class PostsController extends Controller
     {
         $table = new PostTable();
         $pageTitle = 'Mes articles';
-        $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findByStatus('publish')], 'frontend');
+        $this->render('posts', ['pageTitle' => $pageTitle, 'posts' => $table->findByStatus('publish', 'modify_at', 'DESC')], 'frontend');
     }
 
 
@@ -75,8 +75,9 @@ class PostsController extends Controller
         $table = $this->table('posts');
         $post = $table->oneBySlug($slug);
         $id = $post->id;
-        $table->update($id, $slug, $data);
-        header("Refresh:0");
+        $new = $table->update($id, $slug, $data);
+        $url = App::url("admin/posts/edit/{$new}");
+        header("Location: {$url}");
     }
 
     /**

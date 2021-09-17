@@ -39,7 +39,7 @@ use App\App;
                                 <div class="p-2">
                                     <div class="form-group">
                                         <?= $form->label('status', 'Modifier le statut'); ?>
-                                        <?= $form->select('status', $user->status); ?>
+                                        <?= $form->select('users','status', $user->status, 'enumeration'); ?>
                                     </div>
                                 </div>
                                 <div class="p-2">

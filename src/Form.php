@@ -75,29 +75,66 @@ class Form
     /**
      * Création d'un champs de formulaire de type select -- A FINALISER
      * Creation of a form field of type select - TO FINALIZE
+     * @param $table
      * @param $for
+     * @param $default
+     * @param $method
+     * @param null $with
+     * @param array $arguments
+     * @param array $display
      * @return string
      */
-    public function select($for, $default): string
+    public function select($table, $for, $default, $method, $column = null, $with = null, $arguments = [], $display = []): string
     {
-        $html = '<select name="' . $for . '" class="form-control" id="' . $for . '">';
-        $table = new UserTable();
-        $options = $table->showColumn($for);
+        $html = '<select name="' . $for . '" class="form-control mb-4" id="' . $for . '">';
+        $table = ucfirst($table);
+        $table = rtrim($table, 's');
+        $table = "App\Table\\" . $table . "Table";
 
-        foreach (explode("','", substr($options['Type'], 6, -2)) as $option) {
-            if ($default == $option) {
-                $trad = new App();
-                $optionTranslate = $trad->translate($option);
-                $html .= '<option selected name="' . $option . '" value="' . $option . '">' . $optionTranslate . '</option>';
-            } else {
-                $trad = new App();
-                $optionTranslate = $trad->translate($option);
-                $html .= '<option value="' . $option . '" name="' . $option . '" >' . $optionTranslate . '</option>';
+        $table = new $table();
+
+        if ($method === 'enumeration') {
+            $options = $table->showColumn($column);
+            foreach (explode("','", substr($options['Type'], 6, -2)) as $option) {
+                if ($default == $option) {
+                    $trad = new App();
+                    $optionTranslate = $trad->translate($option);
+                    $html .= '<option selected name="' . $option . '" value="' . $option . '">' . $optionTranslate . '</option>';
+                } else {
+                    $trad = new App();
+                    $optionTranslate = $trad->translate($option);
+                    $html .= '<option value="' . $option . '" name="' . $option . '" >' . $optionTranslate . '</option>';
+                }
             }
-        }
-        $html .= '</select>';
+            $html .= '</select>';
 
-        return $html;
+            return $html;
+        }
+
+        if ($method === 'compare') {
+            $tableToCompare = ucfirst($with);
+            $tableToCompare = rtrim($tableToCompare, 's');
+            $tableToCompare = "App\Table\\" . $tableToCompare . "Table";
+            $tableToCompare = new $tableToCompare();
+            $options = $tableToCompare->findByStatus($arguments['status'], $arguments['orderBy']);
+            $first = $display['first'];
+            $second = $display['second'];
+            foreach ($options as $option) {
+                $element = $option->$first . ' ' . $option->$second;
+                $value = $option->id;
+                if ($default == $element) {
+                    $html .= '<option selected name="' . $default . '" value="' . $value . '">' . $default . '</option>';
+                } else {
+
+                    $html .= '<option value="' . $value . '" name="' . $element . '" >' . $element . '</option>';
+                }
+            }
+            $html .= '</select>';
+
+            return $html;
+        }
+
+
     }
 
 

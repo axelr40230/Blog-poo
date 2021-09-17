@@ -68,14 +68,17 @@ abstract class Table
         }
     }
 
-    /** retourne des éléments selon leur statut
+    /**
+     * retourne des éléments selon leur statut
      * returns items according to their status
      * @param $status
+     * @param $orderBy
+     * @param string $order
      * @return array
      */
-    public function findByStatus($status): array
+    public function findByStatus($status, $orderBy, $order = 'ASC' ): array
     {
-        $req = "SELECT * FROM {$this->getTable()} WHERE status =:status";
+        $req = "SELECT * FROM {$this->getTable()} WHERE status =:status ORDER BY {$orderBy} {$order}";
         $query = App::db()->pdo()->prepare($req);
 
         $query->execute(array(
@@ -85,7 +88,8 @@ abstract class Table
 
     }
 
-    /** permet de rechercher les termes saisis par l'utilisateur dans la bonne table
+    /**
+     * permet de rechercher les termes saisis par l'utilisateur dans la bonne table
      * allows you to find the terms entered by the user in the correct table
      * @param $term
      * @param $columns
@@ -107,6 +111,23 @@ abstract class Table
         }
 
         return [];
+    }
+
+
+    /**
+     * va récupérer les colonnes pour un générer un select form
+     * will retrieve the columns to generate a select form
+     * @param $for
+     * @return mixed
+     */
+    public function showColumn($for)
+    {
+        $req = "SHOW COLUMNS FROM {$this->getTable()} LIKE '{$for}'";
+        $query = App::db()->pdo()->query($req);
+        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $options = $query->fetch();
+
+        return $options;
     }
 
 }
