@@ -11,7 +11,7 @@ use App\App;
     <div class="row my-5">
 
 
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
 
             <article role="pge-title-content" class="blog-header">
 
@@ -50,7 +50,7 @@ use App\App;
         </div>
 
 
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 
             <ul class="grid-lod effect-2" id="grid">
 
@@ -80,7 +80,7 @@ use App\App;
 
         <?php foreach ($posts as $post) : ?>
 
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 
                 <ul class="grid-lod effect-2" id="grid">
 
