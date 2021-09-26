@@ -89,9 +89,9 @@ class PostTable extends Table
      */
     public function update($id, $slug, $data)
     {
-        $session = new Session();
-        $user = $session->get('user');
-        $author = $user->id;
+        if ($data['checkSlug'] === 'checkSlug') {
+            $slug = $this->dSlug($data['slug']);
+        }
         $req = "UPDATE {$this->getTable()} SET title=?, slug=?, introduction=?, content=?, status=?, author=?, modify_at=NOW() WHERE id=?";
         $query = App::db()->pdo()->prepare($req);
 
@@ -101,9 +101,11 @@ class PostTable extends Table
             $data['introduction'],
             $data['content'],
             $data['update'],
-            $author,
+            $data['author'],
             $id
         ]);
+
+        return $slug;
     }
 
     /**
