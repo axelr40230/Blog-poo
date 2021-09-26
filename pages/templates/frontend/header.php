@@ -15,7 +15,7 @@ use App\App;
             </div>
         </div>
 
-    <?php elseif ($user->status == 'admin') : ?>
+    <?php elseif ($identity->status == 'admin') : ?>
 
         <div class="container">
             <div class="row">

@@ -250,10 +250,15 @@ class LoginController extends Controller
             $pageTitle = 'Bon retour parmi nous !';
             $this->render('login', ['pageTitle' => $pageTitle], 'backend/login');
         } else {
+            if(isset($data['remember'])) {
+                $session = new Session();
+                $session->set('user', $user);
+                $session->set('password', $user->password);
+                $user = $session->get('user');
+            }
             $session = new Session();
             $session->set('user', $user);
             $user = $session->get('user');
-
             if ($user->status == 'admin') {
                 $this->goAdmin();
             } else {

@@ -31,7 +31,7 @@ use App\App;
                                     <?= $form->input('slug', 'form-control', 'text', 'slug', $post->slug, $post->slug); ?>
                                     <div class="py-2 mx-3">
                                         <?= $form->input('checkSlug', '', 'checkbox', 'checkSlug', '', 'checkSlug'); ?>
-                                        <?= $form->label('checkSlug', 'Pour modifier le slug, merci de cocher cette case', 'text-info'); ?>
+                                        <?= $form->label('checkSlug', 'Pour modifier le permalien, merci de cocher cette case', 'text-info'); ?>
                                     </div>
                                 </div>
 
