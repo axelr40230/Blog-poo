@@ -62,7 +62,7 @@ abstract class Table
         $result->setFetchMode(\PDO::FETCH_CLASS, $this->getEntity());
         $count = $result->rowCount();
         if ($count != 0) {
-            return $post = $result->fetch();
+            return $result->fetch();
         } else {
             return false;
         }

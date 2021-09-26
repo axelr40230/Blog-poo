@@ -14,10 +14,8 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
+                        <th>Prénom Nom</th>
                         <th>Email</th>
-                        <th>Statut</th>
                         <th>Date d'ajout</th>
                         <th>Editer</th>
                     </tr>
@@ -25,9 +23,7 @@
                     <tfoot>
                     <tr>
                         <th>Nom</th>
-                        <th>Prénom</th>
                         <th>Email</th>
-                        <th>Statut</th>
                         <th>Date d'ajout</th>
                         <th>Editer</th>
                     </tr>
@@ -36,12 +32,9 @@
                     <tbody>
                     <?php foreach ($users as $user) : ?>
                         <tr>
-                            <td><?= $user->last_name; ?></td>
-                            <td><?= $user->first_name; ?></td>
+                            <td><?= $user->first_name; ?> <?= $user->last_name; ?></td>
                             <td><a class="text-info" href="mailto:<?= $user->email; ?>"><?= $user->email; ?></a></td>
-                            <td>
-                                <?= $user->status; ?>
-                            </td>
+
                             <td>
                                 Le <?= $user->created_at; ?>
                             </td>

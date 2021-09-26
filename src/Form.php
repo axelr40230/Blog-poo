@@ -94,7 +94,7 @@ class Form
         $table = new $table();
 
         if ($method === 'enumeration') {
-            $options = $table->showColumn($column);
+            $options = $table->showColumn($for);
             foreach (explode("','", substr($options['Type'], 6, -2)) as $option) {
                 if ($default == $option) {
                     $trad = new App();

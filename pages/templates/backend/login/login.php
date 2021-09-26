@@ -37,7 +37,7 @@ $form = new Form(array());
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
-                                            <?= $form->input('remember','custom-control-input', 'checkbox','remember '); ?>
+                                            <?= $form->input('remember','custom-control-input', 'checkbox','remember', '', 'remember'); ?>
                                             <?= $form->label('remember','Se souvenir de moi', 'custom-control-label'); ?>
                                         </div>
                                     </div>

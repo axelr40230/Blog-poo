@@ -96,10 +96,8 @@ class UsersController extends Controller
                 $date = $user->date_fr('exact', 'created_at');
                 $trad = new App();
                 $status = $trad->translate($user->status);
-                $postsTable = new PostTable();
-
                 $pageTitle = 'Editer l\'utilisateur';
-                $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, $users => $user, 'status' => $status, 'date' => $date], 'backend');
+                $this->render('single-' . $users, ['pageTitle' => $pageTitle, 'id' => $id, 'user' => $user, 'status' => $status, 'date' => $date], 'backend');
 
             }
         }

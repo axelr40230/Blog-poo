@@ -27,7 +27,7 @@ use App\App;
 
                     <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">S'identifier</a>
 
-                <?php elseif ($user->status == 'admin') : ?>
+                <?php elseif ($identity->status == 'admin') : ?>
 
                     <a href="<?= App::url('login') ?>" target="_blank" class="btn btn-red my-5">Accéder au back
                         office</a>
