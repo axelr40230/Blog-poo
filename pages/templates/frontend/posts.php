@@ -39,10 +39,7 @@ use App\App;
                 <?php endif; ?>
 
                 <p>Commencez à lire les dernières actus dès à présent<br/><br/>
-                    <i class="fa fa-chevron-down" aria-hidden="true"></i><br/>
-                    <i class="fa fa-chevron-down" aria-hidden="true"></i><br/>
-                    <i class="fa fa-chevron-down" aria-hidden="true"></i><br/>
-                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+
                 </p>
 
             </article>
