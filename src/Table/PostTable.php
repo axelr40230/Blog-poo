@@ -89,23 +89,44 @@ class PostTable extends Table
      */
     public function update($id, $slug, $data)
     {
-        if ($data['checkSlug'] === 'checkSlug') {
-            $slug = $this->dSlug($data['slug']);
+        //var_dump($data);exit();
+        if (isset($data['checkSlug'])) {
+            if($data['checkSlug']=== 'checkSlug')
+          {
+              $slug = $this->dSlug($data['slug']);
+              $req = "UPDATE {$this->getTable()} SET title=?, slug=?, introduction=?, content=?, status=?, author=?, modify_at=NOW() WHERE id=?";
+              $query = App::db()->pdo()->prepare($req);
+
+              $query->execute([
+                  $data['title'],
+                  $slug,
+                  $data['introduction'],
+                  $data['content'],
+                  $data['update'],
+                  $data['author'],
+                  $id
+              ]);
+
+              return $slug;
+          }
+
+        } else {
+            $req = "UPDATE {$this->getTable()} SET title=?, slug=?, introduction=?, content=?, status=?, author=?, modify_at=NOW() WHERE id=?";
+            $query = App::db()->pdo()->prepare($req);
+
+            $query->execute([
+                $data['title'],
+                $slug,
+                $data['introduction'],
+                $data['content'],
+                $data['update'],
+                $data['author'],
+                $id
+            ]);
+
+            return $slug;
         }
-        $req = "UPDATE {$this->getTable()} SET title=?, slug=?, introduction=?, content=?, status=?, author=?, modify_at=NOW() WHERE id=?";
-        $query = App::db()->pdo()->prepare($req);
 
-        $query->execute([
-            $data['title'],
-            $slug,
-            $data['introduction'],
-            $data['content'],
-            $data['update'],
-            $data['author'],
-            $id
-        ]);
-
-        return $slug;
     }
 
     /**
